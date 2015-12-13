@@ -1,4 +1,4 @@
-{name:'javascript百年讲堂'}
+﻿{name:'javascript百年讲堂'}
 
 
 本项目计划推出一个案例驱动的javascript系列教程。
@@ -24,4 +24,8 @@ github： https://github.com/DawnEve/jsLecture
 指导原则：
 入门看视频，提高看书籍，飘升做项目。
 老练研开源，高手读外文，大牛讲低调~
+
+==========================================================
+
+001-slider 轮播图
 

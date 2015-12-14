@@ -1,4 +1,4 @@
-﻿{name:'javascript百年讲堂'}
+{name:'javascript百年讲堂'}
 
 
 本项目计划推出一个案例驱动的javascript系列教程。
@@ -10,14 +10,19 @@
 (4)欢迎新老朋友加入。希望新朋友好好学习，也希望老朋友多多贡献力量。
 (5)本项目主要在teambition上推出，同时提供如下平台咨询。
 ---------------------------------------------------------
-teambition【主要渠道】：需要邀请，请先用邮箱注册teambition，再留言告诉我您注册的邮箱号。
-		或使用邀请链接：http://tburl.in/qlMCEnId/
+teambition：http://tburl.in/qlMCEnId/
+  如果邀请链接失效，请先用邮箱注册teambition，再留言告诉我您注册的邮箱号。
 javascript新手交流群 318189709  [对闲聊、广告、大图刷屏零容忍！！请谨慎入群]
 贴吧：http://tieba.baidu.com/p/4211931264
 邮箱：jimmyMall@live.com
 博客：http://miostudio.blog.163.com/blog/static/22076512920143201454778/
-github： https://github.com/DawnEve/jsLecture
+github【主要渠道】： https://github.com/DawnEve/jsLecture
 其他渠道：有待完善
+---------------------------------------------------------
+案例：
+001-slider 焦点图【视频】
+
+
 ---------------------------------------------------------
 
 
@@ -25,7 +30,23 @@ github： https://github.com/DawnEve/jsLecture
 入门看视频，提高看书籍，飘升做项目。
 老练研开源，高手读外文，大牛讲低调~
 
-==========================================================
 
-001-slider 轮播图
+------------------
+----视频----------
+------------------
+1.秒味课堂视频：
+from 沈阳-静待 2015-12-13 22:20:58
+http://pan.baidu.com/share/link?shareid=4022944808&uk=1413169451&fid=350758510465521 
 
+http://pan.baidu.com/s/1pJqJvAV#path=%252F%25E5%25A6%2599%25E5%2591%25B3%25E8%25AF%25BE%25E5%25A0%2582js%25E8%25A7%2586%25E9%25A2%2591%25E6%2595%2599%25E7%25A8%258B
+
+------------------
+----书籍----------
+------------------
+
+
+------------------
+----博客----------
+------------------
+简单易懂的JQuery
+http://www.nowamagic.net/librarys/books/contents/jquery

@@ -1,0 +1,37 @@
+﻿<h1>hook.js(ok)控制台</h1>
+
+<script src='../public/js/hook.js'></script>
+<pre>
+接触过WordPress的朋友都知道，WP的程序中可以执行类似钩子的函数，当然是这PHP实现的钩子。在JAVASCRIPT中一样可以实现类似的功能。
+
+用一句话来形容一下：钩子是将需要执行的函数或者其他一系列动作注册到一个统一的入口，程序通过调用这个钩子来执行这些已经注册的函数。
+
+</pre>
+
+<script>
+//1.定义的函数
+function func1()
+{
+    // ....
+    alert('func1');
+}
+function func2()
+{
+    // ....
+	alert('func2');
+}
+
+//2.在loaded钩子上挂了两个函数。
+hooks.addAction("loaded", "func1");    // 添加函数
+hooks.addAction("loaded", "func2");
+
+//========================
+//3.然后执行这个钩子，如：
+//这样无论在之前挂多少函数hooks.addAction("loaded", function)，
+//在hooks.doAction("loaded")这里都被统一执行了。
+window.onload = function()
+{
+	hooks.doAction("loaded");
+}
+
+</script>

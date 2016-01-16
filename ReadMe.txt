@@ -10,18 +10,18 @@
 (4)欢迎新老朋友加入。希望新朋友好好学习，也希望老朋友多多贡献力量。
 (5)本项目主要在teambition上推出，同时提供如下平台咨询。
 ---------------------------------------------------------
-teambition：http://tburl.in/qlMCEnId/
-  如果邀请链接失效，请先用邮箱注册teambition，再留言告诉我您注册的邮箱号。
-javascript新手交流群 318189709  [对闲聊、广告、大图刷屏零容忍！！请谨慎入群]
+javascript/php熟手交流群 369578518  [对闲聊、广告、大图刷屏零容忍！！入群请遵守]
 贴吧：http://tieba.baidu.com/p/4211931264
 邮箱：jimmyMall@live.com
 博客：http://miostudio.blog.163.com/blog/static/22076512920143201454778/
 github【主要渠道】： https://github.com/DawnEve/jsLecture
 其他渠道：有待完善
+teambition：http://tburl.in/qlMCEnId/
+  如果邀请链接失效，请先用邮箱注册teambition，再留言告诉我您注册的邮箱号。
 ---------------------------------------------------------
 案例：
 001-slider 焦点图【视频】
-
+	
 
 ---------------------------------------------------------
 
@@ -30,6 +30,7 @@ github【主要渠道】： https://github.com/DawnEve/jsLecture
 入门看视频，提高看书籍，飘升做项目。
 老练研开源，高手读外文，大牛讲低调~
 
+以下资源 [排名不分先后顺序]。
 
 ------------------
 ----视频----------
@@ -45,8 +46,24 @@ http://pan.baidu.com/s/1pJqJvAV#path=%252F%25E5%25A6%2599%25E5%2591%25B3%25E8%25
 ------------------
 
 
+
+
 ------------------
 ----博客----------
 ------------------
-简单易懂的JQuery
+1.简单易懂的JQuery
 http://www.nowamagic.net/librarys/books/contents/jquery
+
+2.阮一峰的博客
+http://www.ruanyifeng.com/
+
+3. 廖雪峰的博客 
+http://www.liaoxuefeng.com/
+
+
+.header {
+    position: relative;
+    z-index: 1;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+}

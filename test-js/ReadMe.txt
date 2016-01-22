@@ -26,19 +26,22 @@
 ===========================================
 	测试结果：
 ===========================================
-源文件在public/js/,测试例子在test-js/
+源文件在lib/js/,测试例子在test-js/
 
-1.cookie.js		[--]
+001.cookie.js		[--]
 
-2.url.js	[ok]
+002.url.js	[ok]
 
-3.hook.js	[--] 没看懂
+003.hook.js	[--] 没看懂
 	JS钩子的机制与实现 http://www.phper.org.cn/index.php?m=content&a=show&post_id=378
 
-4.module.js		[ok] 只能自己运行，无法复用代码
+004.module.js		[ok] 只能自己运行，无法复用代码
+005.loader.js
 
 
--004.自运行函数 
+
+==================================
+自运行函数 
 	国外好像喜欢(function(){}());
 	国内比较喜欢(function(){})();
 (function(){}())是使用了强制运算符执行函数调用运算，

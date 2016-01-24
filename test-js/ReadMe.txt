@@ -1,11 +1,119 @@
 
 ===========================================
-	按照功能分类的js常用函数
+	按照功能分类的js常用函数【本txt记录测试结果】
 ===========================================
 1.先实现功能，再兼容，在OOP，再组件化；
 2.先手工导入，再用函数导入（异步），再考虑依赖性问题；
 3.先实现模块，再解决模块重名问题；
 ===========================================
+
+====================================
+============总索引==================
+按功能、加入时间分别索引。
+-----------------------------------
+源文件在lib/js/,测试例子在test-js/
+====================================
+
+===================================
+-----------------------------------
+按功能索引：
+[cookie] 001test-cookie.html
+
+[url]	002test-url.html
+
+[function][hook]	003test-hook.html
+
+[module]	004test-module.html
+[loader]	005test-loader.html
+
+-----------------------------------
+===================================
+
+
+
+===================================
+-----------------------------------
+按时间索引：
+[2016-01-24]	001test-cookie.html [--]
+[2016-01-24]	002test-url.html	[+]
+[2016-01-24]	003test-hook.html	[--] 没看懂
+	JS钩子的机制与实现 http://www.phper.org.cn/index.php?m=content&a=show&post_id=378
+[2016-01-24]	004test-module.html	[ok] 只能自己运行，无法复用代码
+[2016-01-24]	005test-loader.html [ng] 不完善的加载方法
+
+
+-----------------------------------
+===================================
+
+
+
+
+===================================
+-----------------------------------
+按类名索引：
+001test-dom.js	{MyDebug: v1.0.0, UploadFiles: v1.0.0}
+
+
+-----------------------------------
+===================================
+
+
+
+
+
+
+======================================================
+21:50 2016-01-24
+决定：把js日常小部件整理到github上，避免重复造轮子。
+建立js lib，为每个文件做测试并记录到test-js，并维护一个总的readMe:
+------------------------
+加入js lib的资格:
+------------------------
+1)功能相对独立、明确的函数;
+2)通过测序，要记录测试环境和相关软件版本号(如win7+chrome42));
+	User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36
+3)拥有完善的文档，及代码内部注释；
+4)测试文件夹统一编号，并在总readme中分别进行按类索引、按时间索引。
+------------------------
+Log format for each tools:V0.1.0
+------------------------
+title:
+Description:
+keywords:
+pros&cons:
+
+version: using 3 digital numbers separated by dot. Change the 2nd number when Functioning well, change the 1st number when there is a greate advance.
+time:press F5 in notepad[13:55 2015-09-07]
+auther: Dawn
+Email: jimmymall@live.com
+
+Files&Functions:
+Databases:
+
+
+5)模块和类的注释规范，并单独进行索引
+
+/**=============================================
+ * Benchmark Class
+ *
+ * This class enables you to mark points and calculate the time difference
+ * 类名时驼峰法，方法名是下划线法。
+ *
+ * @version		v1.0.0
+ * @revise		2015.10.06
+ * @date		2015.10.06
+ * @author		Dawn
+ * @email		JimmyMall@live.com
+ * @link		https://github.com/DawnEve/jsLecture
+ =============================================*/
+function Benchmark{
+	 /**
+     * 检测上传根目录(百度云上传时支持自动创建目录，直接返回)
+     * @param string $rootpath   根目录
+     * @return boolean true-检测通过，false-检测失败
+     */
+	 functon xx(){}
+}
 
 文件定义：
 /***********************************************
@@ -19,27 +127,13 @@
  * @date		2016.01.15
  * @author		Dawn
  * @email		JimmyMall@live.com
- * @link		https://github.com/DawnEve/DawnPHPTools 
+ * @link		https://github.com/DawnEve/jsLecture
  * Released under the MIT license
  ***********************************************/
  
-===========================================
-	测试结果：
-===========================================
-源文件在lib/js/,测试例子在test-js/
-
-001.cookie.js		[--]
-
-002.url.js	[ok]
-
-003.hook.js	[--] 没看懂
-	JS钩子的机制与实现 http://www.phper.org.cn/index.php?m=content&a=show&post_id=378
-
-004.module.js		[ok] 只能自己运行，无法复用代码
-005.loader.js
 
 
-
+ 
 ==================================
 自运行函数 
 	国外好像喜欢(function(){}());

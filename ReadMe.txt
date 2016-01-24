@@ -1,4 +1,4 @@
-{name:'javascript百年讲堂'}
+﻿{name:'javascript百年讲堂'}
 
 目标：本项目计划推出一个案例驱动的javascript系列教程。
 
@@ -8,7 +8,9 @@
 dir:example/
 
 2.对常见操作的函数归类汇总。
-dir:lib/
+origin: lib/js/
+test:test-js/
+
 
 特点：
 (1)根据案例逐一引出知识点。

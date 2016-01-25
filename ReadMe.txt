@@ -9,7 +9,7 @@ dir:example/
 
 2.对常见操作的函数归类汇总。
 origin: lib/js/
-test:test-js/
+test: lib/JStest/
 
 
 特点：

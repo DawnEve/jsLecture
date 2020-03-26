@@ -1,0 +1,27 @@
+图形变换 rotate<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+ctx.strokeStyle='black'
+
+ctx.save() //保存图形状态
+ctx.beginPath()
+ctx.lineWidth=5; //恢复后是默认的1
+ctx.fillStyle="blue";
+
+ctx.rotate(Math.PI/10) //围绕着原点旋转坐标系
+
+ctx.fillRect(100,100,100,200)
+ctx.strokeRect(100,100,100,200)
+
+ctx.restore();//恢复刚才在save时的设置状态
+
+//画竖线 如果不恢复，则绘制的是斜线；如果恢复，则绘制的是竖直线
+ctx.strokeStyle="red";
+
+ctx.moveTo(100,0)
+ctx.lineTo(100,100)
+ctx.stroke();
+</script>

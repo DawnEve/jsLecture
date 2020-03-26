@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+图形变换 createPattern(img, 'repeat')<br>
+<img id="lamp" src="../images/win7.png"><br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//图形元素
+//var img=document.getElementById("lamp");
+//或者直接创建元素
+var img=new Image(); img.src="../images/win7.png"
+
+img.onload=function(){ //在图像加载完成后再使用img对象
+	//参数1 图像对象
+	//参数2 重复方式，共4种: no-repeat,repeat-x,repeat-y,repeat
+	var pat=ctx.createPattern(img,"repeat");
+	
+	ctx.rect(0,0,canvas.width,canvas.height);//画形状
+	console.log('first load')
+	ctx.fillStyle=pat; 
+	ctx.fill(); //填充
+}
+</script>

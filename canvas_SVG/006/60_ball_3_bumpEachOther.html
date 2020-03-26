@@ -1,0 +1,175 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+小球类 ball_3_bumpEachOther<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+//tools
+function $(s){return document.getElementById(s);}
+function getColor(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	return("rgba("+r+","+g+","+b+",0.8)");
+}
+function dist(x1,y1, x2,y2){
+	return Math.sqrt( (x1-x2)**2+(y1-y2)**2 );
+}
+
+var canvas=$('canvas1');
+canvas.width=800; canvas.height=400;
+var ctx=canvas.getContext('2d');
+
+ctx.fillStyle="white";
+ctx.strokeRect(0,0,canvas.width,canvas.height); //画盒子
+
+//封装一个小球类, js6?的类的写法 https://www.cnblogs.com/pagoda/p/9473167.html
+class Ball{
+	constructor(x,y,radius){
+		this.x=x;
+		this.y=y;
+		this.radius=radius;
+		//
+		this.angle=Math.random()*360;//旋转角度
+		this.speed=5+5*Math.random();
+		this.color=getColor();
+	}
+	draw(ctx){
+		ctx.save()
+		ctx.beginPath();
+		ctx.arc(this.x,this.y,this.radius, 0, Math.PI*2);
+		//ctx.fillStyle=this.color;
+		//渐变色填充
+		var grd=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.radius);//生成小球径向渐变色
+		grd.addColorStop(0, 'white'); //中心是白色的
+		grd.addColorStop(1, this.color); //外边缘是该颜色
+		ctx.globeAlpha=0.2;
+		ctx.fillStyle=grd;
+		
+		ctx.fill();
+		ctx.restore();
+		//console.log('this=',this)
+	}
+}
+var aBalls=[];
+
+//初始化小球
+var n=10;
+for(var i=0;i<n;i++){
+	var x=canvas.width*Math.random(), y=canvas.height*Math.random();
+	var r=10+20*Math.random();
+	//边界限制
+	if(x-r<0)x=r;
+	if(x+r>canvas.width) x=canvas.width-r;
+	if(y-r<0)y=r;
+	if(y+r>canvas.height) y=canvas.height-r;
+	//创建小球
+	var ball=new Ball(x, y, r);
+	aBalls.push(ball);
+}
+
+//画小球
+for(var i=0;i<aBalls.length;i++){
+	var ball=aBalls[i];
+	ball.draw(ctx);
+}
+
+//step2 move the ball
+function drawFrame () {
+	// 清空画布
+	//canvas.height = canvas.height
+	ctx.fillRect(0, 0, canvas.width, canvas.height)
+	// 绘制4面墙壁
+	ctx.strokeRect(0, 0, canvas.width, canvas.height)
+
+	
+	//判断小球之间的碰撞(碰完下一次还没有分开，怎么办？)
+	for(var i=0;i<aBalls.length;i++){
+		var ball=aBalls[i];
+		
+		ball.oldX=ball.x; ball.oldY=ball.y;
+		// 计算小球下一帧的坐标
+		ball.x+=ball.speed*Math.cos(ball.angle*Math.PI/180);
+		ball.y+=ball.speed*Math.sin(ball.angle*Math.PI/180);
+		
+		var collideFlag=false;//是否碰撞
+		
+		for(var j=i+1;j<aBalls.length;j++){//两两检测，只需一半
+			var b2=aBalls[j];			
+			var distance=dist(ball.x,ball.y, b2.x,b2.y);
+			//如果相撞，方向怎么变?
+			if(distance<=ball.radius+b2.radius){
+				handleCollision(ball, b2);
+				collideFlag=true;
+			}
+		}
+		
+		//判断与墙壁的碰撞反弹
+		if(ball.x+ball.radius>canvas.width || ball.x-ball.radius<0){
+			ball.angle=180-ball.angle+10;
+			collideFlag=true;
+		}
+		else if(ball.y-ball.radius<0 || ball.y+ball.radius>canvas.height){
+			ball.angle=-ball.angle;
+			collideFlag=true;
+		}
+		
+		if(collideFlag)	{ ball.x=ball.oldX;ball.y=ball.oldY;}//跳过该帧
+		
+		// 绘制
+		ball.draw(ctx);
+	}
+	//下一帧
+	window.requestAnimationFrame(drawFrame)
+}
+
+//小球之间的碰撞
+function handleCollision(b1,b2){
+	b1.angle-=180;b2.angle-=180;
+	return;
+	
+	var collarg=0.8;//碰撞系数
+	var rc=dist(b1.x,b1.y, b2.x,b2.y);
+	function getVx(ball){return(ball.speed*Math.cos(ball.angle*Math.PI/180));}
+	function getVy(ball){return(ball.speed*Math.sin(ball.angle*Math.PI/180));}
+	b1.vx=getVx(b1); b1.vy=getVy(b1);
+	b2.vx=getVx(b2); b2.vy=getVy(b2);
+	
+	//获得碰撞后速度的增量
+	var ax = ((b1.vx - b2.vx)*Math.pow((b1.x - b2.x) , 2) + (b1.vy - b2.vy)*(b1.x - b2.x)*(b1.y - b2.y))/Math.pow(rc , 2)
+	var ay = ((b1.vy - b2.vy)*Math.pow((b1.y - b2.y) , 2) + (b1.vx - b2.vx)*(b1.x - b2.x)+(b1.y - b2.y))/Math.pow(rc , 2)
+	
+	//给与小球新的速度
+	b1.vx = (b1.vx-ax)*collarg;
+	b1.vy = (b1.vy-ay)*collarg;
+	b2.vx = (b2.vx+ax)*collarg;
+	b2.vy = (b2.vy+ay)*collarg;
+	//计算方向
+	function getAngle(ball){
+		if(ball.vx!=0){
+			ball.angle=Math.atan2(ball.vy,ball.vx);
+		}else{
+			if(ball.vy<0){ball.angle=-Math.PI/2;}
+			else if(ball.vy>0){ball.angle=Math.PI/2;}
+			else{ ball.angle=0;}
+		}
+	}
+	getAngle(b1);
+	getAngle(b2);
+	b1.angle=b1.angle/Math.PI*180;
+	b2.angle=b2.angle/Math.PI*180;
+	
+	b1.speed=Math.sqrt(b1.vx,b1.vy);
+	b2.speed=Math.sqrt(b2.vx,b2.vy);
+	
+	//获取两球斜切位置并且强制扭转
+	var clength = ((b1.radius+b2.radius)-rc)/2;
+	var cx = clength * (b1.x-b2.x)/rc;
+	var cy = clength * (b1.y-b2.y)/rc;
+	b1.x = b1.x+cx;
+	b1.y = b1.y+cy;
+	b2.x = b2.x-cx;
+	b2.y = b2.y-cy;
+}
+
+drawFrame()
+</script>

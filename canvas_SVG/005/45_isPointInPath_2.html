@@ -1,0 +1,51 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+交互 ctx.isPointInPath(x,y) 悬停改变小球颜色<br>
+<canvas id="canvas1" style="border:1px solid black;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=800;
+var ctx = canvas.getContext('2d');
+var balls=[];
+
+window.onload=function(){
+	for(var i=0; i<10; i++){
+		var oBall={
+			x: Math.random()*canvas.width,
+			y: Math.random()*canvas.height,
+			r: Math.random()*50+20,
+			color:'#058'
+		}
+		balls[i]=oBall;		
+	}
+	draw();
+	canvas.addEventListener('mousemove', detect); //为实现动画
+}
+
+//绘制第一遍
+function draw(x,y){
+	for(var i=0; i<balls.length; i++){
+		var ball=balls[i];
+		ctx.beginPath();
+		ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2 );
+		
+		if(x!=undefined && ctx.isPointInPath(x,y)){
+			ball.color='red';
+		}else{
+			ball.color="#058";
+		}
+		ctx.fillStyle=ball.color;
+		ctx.fill();
+	}
+}
+
+//响应鼠标移动事件
+function detect(event){
+	//获取鼠标的canvas画布坐标，通过js方法 [经典语句]
+	var x=event.clientX-canvas.getBoundingClientRect().left;//当前鼠标x位置，减去画布左侧的区域
+	var y=event.clientY-canvas.getBoundingClientRect().top;
+	
+	draw(x,y);//重绘
+}
+</script>

@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+transform 坐标变换<br>
+<style>
+svg{padding:0; margin:0; border:1px dashed #f00;}
+</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width=400 height=400>
+	<rect x="100" y="100" width="300" height="300" fill="#eeeeee" stroke="grey"/>
+	<rect x="0" y="0" width="20" height="120" fill="none" stroke="black"/>
+	
+	<rect x="0" y="0" width="20" height="120"  transform="translate(100,100),rotate(-30)" fill="black" />
+	<rect x="0" y="0" width="20" height="120"  transform="rotate(-30),translate(100,100)" fill="red" />
+
+	<rect x="0" y="0" width="20" height="120"  transform="scale(2)" fill="rgba(255,0,0,0.2)" />
+	
+	<rect x="0" y="0" width="20" height="120"  transform="matrix(0.5,0,0,0.5,100,100)" fill="rgba(255,255,0,0.4)" />
+</svg>
+
+<pre>
+1.左上角黑框为原始矩形;
+2.中间灰色方框为移动后的坐标系;
+3. 黑矩形为先移动原点，再旋转-30度;
+4. 红矩形为先旋转-30度，再移动原点到100,,100;
+每次坐标变换是以前一次为基准的;
+
+5.淡红矩形是长宽扩大2倍后的图形;
+6.淡黄色的矩形为缩小为原来的1/2，同时移动(100,100)后;

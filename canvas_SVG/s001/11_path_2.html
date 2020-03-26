@@ -1,0 +1,56 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+path 详解 _2<br>
+<style>
+svg{border:1px dashed #eee;}
+#cmdBox{width:100%; height:50px;}
+.hint{color:#d00; margin-top:-2px;}
+</style>
+<svg id="svg1" width="100%" height="450" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<path d="M100 100" style="fill:none;stroke:red;stroke-width:2"/>
+</svg>
+
+<textarea id="cmdBox">M200 200 h100 l-100 100 v-100 M300 200 A 100 100 0 0 1 200 300</textarea>
+<p class=hint>ctrl+enter提交</p>
+
+<script>
+function $(s){return document.getElementById(s);}
+var svg=document.getElementById('svg1')
+var path=svg.getElementsByTagName('path')[0];
+function set(text){
+	var dText=path.getAttribute('d');
+	var text=text||"M 0 0 c 12 13  100 120 160 107";
+	path.setAttribute('d', dText+text)
+}
+//set('l 100,20 h100 v100 h-100 c 0,250 200,-250 200,0')
+
+$('cmdBox').onkeydown=function(e){
+	wjl=e;
+	if(e.code=="Enter" && e.ctrlKey==true){
+		e.preventDefault();//不会换行
+		console.log('text: ',cmdBox.value)
+		//set(cmdBox.value);
+		path.setAttribute('d', cmdBox.value)
+	}
+}
+</script>
+
+
+<hr>
+<pre>
+path元素用于定义一个路径。
+下面的命令可用于路径数据：
+
+M = moveto
+L = lineto
+H = horizontal lineto
+V = vertical lineto
+C = curveto 
+S = smooth curveto
+Q = quadratic Bézier curve
+T = smooth quadratic Bézier curveto
+A = elliptical Arc
+Z = closepath
+注意：以上所有命令均允许小写字母。大写表示绝对定位，小写表示相对定位。
+<hr># 请在F12控制台自由发挥:
+set('l 100,20 h100 v100 h-100 c 0,250 200,-250 200,0')
+</pre>

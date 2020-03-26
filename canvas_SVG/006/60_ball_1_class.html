@@ -1,0 +1,53 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+小球类 ball_1_class<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+//tools
+function $(s){return document.getElementById(s);}
+function getColor(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	return("rgba("+r+","+g+","+b+",0.8)");
+}
+
+var canvas=$('canvas1');
+canvas.width=800; canvas.height=400;
+var ctx=canvas.getContext('2d');
+
+ctx.strokeRect(0,0,canvas.width,canvas.height); //画盒子
+
+//封装一个小球类, js6?的类的写法 https://www.cnblogs.com/pagoda/p/9473167.html
+class Ball{
+	constructor(x,y,radius){
+		this.x=x;
+		this.y=y;
+		this.radius=radius;
+		//
+		this.angle=Math.random()*360;//旋转角度
+		this.speed=5;
+		this.color=getColor();
+	}
+	draw(ctx){
+		ctx.beginPath();
+		ctx.arc(this.x,this.y,this.radius, 0, Math.PI*2);
+		ctx.fillStyle=getColor();
+		ctx.fill();
+		console.log('this=',this)
+	}
+}
+var aBalls=[];
+//初始化小球
+var n=1;
+for(var i=0;i<n;i++){
+	var ball=new Ball(canvas.width*Math.random(), canvas.height*Math.random(), 10+20*Math.random())
+	aBalls.push(ball);
+}
+
+//画小球
+for(var i=0;i<aBalls.length;i++){
+	var ball=aBalls[i];
+	ball.draw(ctx);
+}
+</script>

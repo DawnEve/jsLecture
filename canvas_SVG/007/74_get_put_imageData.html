@@ -1,0 +1,54 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+像素级的图像处理: 获取和放置图像数据<br>
+<style>
+canvas{display:inline-block; border:1px solid #aaa; margin:10px 50px;}
+.center{margin:10px auto; width:100px;}
+</style>
+
+<canvas id="canvas1"></canvas>
+<canvas id="canvas2"></canvas>
+
+<div class=center>
+	<button id='filter'>filter</button>
+</div>
+
+<script>
+var canvas1=document.getElementById('canvas1');
+canvas1.width=300;canvas1.height=300;
+var ctx1=canvas1.getContext('2d');
+
+var canvas2=document.getElementById('canvas2');
+canvas2.width=300;canvas2.height=300;
+var ctx2=canvas2.getContext('2d');
+
+//载入图片
+var img=new Image();
+img.src='../images/win7.png';
+img.onload=function(){
+	ctx1.drawImage(img, 0,0, canvas1.width, canvas1.height);
+}
+
+//单击时获取图片信息，并放置到右侧
+document.getElementById("filter").onclick=function(){
+	//1.获取 ctx1.getImageDate(x,y, width,height) 返回值为对象:包括键 width,height,data;
+	var imageData=ctx1.getImageData(0,0, canvas1.width, canvas1.height);
+	
+	//2.修改imageData;
+	//简单修改，也可以不修改
+	imageData=filter1(imageData);
+	
+	//3.放置到右侧 ctx2.putImageData(imageData, dx,dy, dirtyX,dirtyY,dirtyW,dirtyH);
+	//其中 dx,dy是要放入destination画布的位置，而dirtyX,dirtyY是source的位置
+	//注意：放入的位置是x=dx+dirtyX, y=dy+dirtyY;
+	//ctx2.putImageData(imageData, 0,0, 0,0,canvas2.width,canvas2.height);//放置原图
+	//ctx2.putImageData(imageData, 50,50, 0,0,canvas2.width,canvas2.height); //右上角空一部分
+	//ctx2.putImageData(imageData, 50,50, 20,20,canvas2.width,canvas2.height); //右上角空一部分
+	ctx2.putImageData(imageData, 0,0, 50,50,canvas2.width-100,canvas2.height-100); //四边都留白
+}
+
+//滤镜1
+function filter1(imageData){
+	console.log('imageData=', imageData); //是一维数组，4位为一个像素，分别对应着rgba四个值;
+	return(imageData);
+}
+</script>

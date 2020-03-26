@@ -1,0 +1,91 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+viewBox 世界、视野、视窗<br>
+
+<style>
+svg{border:1px dashed blue;}
+p{border:1px solid #ddd; padding:10px;}
+#ctrl1 input{width:70px;}
+</style>
+
+<pre> svg: width 400, height 300; </pre>
+<p id=ctrl1> 视野viewBox: 
+	x<input type="number" name=x value="0">, 
+	y<input type="number" name=y value="0">, 
+	width<input type="number" name=width value="400">, 
+	height<input type="number" name=height value="300">, 
+</p>
+<p id=ctrl2>
+	比例preserveAspectRatio:
+	align: <select name="align">
+		<option value="none">none</option>
+		<option value="xMidYMid" selected>xMidYMid</option>
+		<option value="xMaxYMid">xMaxYMid</option>
+		<option value="xMinYMid">xMinYMid</option>
+		
+		<option value="xMidYMin">xMidYMin</option>
+		<option value="xMaxYMin">xMaxYMin</option>
+		<option value="xMinYMin">xMinYMin</option>
+		
+		<option value="xMidYMax">xMidYMax</option>
+		<option value="xMaxYMax">xMaxYMax</option>
+		<option value="xMinYMax">xMinYMax</option>
+	</select>, 
+	meetOrSlice: <select name="meetOrSlice">
+		<option value="meet">meet</option>
+		<option value="slice">slice</option>
+	</select>, 
+</p>
+
+
+<svg id=svg1 xmlns="" version="1.1" 
+	viewBox="0 0 400 300" 
+	width="400" height="300">
+	<rect x="0" y="0" width="400" height="300" stroke="red" stroke-width="5" fill="#dddddd" />
+	<circle cx="30" cy="100" r="30" fill="red"/>
+	<circle cx="100" cy="100" r="40" fill="yellow"/>
+	<circle cx="200" cy="100" r="50" fill="blue"/>
+	<circle cx="300" cy="100" r="60" fill="orange"/>
+</svg>
+
+<pre>
+结论:
+1. viewBox视野，x增大则镜头右移动(世界物体左移)，y增大则镜头向下移动(世界物体上移)；
+
+2. 宽高就相当于摄像头，小于svg的宽高，则放大显示；大于svg的宽高，则缩小显示；
+3. 长宽比不一致的时候，
+1) align=none时，按照视野显示，不顾长宽比;
+2) align=xMinYMin时，(视野和视窗的)x的最小值对齐，y的最小值对齐，
+但是x还是y对齐生效呢？取决于(视野和视窗的)长宽比。
+3) 放大时(就是视野小于视窗)，meet或slice没区别;
+缩小时(视野小于视窗)，有区别;
+
+</pre>
+
+
+<script>
+//tools
+function $(s){return document.getElementById(s);}
+
+//添加事件
+var aInput=document.getElementsByTagName('input');
+for(var i=0;i<aInput.length;i++){
+	var oInput=aInput[i];
+	oInput.onchange=update;
+}
+var aSelect=document.getElementsByTagName('select');
+aSelect[0].onchange=update;
+aSelect[1].onchange=update;
+//更新
+function update(){
+	//console.log('update now;');
+	//input
+	var aCtrl1=$('ctrl1').getElementsByTagName('input');
+	var x=aCtrl1[0].value, y=aCtrl1[1].value, width=aCtrl1[2].value, height=aCtrl1[3].value;
+	var svg=$('svg1');
+	svg.setAttribute('viewBox', [x,y,width,height].join(' '));
+	//select 
+	var oCtrl2=$('ctrl2'), aCtrl2=oCtrl2.getElementsByTagName('select');
+	svg.setAttribute("preserveAspectRatio", aCtrl2[0].value+' '+aCtrl2[1].value);
+}
+update();
+</script>

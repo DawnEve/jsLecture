@@ -1,0 +1,105 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+waveProcessingBall 波浪进度条<br>
+Percentage: 0<input id='range' type='range' max=100 min=0 step=1 value=60>100%<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+//https://www.cnblogs.com/pagoda/p/9463220.html
+var canvas=document.getElementById('canvas1');
+canvas.width=400; canvas.height=400;
+var ctx=canvas.getContext('2d');
+
+//init paras
+var r=Math.min(canvas.width,canvas.height)/2*0.8;
+var rangeValue=range.value; //进度条的位置
+var nowRange=0; //当前进度(逐步靠近进度条示数)
+
+//1.画一个球形
+function fillCircle(ctx, x,y,r, strokeStyle){
+	ctx.beginPath();
+	ctx.fillStyle=strokeStyle || "#1080d0";
+	ctx.arc(x,y,r+2,0,Math.PI*2);
+	ctx.fill();
+	//设置剪辑区域
+	ctx.beginPath();
+	ctx.arc(x,y,r,0,Math.PI*2);
+	ctx.clip();// clip很耗费CPU资源，尽量减少重绘次数
+	//是否绘制过
+	IsdrawCircled =true;
+}
+
+//2.画波浪线
+function drawSin(ctx, xOffset, color, waveHeight){
+	ctx.save();
+	 points=[];//用于存放Sin曲线上的点
+	var waveWidth=0.01;
+	ctx.beginPath();
+	for(var x=0;x<canvas.width;x++){
+		//振幅高*sin(x*振幅宽 + 振幅偏移量)
+		var y=Math.sin(x*waveWidth + xOffset)*canvas.height*0.05+0.1;
+		var dY=2*r*(1-nowRange/100)+canvas.width/2-r; //表示最低0在最底部，最高1在最顶部;
+		var y2=dY+y*waveHeight; //表示进度条到的y高度
+		points.push([x, y2]);
+		ctx.lineTo(x, y2)
+	}
+	
+	//连接曲线
+	ctx.lineTo(canvas.width,canvas.height); //最右下角
+	ctx.lineTo(0,canvas.height); //左下角
+	ctx.lineTo(points[0][0],points[0][1]); //波浪曲线第一个点
+	//填充
+	ctx.fillStyle=color || "#1080d0";
+	ctx.fill();
+	ctx.restore();
+}
+//添加文字
+function drawText(){
+	ctx.save();
+	ctx.beginPath();
+	ctx.font="bold "+0.4*r+"px Arial";
+	ctx.fillStyle="#33A8FA";
+	ctx.textAlign = 'center';
+	ctx.textBaseline="middle";
+	ctx.fillText(nowRange+"%", canvas.width/2, canvas.height/2);
+	ctx.restore();
+}
+
+function render(){
+	//更新参数
+	xOffset+=speed;
+	rangeValue =range.value;
+	if(nowRange <rangeValue){ nowRange +=1;	}
+	if(nowRange >rangeValue){ nowRange -=1;	}
+	
+	//if(xOffset>30)xOffset=0;
+	//更新画布
+	//1.clear canvas;
+	ctx.clearRect(0,0,canvas.width, canvas.height);
+	//2. circle; 只绘制一次
+	if(IsdrawCircled==false){
+		fillCircle(ctx, canvas.width/2, canvas.height/2, r)
+	}
+	//3. sin curve;
+	drawSin(ctx, xOffset, "#8DC2E8", 1)
+	drawSin(ctx, xOffset+20, "#1C86D1", 0.5)
+	//4. 文字
+	drawText();
+	
+	//辅助线 十字架
+	ctx.beginPath();
+	ctx.moveTo(canvas.width/2, 0); ctx.lineTo(canvas.width/2, canvas.height);
+	ctx.moveTo(0, canvas.height/2); ctx.lineTo(canvas.width, canvas.height/2);
+	ctx.strokeStyle="rgba(0,0,0,0.1)"
+	ctx.setLineDash([15,4,4,4]);
+	ctx.stroke();
+	
+	//重复动画
+	requestAnimationFrame(render)
+}
+var xOffset=0;
+var speed=0.09;//波浪的速度
+var IsdrawCircled =false; //是否画外圆
+
+render();
+
+</script>

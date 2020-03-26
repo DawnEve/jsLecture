@@ -1,0 +1,14 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+text-anchor 文字水平居中，使用text-anchor属性，值包括：start、middle、end<br>
+
+<style>
+#svg{border:1px dashed #eee;}
+</style>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="500" width="900">
+	<path d="M100,0v300 M0,100h200" stroke="red" fill="none" />
+	<!--文字-->
+	<text x="100" y="100" fill="blue" text-anchor="start" style="font-size:20px; font-family:'Arial'">x=100, start(默认)</text>
+	<text x="100" y="150" fill="blue" text-anchor="middle" style="font-size:20px; font-family:'Arial'">x=100, middle</text>
+	<text x="100" y="200" fill="blue" text-anchor="end" style="font-size:20px; font-family:'Arial'">x=100, end</text>
+</svg>
+

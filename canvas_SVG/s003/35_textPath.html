@@ -1,0 +1,51 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+textPath 路径文本<br>
+
+<svg id='svg' xmlns="http://www.x.com" height="300" width="1000">
+	<path id="path1" d="M100,200 Q200,100 300,200 T500,200" stroke="green" fill="none" />
+	<circle cx="100" cy="200" r="2" fill="red" />
+	<circle cx="300" cy="200" r="2" fill="red" />
+	<circle cx="500" cy="200" r="2" fill="red" />
+	
+	<text style="font-size:24px;">
+		<textPath xlink:href="#path1">
+			12文字先上去，又下来了。Upside down in english!
+		</textPath>
+	</text>
+	
+	<rect id="rect" x="0" y="0" width="0" height="0" stroke="red" fill="none"/>
+</svg>
+
+<script>
+var svg=document.getElementById('svg');
+var text=svg.getElementsByTagName('text')[0];
+var textPath=svg.getElementsByTagName('textPath')[0];
+
+//test1:
+var x=-10;
+//text.setAttribute('x', x); //文字在路径上的起始位置，负数时前面的文字不显示;
+text.setAttribute('text-anchor', 'start');//start(默认),middle,end 表示文本和路径起点的关系
+text.setAttribute('dy', '10');
+//改变路径
+//textPath.setAttribute('startOffset', "100");//改变路径的起始位置
+textPath.setAttribute('startOffset', "50%");//改变路径的起始位置
+drawBBox()
+
+function drawBBox(){
+	var box=text.getBBox()
+	rect.setAttribute('x',box.x);
+	rect.setAttribute('y',box.y);
+	rect.setAttribute('width',box.width);
+	rect.setAttribute('height',box.height);
+}
+</script>
+
+<pre>
+1.超出曲线长度的文字，浏览器不显示;
+2.x, text-anchor和startOffset属性： 确定排列起始位置;
+- x 文字起始位置，y不起作用;
+- 想在法线方向移动，需要使用dy，也可以在tspan标签内使用dy属性，dy属性对该元素及之后的文字元素都生效;
+- text-anchor="middle" 时，字符串中间和路径起始位置重合
+
+- textPath的属性startOffset: 改变路径的起始位置，值可以是像素"100"，也可以是百分比"50%";
+

@@ -1,0 +1,25 @@
+画五角星<br>
+<canvas id="test-canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('test-canvas');
+var ctx = canvas.getContext('2d');
+
+ctx.beginPath()
+ctx.lineWidth=10;
+ctx.strokeStyle="red"
+ctx.fillStyle="yellow"
+//(250,250)为圆心,R=250,r=100;2*pi/5=72度
+//第一个角,R 0度, r 36度
+var R=200, r=80, delta=2*Math.PI/5;
+var startAngle=-Math.PI/2+delta;
+for(var i=0;i<5;i++){
+	ctx.lineTo(250+R*Math.cos(startAngle+delta*i), 250+R*Math.sin(startAngle+delta*i) );
+	ctx.lineTo(250+r*Math.cos(startAngle+delta/2+delta*i), 250+r*Math.sin(startAngle+delta/2+delta*i) );
+}
+
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+
+</script>

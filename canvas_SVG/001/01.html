@@ -1,0 +1,32 @@
+<canvas id="test-canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('test-canvas');
+//检测浏览器是否支持
+if (canvas.getContext) {
+    //console.log('你的浏览器支持Canvas!');
+} else {
+    console.log('你的浏览器不支持Canvas!');
+}
+
+//用直线画一个矩形
+//1.获取context对象
+var ctx = canvas.getContext('2d');
+//2.设置样式
+ctx.lineWidth=10;
+ctx.strokeStyle="#F00";
+//3.画线
+ctx.beginPath() //开始路径
+ctx.moveTo(250,250)
+ctx.lineTo(250,400)
+ctx.lineTo(100,400)
+ctx.lineTo(100,250)
+ctx.lineTo(250,250)
+//ctx.closePath(); //结束路径
+ctx.stroke();
+
+//填充封闭图形
+ctx.fillStyle="yellow";
+ctx.fill();
+
+</script>

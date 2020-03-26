@@ -1,0 +1,60 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+text tspan<br>
+<style>
+#svg{border:1px dashed #eee;}
+</style>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="500" width="900">
+	<text x="0" y="15" fill="red">xx</text>
+</svg>
+
+
+<script>
+function $(s){return document.getElementById(s);}
+
+var content="ABCDEFGHIJKLMNOKQRSTUVWXYZ", 
+	n=content.length,
+	span=10,
+	dx=[], dy=[];
+
+var svg=$('svg'), text=svg.getElementsByTagName('text')[0];
+
+text.innerHTML=content;
+
+
+//dx
+for(var i=n;i>0;i--) dx.push(span);
+
+//dy 
+//y=A*sin(w*x + t)
+var cycle=Math.round(svg.width.animVal.value*0.25), 
+	w=2*Math.PI/cycle, 
+	A=100,
+	t=0
+
+function arrange(t){
+	dy=[];
+	var ly=0, cy; //last, current y;
+	x=0;
+	for(var i in dx){
+		//console.log(i, dx[i]);
+		x+=dx[i];
+		cy=A*Math.sin(w*x + t)+svg.height.animVal.value/2;
+		dy.push(cy-ly);
+		ly=cy;
+	}
+}
+
+function update(){
+	t+=0.01
+	if(t==cycle)t=0;
+	arrange(t)
+	//
+	text.setAttribute('dx', dx);
+	text.setAttribute('dy', dy);
+	requestAnimationFrame(update);
+}
+update()
+</script>
+
+
+

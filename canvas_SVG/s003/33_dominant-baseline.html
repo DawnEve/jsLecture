@@ -1,0 +1,57 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+dominant-baseline 文字垂直居中，使用dominant-baseline属性，值很多。<br>
+rect.getBBox()方法获取图形边界x,y,width,height。<hr>
+
+<style>
+#svg{border:1px dashed #eee;}
+</style>
+
+<label>垂直居中属性：dominant-baseline=</label>
+<select id="select"></select>
+
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="300" width="900">
+	<path d="M100,0v300 M0,100h500" stroke="#ccc" fill="none" />
+	<!--文字-->
+	<text x="100" y="100" fill="blue" text-anchor="start" style="font-size:20px; font-family:'Arial'">x=100, middle (point)汉字对齐情况</text>
+	<rect x="100" y="100" width="100" height="100" fill="none" stroke="red" stroke-width="1" />
+</svg>
+
+<script>
+var svg=document.getElementById('svg'),
+	text=svg.getElementsByTagName('text')[0],
+	rect=svg.getElementsByTagName('rect')[0];
+//
+var values = "auto | use-script | no-change | reset-size | ideographic | alphabetic | hanging | mathematical | central | middle | text-after-edge | text-before-edge | text-top | text-bottom".split(' | ');
+values.forEach(function(value) {
+	//console.log(value);
+	var option=document.createElement('option');
+	option.value=value;
+	option.innerHTML=value;
+	select.append(option);
+});
+
+// 更新外边框
+function updateRect(){
+	//显示外边框
+	var box=text.getBBox();
+	wjl=box
+	rect.setAttribute('x',box.x);
+	rect.setAttribute('y',box.y);
+	rect.setAttribute('width',box.width);
+	rect.setAttribute('height',box.height);
+}
+updateRect();
+
+// 下拉框值改变
+select.onchange=function(){
+	text.setAttribute('dominant-baseline', this.value);
+	console.log(this.value);
+	
+	updateRect();//外边框
+}
+</script>
+
+<pre>
+默认是英文字体，对齐时小写x正好左下角对齐;
+中文使用 ideographic，则汉字最低下对齐;
+印度字体(?)使用hanging，中上部对齐;

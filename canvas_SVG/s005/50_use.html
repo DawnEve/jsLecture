@@ -1,0 +1,56 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+图形引用use: 绘制星空<br>
+<style>
+html,body{background:black; line-height:0; font-size:0;}
+</style>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg" 
+	viewBox="-400 -300 800 600" preserveAspectRatio="xMidYMid slice">
+	<defs>
+		<!--星星图形-->
+		<polygon id="star" points="0 -10, 2 -2, 10 0, 2 2, 0 10, -2 2, -10 0, -2 -2" fill="#ffffff" />
+	</defs>
+	
+	<g id="star-group">
+	<!--
+		<use xlink:href="#star" />
+		<use xlink:href="#star" x="100" fill="yellow" />
+	-->
+	</g>
+</svg>
+
+<script>
+var SVG_NS="http://www.w3.org/2000/svg", XLINK_NS="http://www.w3.org/1999/xlink";
+function $(s){return document.getElementById(s);}
+function random(min,max){return min+(max-min)*Math.random(); }
+
+var starRef=$('star'), starGroup=$('star-group');
+
+//新建use标签，重用defs中定义的图形
+function use(origin){
+	var _use=document.createElementNS(SVG_NS, 'use');
+	_use.setAttributeNS(XLINK_NS,'xlink:href','#'+origin.id);
+	return _use;
+}
+
+//渲染星星
+function renderStar(){
+	var count=400;
+	var star;
+	while(count--){
+		star=use(starRef);
+		//设置
+		star.setAttribute('transform',
+			"translate("+random(-400,400)+","+random(-300,50)+"), "+ //位移
+			"rotate("+random(0,360)+")"+ //旋转
+			"scale("+random(0.1,0.6)+")" //大小
+		);
+		star.setAttribute('opacity', random(0.1,0.5) );//不透明度
+		star.setAttribute('fill', "hsl("+Math.round(Math.random()*360)+",100%,50%)"  );//已有属性不能被覆盖！
+		
+		//加入dom
+		starGroup.appendChild(star);
+	}
+}
+renderStar()
+</script>

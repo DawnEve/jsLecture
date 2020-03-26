@@ -1,0 +1,37 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+图形变换 createLinearGradient(x1,y1,x2,y2)<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+
+//线性渐变
+var grd1=ctx.createLinearGradient(10,10,100,100); //(x1,y1, x2,y2)起始位置
+grd1.addColorStop(0,'black'); //2个参数，第一个位置0-1之间，第二个颜色
+grd1.addColorStop(0.5,"white");
+grd1.addColorStop(1,"red");
+
+ctx.fillStyle=grd1;
+ctx.fillRect(0,0,300,100); //渐变色的范围可以和形状不重合
+//ctx.fillRect(0,0,180,180);
+
+
+//线性渐变 横向x
+var grd2=ctx.createLinearGradient(10,200,300,200); //y坐标不变，则沿着x变化
+grd2.addColorStop(0,'blue');
+grd2.addColorStop(0.5,"white");
+grd2.addColorStop(1,"red");
+
+ctx.fillStyle=grd2;
+ctx.fillRect(0,150,300,100)
+
+//线性渐变 纵向y
+var grd2=ctx.createLinearGradient(0,280,0,400); //x坐标不变，则沿着y变化
+grd2.addColorStop(0,'blue');
+grd2.addColorStop(0.5,"white");
+grd2.addColorStop(1,"red");
+
+ctx.fillStyle=grd2;
+ctx.fillRect(0,300,300,100)
+</script>

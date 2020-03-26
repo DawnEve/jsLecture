@@ -1,0 +1,29 @@
+<html>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<body>
+
+<h1>My first SVG: 嵌入html内部</h1>
+ 
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <circle cx="100" cy="50" r="40" stroke="black"
+  stroke-width="2" fill="red" />
+</svg>
+
+<h2>嵌入img标签</h2>
+<img src="00_1.svg" >
+
+
+<h2>嵌入embed标签</h2>
+<embed src="00_1.svg" type="image/svg+xml" />
+
+
+<h2>作为css背景图</h2>
+<div id=bg></div>
+<style>
+#bg{background:black url(00_1.svg) repeat;
+	width:400px;
+	height:400px;
+}
+</style>
+</body>
+</html>

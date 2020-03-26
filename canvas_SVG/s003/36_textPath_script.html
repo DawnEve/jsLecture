@@ -1,0 +1,74 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+textPath 路径文本 的脚本控制<br>
+
+改变文字路径
+<select id="select">
+	<option value="none">none</option>
+	<option value="path1">path1</option>
+	<option value="path2">path2</option>
+	<option value="path3">path3</option>
+</select>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg" height="500" width="1000">
+	<!-- 准备三条路径 -->
+	<path id="path1" d="M100,200 Q200,100 300,200 T500,200" stroke="red" fill="none" />
+	<path id="path2" d="M100,300 l100-50,200,100, 100,-50" stroke="green" fill="none" />
+	<path id="path3" d="M100,400 A400,300, 0,0, 0,500,400" stroke="blue" fill="none" />
+
+	<text id="text" x="20" y="100" style="font-size:24px;">
+			Text path scripting <tspan>动态使用路径文本</tspan>
+	</text>
+</svg>
+
+<script>
+var SVG_NS="http://www.w3.org/2000/svg";
+var XLINK_NS="http://www.w3.org/1999/xlink";
+//
+var select=document.getElementById('select');
+
+var svg=document.getElementById('svg');
+var text=svg.getElementsByTagName('text')[0];
+var tspan=svg.getElementsByTagName('tspan')[0];
+
+//添加textPath标签
+function addTextPath(){
+	var textPath=document.createElementNS(SVG_NS, 'textPath');
+	while(text.firstChild){
+		textPath.appendChild(text.firstChild);
+	}
+	text.appendChild(textPath);
+}
+//修改textPath标签路径值
+function setTextPath(path){
+	var textPath=text.firstChild;
+	textPath.setAttributeNS(XLINK_NS, "xlink:href", path);
+	
+	//让文字和路径同样颜色
+	var pathElement=document.querySelector(path);
+	tspan.setAttribute('fill', pathElement.getAttribute('stroke') );
+}
+//删除textPath标签
+function removeTextPath(){
+	var textPath=text.firstChild;
+	while(textPath.firstChild){
+		text.appendChild(textPath.firstChild);
+	}
+	text.removeChild(textPath);
+	//
+	tspan.removeAttribute('fill');
+}
+
+// 下拉框选择路径时
+select.oninput=function(){
+	var value=select.value;
+	if(text.firstChild.tagName && text.firstChild.tagName.toLowerCase()=="textpath"){
+		if (value=="none") removeTextPath();
+		else setTextPath("#"+value);
+	}else{
+		if (value!="none") {
+			addTextPath();
+			setTextPath("#"+value);
+		}
+	}
+}
+</script>

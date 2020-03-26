@@ -1,0 +1,105 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+ctx.createImageData(w,h) 创建图像 一段感受到人类璀璨智慧的图像构建代码<br>
+<style>
+canvas{display:inline-block; margin:10px 50px;}
+</style>
+
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas=document.getElementById('canvas1');
+const DIM=600;
+canvas.width=DIM;canvas.height=DIM;
+var ctx=canvas.getContext('2d');
+//ctx.strokeRect(0,0,canvas.width, canvas.height);
+
+//1.创建imageData
+var imgData=ctx.createImageData(canvas.width, canvas.height);
+//2.为其data赋值
+/*
+paint1(imgData)
+paint2(imgData)
+*/
+paint3(imgData)
+
+//3.填充画布
+ctx.putImageData(imgData,0,0, 0,0, canvas.width, canvas.height);
+
+//=============编写paint函数=============
+//https://www.zhihu.com/question/30262900
+
+//method1: 纯色
+function paint1(imgData){
+	for (var x=0;x<imgData.width;x++){
+		for (var y=0;y<imgData.height;y++){
+			var i=x*imgData.width+y;
+			imgData.data[4*i+0]=55;
+			imgData.data[4*i+1]=200;
+			imgData.data[4*i+2]=2000;
+			imgData.data[4*i+3]=255;
+		}
+	}
+}
+
+//method2: 放射色轮
+function paint2(imgData){
+	// 函数库
+	var _sq=function(x){return Math.pow(x,2)}, cos=Math.cos, atan2=Math.atan2, acos=Math.acos;
+	
+	for (var i=0;i<imgData.height;i++){
+		for (var j=0;j<imgData.width;j++){
+			var p=i*imgData.width+j;//点的位置
+			
+			//神奇的代码，没看懂 https://www.zhihu.com/question/30262900
+			var r=_sq(cos(atan2(j-DIM/2,i-DIM/2)/2))*255;
+			var g=_sq(cos(atan2(j-DIM/2,i-DIM/2)/2-2*acos(-1)/3))*255;;
+			var b=_sq(cos(atan2(j-DIM/2,i-DIM/2)/2+2*acos(-1)/3))*255;
+			
+			//填充
+			imgData.data[4*p+0]=r;
+			imgData.data[4*p+1]=g;
+			imgData.data[4*p+2]=b;
+			imgData.data[4*p+3]=255;
+		}
+	}
+}
+
+
+//method3: 涂抹的油画颜料，45度斜角
+//done: 开始和大神的作品不一致，只有单色，无法实现多色涂抹。后来发现是随机数问题，分别运行即可解决。
+function paint3(imgData){
+	paint3ByChannelId(imgData, 0);
+	paint3ByChannelId(imgData, 1);
+	paint3ByChannelId(imgData, 2);
+}
+function paint3ByChannelId(imgData, channelId){
+	var r=function(n){return Math.floor(Math.random()*n);}
+	
+	//初始化一个矩阵
+	var c=[];
+	for (var i=0;i<imgData.height;i++){
+		c.push([])
+		for (var j=0;j<imgData.width;j++){
+			c[i][j]=0; //r(1);
+		}
+	}
+	//神奇的代码，没看懂 https://www.zhihu.com/question/30262900 这三个函数实质上是一样的。改变99为999可以使涂抹线条更宽
+	//非0则取自己，0则再测试是否不等于r(99):不等于则随机，等于则递归(i+r2, j+r2)
+	var RD=function(i,j){return(!c[i][j]?c[i][j]=!r(399)?r(256):RD((i+r(2))%DIM,(j+r(2))%DIM):c[i][j])};
+	//var GR=function(i,j){return(!c[i][j]?c[i][j]=!r(99)?r(256):GR((i+r(2))%DIM,(j+r(2))%DIM):c[i][j])};
+	//var BL=function(i,j){return(!c[i][j]?c[i][j]=!r(99)?r(256):BL((i+r(2))%DIM,(j+r(2))%DIM):c[i][j])};
+	//填充点
+	for (var i=0;i<imgData.height;i++){
+		for (var j=0;j<imgData.width;j++){
+			var p=i*imgData.width+j;//点的位置		
+			//填充
+			imgData.data[4*p+channelId]=RD(i,j);
+			//imgData.data[4*p+1]=GR(i,j);
+			//imgData.data[4*p+2]=0 //BL(i,j);
+			imgData.data[4*p+3]=255;
+			
+			c[i][j]=imgData.data[4*p+0]
+		}
+	}
+}
+</script>

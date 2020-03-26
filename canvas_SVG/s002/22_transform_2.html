@@ -1,0 +1,78 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+transform 坐标变换 _2<br>
+<style>
+svg{padding:0; margin:0; border:1px dashed #f00;}
+</style>
+
+<pre>
+请使用js控制台控制坐标变换
+world
+a
+ |-b
+  |-c 
+ |-d
+</pre>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width=600 height=400 
+viewBox="-100.5 -50.5 600 400">
+	<defs>
+		<g id="coord">
+			<line x1="0" y1="0" x2="300" y2="0" />
+			<line x1="0" y1="0" x2="0" y2="300" />
+			<circle cx="0" cy="0" r="2" />
+			<circle cx="100" cy="0" r="2" />
+			<circle cx="200" cy="0" r="2" />
+			<circle cx="0" cy="100" r="2" />
+			<circle cx="0" cy="200" r="2" />
+		</g>
+	</defs>
+	<use xlink:href="#coord" stroke="black" fill="black"/>
+	<text fill="black" x="5" y="20">Word</text>
+	
+	<!--coord a b c d-->
+	<g id="a" stroke="red" fill="red">
+		<use xlink:href="#coord" />
+		<text x="5" y="20">a</text>
+		
+		<g id="b" stroke="blue" fill="blue">
+			<use xlink:href="#coord" />
+			<text x="5" y="20">b</text>
+			
+			<g id="c" stroke="green" fill="green">
+				<use xlink:href="#coord" />
+				<text x="5" y="20">c</text>
+			</g>
+		</g>	
+		<g id="d" stroke="pink" fill="pink">
+			<use xlink:href="#coord" />
+			<text x="5" y="20">d</text>
+		</g>
+	</g>
+	
+</svg>
+
+<script>
+function $(s){	return document.getElementById(s);}
+
+var coordA=$("a");
+var coordB=$("b");
+var coordC=$("c");
+var coordD=$("d");
+//set
+function test1(){
+	console.log("平移-旋转");
+	coordB.setAttribute('transform', 'translate(100,50)');
+	coordC.setAttribute('transform', 'rotate(30)');
+}
+
+function test2(){
+	console.log("旋转-平移");
+	coordB.setAttribute('transform', 'rotate(30)');
+	coordC.setAttribute('transform', 'translate(100,50)');
+}
+coordA.setAttribute('transform', 'translate(10, 30)');
+coordD.setAttribute('transform', 'translate(-20, -60)');
+test1()
+//test2()
+//coordC.getAttribute('transform')+","+'translate(10,50)');
+</script>

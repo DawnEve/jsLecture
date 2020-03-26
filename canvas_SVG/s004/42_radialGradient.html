@@ -1,0 +1,24 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+radialGradient 径向渐变<br>
+<style>svg{border:1px dashed #aaa;}</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="800">
+	<defs>
+		<!--默认单位：整个图形作为100%; fx,fy是焦点位置-->
+		<radialGradient id="grd1" cx="0.5" cy="0.5" r="0.6" fx="0.9" fy="0.3"  gradientUnits="objectBoundingBox">
+			<stop offset="0" stop-color="#1497fc" />
+			<stop offset="0.5" stop-color="#a469be" />
+			<stop offset="1" stop-color="#ff8c00" />
+		</radialGradient>
+		<!-- 世界坐标为单位 -->
+		<radialGradient id="grd2" cx="500" cy="150" r="150" fx="400" fy="200"  gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#1497fc" />
+			<stop offset="0.5" stop-color="#a469be" />
+			<stop offset="1" stop-color="#ff8c00" />
+		</radialGradient>
+	</defs>
+	<rect x="10" y="50" width="200" height="200" fill="url(#grd1)" />
+	
+	<rect x="300" y="50" width="200" height="200" fill="url(#grd2)"  opacity="0.8"/>
+	<rect x="400" y="70" width="200" height="200" fill="url(#grd2)"  opacity="0.8"/>
+</svg>

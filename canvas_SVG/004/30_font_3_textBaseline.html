@@ -1,0 +1,40 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+文字对齐 textBaseline='top'<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.font="bold 40px Arial";
+ctx.fillStyle="#058"
+
+ctx.textBaseline='top'
+ctx.fillText("textBaseline=top", 20,10);
+drawLine(ctx,10)
+
+function show(textBaseline, y,text=""){
+	ctx.textBaseline=textBaseline
+	ctx.fillText("基线 textBaseline="+textBaseline+text, 20,y);
+	//辅助线
+	drawLine(ctx,y)
+}
+show('middle', 80)
+show('bottom', 150)
+
+//textBaseline 还有另外三个属性值 
+//alphabetic(默认 拉丁语)/ideographic(汉语)/hanging(印度语);
+show('alphabetic', 250,' 默认')
+show('ideographic', 320)
+show('hanging', 390)
+
+//辅助线
+function drawLine(ctx,y){
+	ctx.beginPath();
+	ctx.moveTo(0,y)
+	ctx.lineTo(600,y)
+	ctx.stroke();
+}
+</script>

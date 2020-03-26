@@ -1,0 +1,45 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+stroke 描边属性<br>
+
+<pre>
+SVG提供了一个范围广泛stroke 属性。在本章中，我们将看看下面：
+
+stroke
+stroke-width
+stroke-linecap
+stroke-dasharray
+所有stroke属性，可应用于任何种类的线条，文字和元素就像一个圆的轮廓。
+</pre>
+
+
+<h3>stroke控制颜色，stroke-width线宽度</h3>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <g fill="none" stroke-width="10">
+    <path stroke="red" d="M5 20 l215 0" stroke-width="5" />
+    <path stroke="blue" d="M5 40 l215 0"/>
+    <path stroke="black" d="M5 60 l215 0" />
+  </g>
+</svg>
+
+
+
+<h3>stroke-linecap</h3>
+<svg xmlns="http://www.w3.org/">
+	<g fill="none" stroke="black" stroke-width="10">
+		<path d="M5 2 l215 0" stroke="grey" />
+		<path stroke-linecap="butt" d="M5 20 l215 0" />
+		<path stroke-linecap="round" d="M5 40 l215 0" />
+		<path stroke-linecap="square" d="M5 60 l215 0" />
+	</g>
+</svg>
+
+
+
+<h3>stroke-dasharray</h3>
+<svg xmlns="http://www.w3.org/">
+	<g fill="none" stroke="black" stroke-width="5">
+		<path stroke-dasharray="5,5" d="M5 20 l215 0" />
+		<path stroke-dasharray="10,10" d="M5 40 l215 0" />
+		<path stroke-dasharray="20,10,5,5,5,10" d="M5 60 l215 0" />
+	</g>
+</svg>

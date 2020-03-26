@@ -1,0 +1,27 @@
+rect <br>
+<canvas id="test-canvas" width="800" height="600"></canvas>
+
+<script>
+var canvas = document.getElementById('test-canvas');
+var ctx = canvas.getContext('2d');
+//style
+ctx.lineWidth=10;
+
+//全黑背景
+ctx.beginPath()
+ctx.fillStyle="black";
+ctx.fillRect(0,0,canvas.width,canvas.height) //x,y, width, height;
+ctx.closePath();
+
+//上方一排小方块
+ctx.beginPath()
+ctx.fillStyle="#fff";
+ctx.lineWidth=2;
+ctx.strokeStyle="yellow";
+ctx.fillRect(10,10,50,50);
+for(var i=0;i<13;i++){
+	ctx.fillRect(10+i*60,10,50,50); //填充
+	ctx.strokeRect(10+i*60,10,50,50); //描边
+}
+ctx.closePath();
+</script>

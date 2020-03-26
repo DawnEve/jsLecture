@@ -1,0 +1,50 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+brush 绘制纹理<br>
+<style>svg{border:1px dashed #aaa;}</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000" width="800">
+	<defs>
+		<!-- 笔刷内部可以是任意图形；-->
+		<!--默认单位 是比例，表示横着填充5个，竖着填充4个 -->
+		<pattern id="p1" x="0" y="0" width="0.2" height="0.25">
+			<circle cx="10" cy="10" r="5" fill="red" />
+			<polygon points="30,10 60,50 0,50" fill="green" />
+		</pattern>
+		
+		<!--修改单位2: patternUnits="userSpaceOnUse" 变成世界坐标系，图形填充不会缩放了-->
+		<pattern id="p2" x="0" y="0" width="60" height="50" patternUnits="userSpaceOnUse">
+			<circle cx="10" cy="10" r="5" fill="red" />
+			<polygon points="30,10 60,50 0,50" fill="green" />
+		</pattern>
+		
+		<!--修改单位3[不推荐]: patternCotentUnits="objectBoundingBox" 则填充内容变成了世界坐标系-->
+		<pattern id="p3" x="0" y="0" width="60" height="50" patternUnits="userSpaceOnUse" patternCotentUnits="objectBoundingBox">
+			<circle cx="0.10" cy="0.10" r="0.5" fill="red" />
+			<polygon points="30,10 60,50 0,50" fill="green" />
+		</pattern>
+		
+		<!--修改单位4: patternCotentUnits="objectBoundingBox"时，patternUnits属性也使用该值 -->
+		<pattern id="p4" x="0.1" y="0.1" width="0.2" height="0.25" patternUnits="objectBoundingBox" patternCotentUnits="objectBoundingBox">
+			<circle cx="0.1" cy="0.1" r="10" fill="red" />
+			<polygon points="30,10 60,50 0,50" fill="green" />
+		</pattern>
+	</defs>
+	
+	<rect x="10" y="10" width="200" height="150" fill="url(#p1)" stroke="red"/>
+	<rect x="300" y="10" width="400" height="200" fill="url(#p1)"  opacity="0.8"/>
+	
+	<rect x="10" y="250" width="200" height="150" fill="url(#p2)" stroke="orange"/>
+	<rect x="300" y="250" width="400" height="200" fill="url(#p2)"  opacity="0.8"/>
+	
+	<rect x="10" y="490" width="200" height="150" fill="url(#p3)" stroke="grey"/>
+	<rect x="300" y="490" width="400" height="200" fill="url(#p3)"  opacity="0.8"/>
+	
+	<rect x="10" y="730" width="200" height="150" fill="url(#p4)" stroke="blue"/>
+	<rect x="300" y="730" width="400" height="200" fill="url(#p4)"  opacity="0.8"/>
+</svg>
+
+<pre>
+row1: p1
+row2: p2
+row3: p3
+row4: p4

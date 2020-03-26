@@ -1,0 +1,77 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>SVG动画 js 跳动的小球</title>
+<style>
+svg{border:1px solid #eee;}
+</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+	<rect x="0" y="50" width="800" height="50" fill="#eee" />
+	<circle id="circle1" fill="red" cx="400" cy="50" r="20"/>
+	
+	<line id="line1" x1="400" y1="70" x2="400" y2="600" stroke="#eee" stroke-width="0.5" />
+	
+	<path id="stone" d="M250,600 l50 -50 h200 l50 50Z" fill="#999" stroke="black" />
+</svg>
+
+
+<script>
+var  circle=document.getElementById('circle1');
+var  line=document.getElementById('line1');
+
+//初始化条件
+var ball={
+	r:15, //球的半径
+	a:9.8, //重力加速度
+	v:0, //初速度
+	s:0, //位置
+	mu:0.9, //碰撞时的速度保留系数
+};
+circle.setAttribute('r', ball.r);
+
+//更新每一帧
+//var lastFrameTime=+new Date();
+function update(){
+	var oldY=ball.s;
+	
+	//1. 计算时间
+	//var frameTime=+new Date();
+	//var t=frameTime-lastFrameTime;
+	//t/=80; //这个时间切换需要尝试，原来单位是毫秒(ms)，70比较理想
+	var t=0.25;
+	
+	//计算速度 vt=v0+a*t;
+	ball.v+=ball.a*t;
+	//计算位移 st=s0+v*t;
+	ball.s=+circle.getAttribute('cy');
+	ball.s+=ball.v*t;
+	//该次时间成为历史
+	//lastFrameTime=frameTime
+	
+	//碰撞检测
+	if( ball.s+ball.r >550 ){
+		ball.s=oldY;//取消当前帧的更新
+		ball.v=-ball.v * ball.mu; //每次碰撞，速度方向，损失速度
+		
+		//停止条件
+		if(Math.abs(ball.v)<0.7 ){
+			console.log('The ball stopped;');
+			return;
+		}
+	}
+	
+	
+	//重绘
+	render();
+	//下一帧
+	window.requestAnimationFrame(update);
+}
+// 改变可视区
+function render(){
+	//更新小球位置
+	circle.setAttribute('cy', ball.s);
+	//更新线条起点
+	line.setAttribute('y1', ball.s+ball.r);
+}
+
+window.requestAnimationFrame(update);
+</script>

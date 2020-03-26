@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+dash <br>
+<canvas id="test-canvas" width="800" height="600"></canvas>
+
+<script>
+var canvas = document.getElementById('test-canvas'),
+	ctx = canvas.getContext('2d');
+
+//橙线: 一般虚线
+ctx.beginPath();
+ctx.lineWidth=10;
+ctx.strokeStyle="orange";
+ctx.setLineDash([15,10]);
+ctx.moveTo(100,100);
+ctx.lineTo(400,100);
+ctx.stroke();
+
+//蓝线: 长短线交替
+ctx.beginPath();
+ctx.lineWidth=5;
+ctx.strokeStyle="blue";
+ctx.setLineDash([20,5,5,5]); //实线 虚线 实线 虚线
+ctx.moveTo(100,200);
+ctx.lineTo(400,200);
+ctx.stroke();
+
+</script>

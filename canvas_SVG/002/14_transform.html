@@ -1,0 +1,50 @@
+图形变换 transform()<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+
+/**
+二维图形变换矩阵是3x3的:
+[a c e, 
+b d f, 
+0 0 1] 是三行三列矩阵，第一行是a c e;
+
+a 水平缩放(1)
+b 水平倾斜(0)
+
+c 垂直倾斜(0)
+d 垂直缩放(1)
+
+e 水平位移(0)
+f 垂直位移(0)
+*/
+var a=1,d=1; //缩放 x水平，y垂直 
+var b=0.2,c=0; //倾斜 x水平，y垂直 
+var e=0,f=0; //位移 x水平，y垂直 
+draw(a,b,c,d,e,f)
+
+function draw(a,b,c,d,e=0,f=0){
+	ctx.fillStyle="rgb(255,255,255)"
+	ctx.fillRect(0,0,canvas.width, canvas.height)
+	//
+	ctx.save()
+	ctx.transform(a,b,c,d,e,f)
+	ctx.fillStyle="rgba(0,0,0,0.2)"
+	ctx.fillRect(100,100, 100, 200);
+	ctx.restore();
+
+	ctx.strokeRect(100,100,100,200);
+}
+// F12控制台输入，变参数看效果
+//draw(0.5,0.2,0.6,0.5)
+
+ctx.strokeStyle="rgba(255,0,0,0.8)"
+ctx.transform(1,0,0,1,0,0)
+ctx.transform(1,0.1,0,1,0,0)
+ctx.transform(1,0,0.2,1,0,0) //transform是累积的
+
+ctx.setTransform(1,0,0,1,0,0) //setTransform则覆盖掉前面设置的转换矩阵
+ctx.strokeRect(300,100,100,200);
+</script>

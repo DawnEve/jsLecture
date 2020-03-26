@@ -1,0 +1,127 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>完整实例: 星空、月亮、灯塔、倒影</title>
+<style>
+html,body{background:black; line-height:0; font-size:0;}
+</style>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg" 
+	viewBox="-400 -300 800 600" preserveAspectRatio="xMidYMid slice">
+	
+	<g id="real">
+		<!-- 星空 -->
+		<g id="star-group">
+			<defs>
+				<!--星星图形-->
+				<polygon id="star" points="0 -10, 2 -2, 10 0, 2 2, 0 10, -2 2, -10 0, -2 -2" fill="#ffffff" />
+			</defs>
+		</g>
+		
+		
+		<!-- 灯塔 -->
+		<g id="light-tower" transform="translate(250,0)">
+			<defs>
+				<!--灯塔三角底座的渐变-->
+				<linearGradient id="grd-tower" x1="0" y1="0" x2="1" y2="0">
+					<stop offset="0" stop-color="#999" />
+					<stop offset="1" stop-color="#333" />
+				</linearGradient>
+				
+				<!--灯塔发光区域的渐变-->
+				<radialGradient id="grd-light" cx="0.5" cy="0.5" r="0.5">
+					<stop offset="0" stop-color="rgba(255,255,255,0.8)" />
+					<stop offset="1" stop-color="rgba(255,255,255,0)" />
+				</radialGradient>
+				
+				<!--灯塔发光的剪辑区域, 使用: 在形状上添加clip-path属性 -->
+				<clipPath id="light-clip">
+					<polygon points="0 0, -400 -15, -400 15" fill="rgba(255,0,0,0.3)">
+						<!--添加动画效果: 光线剪影旋转效果-->
+						<animateTransform
+							attributeName="transform" 
+							attributeType="XML" 
+							type="rotate" 
+							from="0" 
+							to="360"
+							dur="10s"
+							repeatCount="indefinite">
+						</animateTransform>
+					</polygon>
+					<circle cx="0" cy="0" r="2" fill="yellow"/>
+				</clipPath>
+			</defs>
+			<polygon points="0 0, 5 50, -5 50" fill="url(#grd-tower)" />
+			<ellipse cx="0" cy="0" rx="300" ry="100" fill="url(#grd-light)" clip-path="url(#light-clip)" />
+		</g>
+
+		<!-- 月亮 -->
+		<g id="moon">
+			<defs>
+				<!-- 蒙版的定义: 必须同时指定黑白元素，否则没效果 -->
+				<mask id="moon-mask">
+					<circle cx="-250" cy="-150" r="100" fill="white" />
+					<circle cx="-200" cy="-200" r="100" fill="black" />
+				</mask>
+			</defs>
+			<circle cx="-250" cy="-150" r="100" fill="yellow" mask="url(#moon-mask)" />
+		</g>
+	</g>
+	
+	
+	<!-- 倒影 -->
+	<g id="reflect" transform="translate(0,50)" mask="url(#reflect-mask)">
+		<defs>
+			<linearGradient id="grd1" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stop-color="rgba(255,255,255,0.4)" />
+				<stop offset="0.6" stop-color="rgba(255,255,255,0)" />
+			</linearGradient>
+			<mask id="reflect-mask">
+				<rect x="-400" y="0" width="800" height="300" fill="url(#grd1)" />
+			</mask>
+		</defs>
+		<use xlink:href="#real" transform="scale(1,-1) translate(0 -50)" />
+	</g>
+	<line x1="-400" y1="50" x2="400" y2="50" stroke="rgba(255,255,255,0.3)" />
+	
+</svg>
+
+<script>
+var SVG_NS="http://www.w3.org/2000/svg", XLINK_NS="http://www.w3.org/1999/xlink";
+function $(s){return document.getElementById(s);}
+function random(min,max){return min+(max-min)*Math.random(); }
+
+var starRef=$('star'), starGroup=$('star-group');
+
+//新建use标签，重用defs中定义的图形
+function use(origin){
+	var _use=document.createElementNS(SVG_NS, 'use');
+	_use.setAttributeNS(XLINK_NS,'xlink:href','#'+origin.id);
+	return _use;
+}
+
+//渲染星星
+function renderStar(){
+	var count=400;
+	var star;
+	while(count--){
+		star=use(starRef);
+		//设置
+		star.setAttribute('transform',
+			"translate("+random(-400,400)+","+random(-300,50)+"), "+ //位移
+			"rotate("+random(0,360)+")"+ //旋转
+			"scale("+random(0.1,0.6)+")" //大小
+		);
+		star.setAttribute('opacity', random(0.1,0.5) );//不透明度
+		star.setAttribute('fill', "hsl("+Math.round(Math.random()*360)+",100%,50%)"  );//已有属性不能被覆盖！
+		
+		//加入dom
+		starGroup.appendChild(star);
+	}
+}
+renderStar()
+</script>
+
+<pre>
+1.js只绘制星星；
+
+2.
+蒙版中黑色代表不可见（opacity: 0），白色代表可见（opacity: 100%）

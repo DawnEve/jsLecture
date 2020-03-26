@@ -1,0 +1,23 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>filter：高斯滤镜</title>
+<style>
+svg{border:1px solid #eee;}
+</style>
+
+<svg>
+	<defs>
+		<filter id="filter2" y="0" x="0" width="3" height="2">
+			<feOffset in="SourceGraphic" dx="10" dy="10" result="offset" />
+			<feGaussianBlur in="offset" stdDeviation="3" result="blur" />
+		</filter>
+	</defs>
+
+	<ellipse cx="80" cy="60" rx="50" ry="30" fill="none" stroke="red" />
+	<ellipse cx="80" cy="60" rx="50" ry="30" fill="blue" filter="url(#filter2)"/>
+</svg>
+
+<pre>
+对<rect>应用滤镜效果，<feGaussianBlur>滤镜基元是具体滤镜效果生成的实际操作者，滤镜基元需要一个输入源，这个输入是由in属性规定，当然滤镜基元也可以有一个输出，由result属性来规定。
+
+一个滤镜基元的输出可以作为另一个滤镜基元的输入。
+

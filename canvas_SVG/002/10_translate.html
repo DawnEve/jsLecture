@@ -1,0 +1,23 @@
+图形变换 translate<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+
+ctx.beginPath()
+ctx.fillStyle="blue";
+ctx.translate(100,100); //变换基坐标到(10,20)位置
+ctx.fillRect(0,0,100,200)
+
+ctx.translate(-100,-100); //陷阱: translate(x,y) 是叠加的，所以使用完后要反向再使用一次。
+
+ctx.beginPath()
+ctx.fillStyle="rgba(255,0,0,0.5)";
+ctx.translate(100,100); //变换基坐标到(10,20)位置
+ctx.fillRect(0,0,200,100)
+
+
+
+
+</script>

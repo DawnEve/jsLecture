@@ -1,0 +1,62 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+
+图形变换 star 工程化优化<br>
+<canvas id="canvas1" width="800" height="600"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+ctx.fillStyle="black"
+ctx.fillRect(0,0, canvas.width, canvas.height);
+
+//形状函数：五角星
+function pathStar(ctx){
+	var R=10, r=R/2, delta=2*Math.PI/5;
+	ctx.strokeStyle="black";
+	
+	ctx.beginPath();
+	for(var i=0;i<5;i++){
+		ctx.lineTo(R*Math.cos(delta*i), R*Math.sin(delta*i) );
+		ctx.lineTo(r*Math.cos(delta/2+delta*i), r*Math.sin(delta/2+delta*i) );
+	}
+	ctx.closePath();
+}
+
+//形状函数：八边形
+function pathPoly8(ctx){
+	var R=10, delta=2*Math.PI/8;
+	ctx.strokeStyle="black";
+	
+	ctx.beginPath();
+	for(var i=0;i<8;i++){
+		ctx.lineTo(R*Math.cos(delta*i), R*Math.sin(delta*i) );
+	}
+	ctx.closePath();
+}
+
+
+//绘图主函数: 控制数量，形状，位置，随机化
+function startDraw(pathFn, n=100){
+	//ctx.strokeStyle="black"
+	ctx.fillStyle="rgba(255,255,0,0.8)";
+	for(var i=1;i<=n;i++){
+		ctx.save();//保持状态
+		
+		var fold=Math.random()*1.5+0.5;
+		ctx.scale(fold, fold); //大小随机
+		
+		ctx.rotate(Math.random()*360/2/Math.PI); //角度随机
+		
+		ctx.translate(Math.random()*canvas.width, Math.random()*canvas.height); //位置随机
+		
+		//开始绘图
+		pathFn(ctx);
+		ctx.fill();
+		ctx.restore();//恢复
+	}
+}
+
+//指定形状，数量
+startDraw(pathStar,500);
+startDraw(pathPoly8,500);
+</script>

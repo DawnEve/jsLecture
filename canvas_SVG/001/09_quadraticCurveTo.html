@@ -1,0 +1,39 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+贝塞尔曲线 二次 context.quadraticCurveTo(x1,y1,x2,y2);<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+function testQuadraticCurveTo(ctx, x0,y0, xC,yC, x1,y1){
+	ctx.save()
+	ctx.beginPath();
+	ctx.strokeStyle="red"
+	ctx.lineWidth=4;
+	//需要先指定一个点，然后指定控制点，结束点
+	ctx.moveTo(x0,y0)
+	ctx.quadraticCurveTo(xC,yC,  x1,y1)
+	ctx.stroke();
+	ctx.restore();
+
+	//画辅助线
+	ctx.save()
+	ctx.beginPath();
+	ctx.moveTo(x0,y0); //point 1
+	ctx.lineTo(xC,yC); //point 2
+	ctx.lineTo(x1,y1); //point 3
+	ctx.setLineDash([5,5]);
+	ctx.stroke();
+	ctx.restore();
+}
+//测试
+testQuadraticCurveTo(ctx, 100,50,  300,200,  100,400);//指定三个点
+testQuadraticCurveTo(ctx, 400,50,  400,300,  500,40);
+</script>

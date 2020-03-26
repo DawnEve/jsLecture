@@ -1,0 +1,79 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+遮挡 globalCompositeOperation 共11种属性值<br>
+<h2 id=title></h2>
+<canvas id="canvas1"></canvas>
+
+<div id='buttons'>
+	<a href="#" >source-over</a>
+	<a href="#" title='前者显示，后者只显示前者范围内的部分'>source-atop</a>
+	<a href="#" title='只显示后者，在前者范围内的部分'>source-in</a>
+	<a href="#" title='只显示后者，在前者范围外的部分'>source-out</a> 
+	<br>
+	<a href="#">destination-over</a>
+	<a href="#">destination-atop</a>
+	<a href="#">destination-in</a>
+	<a href="#">destination-out</a>
+	<br>
+	<a href="#">lighter</a>
+	<a href="#">copy</a>
+	<a href="#" title='异或 重叠的部分不显示'>xor</a>
+</div>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=400;
+canvas.height=200;
+var ctx = canvas.getContext('2d');
+//tool
+function $(o){
+	return document.getElementById(o);
+}
+
+window.onload=function(){
+	var aBtns=$('buttons').getElementsByTagName('a')
+	for(var i=0;i<aBtns.length;i++){
+		var oBtn=aBtns[i];
+		oBtn.onclick=function(){
+			var text=this.innerHTML;
+			test(ctx, text)
+		}
+	}
+}
+
+//n=0-10; 共11个值
+function test(ctx, compositeStyle){
+	ctx.clearRect(0,0,canvas.width,canvas.height) //清空画布
+	ctx.save()
+	//遮挡顺序，共11个值
+	//ctx.globalCompositeOperation="source-over" //默认 后来居上
+	//ctx.globalCompositeOperation="destination-over" //原图形在上层
+	var arr=['source-over', 'source-atop', 'source-in', 'source-out',
+		'destination-over', 'destination-atop', 'destination-in','destination-out',
+		'lighter', 'copy', 'xor'];
+	//ctx.globalCompositeOperation=arr[0]
+	
+	//显示文字
+	$('title').innerHTML="ctx.globalCompositeOperation="+compositeStyle
+	console.log(compositeStyle)
+	
+	//矩形 蓝
+	ctx.beginPath();
+	ctx.fillStyle="blue";
+	ctx.fillRect(20,20,200,100);
+
+	//遮挡效果
+	ctx.globalCompositeOperation=compositeStyle
+	//三角形 红
+	ctx.beginPath();
+	ctx.fillStyle="red"
+	ctx.moveTo(100,10); ctx.lineTo(300,150); ctx.lineTo(100,150);
+	ctx.fill()
+	ctx.restore()
+}
+test(ctx, 'source-over')
+</script>
+
+
+<style>
+#buttons a{display:inline-block; padding:10px;}
+</style>

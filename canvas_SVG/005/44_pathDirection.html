@@ -1,0 +1,24 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+路径方向和剪纸效果<br>
+<canvas id="canvas1" style="border:1px solid black;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.shadowColor="grey"
+ctx.shadowOffsetX=10;
+ctx.shadowOffsetY=10;
+ctx.shadowBlur=5;
+
+ctx.beginPath();
+ctx.arc(300,300,100, 0, 2*Math.PI, false) //外圆 顺时针
+ctx.arc(300,300,80, 0, 2*Math.PI, true) //内圆 逆时针
+ctx.fill()
+//内圆内的区域，根据非零环绕原则，
+//从中发出一条射线，和相交2曲线(方向相反)的方向和为0，则为外部。
+
+//尝试改变内圆第二个参数为false，则两个圆都是顺时针，内环内部也为内部，则为实心圆。
+</script>

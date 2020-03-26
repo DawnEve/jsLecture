@@ -1,0 +1,41 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>transform: 变换动画，及叠加</title>
+<style>
+svg{border:1px solid red;}
+
+</style>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 200 200" height="400" width="400">
+	<line x1="-100" y1="0" x2="200" y2="0" stroke="#eee" />
+	<line x1="0" y1="-100" x2="0" y2="200" stroke="#eee" />
+	<rect id="rect1" x="0" y="0" width="20" height="40" fill="red">
+		
+		<animateTransform id="rotate"
+			attributeType="XML"
+			attributeName="transform"
+			
+			type="rotate"
+			from="0"
+			to="360"
+			dur="3s" 
+			fill="remove"
+			repeatCount="indefinite">
+		</animateTransform>
+		
+		<!--animateTransform会覆盖掉上一个同名标签，除非后一个标签添加属性additive="sum" -->
+		<!-- 并行 放大-->
+		<animateTransform id="scale"
+			attributeType="XML"
+			attributeName="transform"
+			
+			type="scale" 
+			from="1"
+			to="2"
+			
+			dur="3s" 
+			fill="freeze" 
+			repeatCount="indefinite" additive="sum">
+		</animateTransform>
+
+	</rect>
+</svg>

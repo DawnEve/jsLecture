@@ -1,0 +1,82 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+文字垂直居中 自己模拟<br>
+rect.getBBox()方法获取图形边界x,y,width,height。<hr>
+
+<style>
+#svg{border:1px dashed #eee;}
+</style>
+
+<label>垂直居中属性：baseline=</label>
+<select id="select"></select>
+
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="250" width="900">
+	<path d="M100,0v300 M0,100h500" stroke="#ccc" fill="none" />
+	<!--文字-->
+	<text x="100" y="100" fill="blue" text-anchor="start" style="font-size:50px; font-family:'Arial'">x=100, middle (point)汉字</text>
+	<rect x="100" y="100" width="100" height="100" fill="none" stroke="red" stroke-width="1" />
+</svg>
+
+
+<script>
+//触发一个事件 https://blog.csdn.net/liuxiao723846/article/details/80822052
+function trigger(element,eventName="change"){
+	if( document.createEvent ){
+		var evObj = document.createEvent('HTMLEvents');
+		evObj.initEvent( eventName, false, true);
+		element.dispatchEvent(evObj);//chrome
+	}else if( document.createEventObject ){
+		element.fireEvent('on'+eventName);//IE
+	}
+}
+
+
+var svg=document.getElementById('svg'),
+	text=svg.getElementsByTagName('text')[0],
+	rect=svg.getElementsByTagName('rect')[0];
+//自定义三种对齐方式
+var values = "top | middle | bottom".split(' | ');
+values.forEach(function(value) {
+	//console.log(value);
+	var option=document.createElement('option');
+	option.value=value;
+	option.innerHTML=value;
+	select.append(option);
+});
+
+// 更新外边框
+function updateRect(){
+	//显示外边框
+	var box=text.getBBox();
+	wjl=box
+	rect.setAttribute('x',box.x);
+	rect.setAttribute('y',box.y);
+	rect.setAttribute('width',box.width);
+	rect.setAttribute('height',box.height);
+}
+updateRect();
+
+// 下拉框值改变
+select.onchange=function(){
+	text.setAttribute('dy', 0 );//要先把dy归零，清除对box定位的影响
+	text.setAttribute('dy', getDy(this.value) );
+	console.log(this.value);
+	
+	updateRect();//外边框
+}
+//select.onchange(); //触发事件 方法1
+trigger(select, 'change'); //触发事件 方法2
+
+
+//计算3种对齐方式时，dy的取值
+function getDy(align){
+	var box=text.getBBox(), y=text.getAttribute('y');
+	switch(align){
+		case 'top': return y-box.y;
+		case 'middle':return y-(box.y+box.height/2);
+		case 'bottom':return y-(box.y+box.height);
+	}
+}
+</script>
+
+<pre>
+模拟的垂直对齐: top, middle, bottom;

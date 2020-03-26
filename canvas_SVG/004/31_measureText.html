@@ -1,0 +1,35 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+文本的度量 measureText(string).width 获取文字宽度<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.font="bold 40px Arial";
+ctx.fillStyle="#058"
+
+draw(ctx, "文字后面画竖线",100,50);
+draw(ctx, "更多 the second test",100,150);
+
+
+function draw(ctx, text,x,y){
+	ctx.fillText(text, x,y);
+	
+	var width=ctx.measureText(text).width;//获取文字宽度
+	wjl=ctx.measureText(text) //目前只有width，不能获取其他属性!
+	drawLine(ctx,x+width)
+}
+
+//要在字符串后面画一条竖线
+function drawLine(ctx,x){
+	ctx.beginPath();
+	ctx.moveTo(x,0)
+	ctx.lineTo(x,400)
+	ctx.stroke();
+}
+
+
+</script>

@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>animate 动画基础</title>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg">
+	<rect id="rect1" x="10" y="10" width="20" height="40" fill="red">
+		<animate
+			attributeType="XML"
+			attributeName="x"
+			from="10"
+			to="200"
+			dur="3s" 
+			fill="freeze"
+			repeatCount="indefinite"
+			>
+		</animate>
+		
+		<!--动画可以叠加, 这些动画同时进行-->
+		<animate
+			attributeType="XML"
+			attributeName="fill"
+			from="red"
+			to="yellow"
+			dur="6s" 
+			fill="freeze">
+		</animate>
+	</rect>
+</svg>

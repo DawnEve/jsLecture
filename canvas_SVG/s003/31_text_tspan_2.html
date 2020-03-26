@@ -1,0 +1,79 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+text tspan _ 舞动的多色字体<br>
+<style>
+#svg{border:1px dashed #eee;}
+</style>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="500" width="900">
+	<!-- 网格背景-->
+	<defs>
+		<pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+			<path d="M0,0H20V20" stroke="#ccc"  fill="none" />
+		</pattern>
+	</defs>
+	<rect fill="url(#grid)" height="500" width="900" />
+	
+	<!--文字-->
+	<text x="100" y="200" fill="blue" style="font-size:20px; font-family:'Arial'"> <tspan fill="hsl(100, 100%, 50%)">xx</tspan> </text>
+	<!--坐标-->
+	<path d="M100,100v200M0,200h700" transform="translate(10,0)" stroke="red" />
+</svg>
+
+
+<script>
+//https://www.cnblogs.com/fzz9/p/9256265.html
+
+function $(s){return document.getElementById(s);}
+
+var ns="http://www.w3.org/2000/svg";
+var content="ABCDEFGHIJKLMNOKQRSTUVWXYZ", 
+	n=content.length,
+	span=10,
+	dx=[], dy=[];
+
+var svg=$('svg'), text=svg.getElementsByTagName('text')[0];
+//text.innerHTML=content;
+text.innerHTML='';
+for(var i=0;i<n;i++){
+	var tspan=document.createElementNS(ns, 'tspan');
+	tspan.innerHTML=content[i];
+	//set color for each letter
+	var h=Math.round(360/n*i);
+	tspan.setAttribute('fill', "hsl("+h+", 100%,50%)");
+	text.append(tspan);
+	
+	//dx
+	dx.push(span);
+	text.setAttribute('dx', dx.join(' '));
+}
+
+//dy 
+//y=A*sin(w*x + t)
+var cycle=Math.round(svg.width.animVal.value*0.15), 
+	w=2*Math.PI/cycle, 
+	A=100,
+	t=0
+
+function arrange(t){
+	dy=[];
+	var ly=0, cy; //last, current y;
+	x=-span;
+	for(var i in dx){
+		//console.log(i, dx[i]);
+		x+=dx[i];
+		cy=-A*Math.sin(w*x + t); //svg.height.animVal.value/2;
+		dy.push(cy-ly);
+		ly=cy;
+	}
+}
+
+//begin animation
+function frame(){
+	t+=0.02
+	if(t==cycle)t=0;
+	arrange(t)
+	//
+	text.setAttribute('dy', dy.join(' '));
+	window.requestAnimationFrame(frame);
+}
+frame()
+</script>

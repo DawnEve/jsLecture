@@ -1,0 +1,46 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+扩展canvas的context _2 依赖其他函数的定位<br>
+<canvas id="canvas1" style="border:1px solid black;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=800;
+var ctx = canvas.getContext('2d');
+
+//改进为依赖 moveTo() 定位的绘图函数
+var originalMoveTo=CanvasRenderingContext2D.prototype.moveTo;
+CanvasRenderingContext2D.prototype.lastMoveToLoc={};
+//重写moveTo()方法
+CanvasRenderingContext2D.prototype.moveTo=function(x,y){
+	originalMoveTo.apply(ctx, [x,y]);
+	
+	this.lastMoveToLoc.x=x;
+	this.lastMoveToLoc.y=y;
+}
+
+//对context的原型进行添加 依赖moveTo()的绘图函数
+CanvasRenderingContext2D.prototype.fillStar2=function(r,R,rot){
+	//内部使用this代替原来的context
+	var x=this.lastMoveToLoc.x;
+	var y=this.lastMoveToLoc.y;
+	
+	this.beginPath();
+	for(var i=0;i<5;i++){
+		this.lineTo(Math.cos( (18+i*72-rot)/180*Math.PI )*R+x,
+			-Math.sin( (18+i*72-rot)/180*Math.PI )*R+y);
+		this.lineTo(Math.cos( (54+i*72-rot)/180*Math.PI )*r+x,
+			-Math.sin( (54+i*72-rot)/180*Math.PI )*r+y);
+	}
+	this.closePath();
+	this.fill()
+}
+
+//测试
+ctx.fillStyle="yellow";
+ctx.moveTo(100,100)
+ctx.fillStar2(10,20, 0);
+
+ctx.moveTo(200,200)
+ctx.fillStar2(20,40, 30);
+</script>

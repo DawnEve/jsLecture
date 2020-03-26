@@ -1,0 +1,42 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+贝塞尔曲线 三次 context.bezierCurveTo(cp1x,cp1y, cp2x,cp2y, xEnd,yEnd);<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+function testBezierCurveTo(ctx, x0,y0, cp1x,cp1y, cp2x,cp2y, xEnd,yEnd){
+	ctx.save()
+	ctx.beginPath();
+	ctx.strokeStyle="red"
+	ctx.lineWidth=4;
+	//需要先指定一个点，然后指定控制点，结束点
+	ctx.moveTo(x0,y0)
+	ctx.bezierCurveTo(cp1x,cp1y, cp2x,cp2y, xEnd,yEnd)
+	
+	ctx.stroke();
+	ctx.restore();
+
+	//画辅助线
+	ctx.save()
+	ctx.beginPath();
+	ctx.moveTo(x0,y0); //0
+	ctx.lineTo(cp1x,cp1y); //control 1
+	ctx.moveTo(xEnd,yEnd); //0
+	ctx.lineTo(cp2x,cp2y); //control 1
+	ctx.setLineDash([5,5]);
+	ctx.stroke();
+	ctx.restore();
+}
+//测试
+//testBezierCurveTo(ctx, 100,50,  300,200,  100,400, 400,300);//指定4个点
+testBezierCurveTo(ctx, 100,50,  0,500,  250,500,  150,50);//花瓣
+testBezierCurveTo(ctx, 400,50,  400,200,  500,40, 600,100);//左上角
+</script>

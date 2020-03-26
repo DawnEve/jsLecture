@@ -1,0 +1,45 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+画五角星-函数化 200个<br>
+<canvas id="test-canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+<script>
+var canvas = document.getElementById('test-canvas');
+var ctx = canvas.getContext('2d');
+//黑色的背景
+ctx.strokeStyle='black';
+ctx.fillRect(0,0,canvas.width, canvas.height)
+
+/**参数列表
+ctx: context,
+x0,y0 圆心
+R,r 大圆、小圆半径
+*/
+function star(ctx, x0,y0, R,r, rotateAngle=0,strokeStyle="red",fillStyle="yellow", lineWidth=10){
+	ctx.lineWidth=lineWidth;
+	ctx.strokeStyle=strokeStyle
+	ctx.fillStyle=fillStyle;
+	var delta=2*Math.PI/5;
+	var startAngle=-Math.PI/2+delta-rotateAngle;
+	//
+	ctx.beginPath()
+	for(var i=0;i<5;i++){
+		ctx.lineTo(x0+R*Math.cos(startAngle+delta*i), y0+R*Math.sin(startAngle+delta*i) );
+		ctx.lineTo(x0+r*Math.cos(startAngle+delta/2+delta*i), y0+r*Math.sin(startAngle+delta/2+delta*i) );
+	}
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+//随机化200个星星
+function drawStart(ctx, draw, number=200){
+	for(var j=0;j<number;j++){
+		var r=Math.random()*10+10;
+		var x=Math.random()*canvas.width;
+		var y=Math.random()*canvas.height;
+		var rotateAngle=Math.random()*360/2/Math.PI;
+		draw(ctx, x, y,r,r/2, rotateAngle, 'rgba(0,0,0,0)','yellow',1)
+	}
+	//改进1：边沿有星星; 有重叠; 怎么更美?
+}
+drawStart(ctx, star,100)
+</script>

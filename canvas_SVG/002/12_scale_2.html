@@ -1,0 +1,22 @@
+图形变换 scale _2<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+ctx.strokeStyle='black'
+
+ctx.strokeRect(10,10,50,100) //矩形1
+
+ctx.save()
+ctx.scale(2,2)
+ctx.strokeRect(10,10,50,100) //矩形2
+
+ctx.scale(2,2)
+ctx.strokeRect(10,10,50,100) //矩形3
+ctx.restore();
+//缩放的副作用: 是放大坐标系，所以放大了矩形的起始坐标、矩形的边框宽度、矩形的宽高等。
+
+ctx.fillStyle="rgba(255,0,0,0.3)"
+ctx.fillRect(10,10,50,100)
+</script>

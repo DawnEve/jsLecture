@@ -1,0 +1,47 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+蒙版mask：绘制月亮<br>
+<style>
+html,body{background:darkblue; line-height:0; font-size:0;}
+</style>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg" 
+	viewBox="-400 -300 800 600" preserveAspectRatio="xMidYMid slice">
+	<g id="moon">
+		<defs>
+			<!-- 蒙版的定义: 必须同时指定黑白元素，否则没效果 -->
+			<mask id="moon-mask">
+				<circle cx="-250" cy="-150" r="100" fill="white" />
+				<circle cx="-200" cy="-200" r="100" fill="black" />
+			</mask>
+		</defs>
+		<circle cx="-250" cy="-150" r="100" fill="yellow" mask="url(#moon-mask)" />
+	</g>
+	
+	<!-- 以下为倒影 -->
+	<g id="reflect" transform="translate(0,50)" mask="url(#reflect-mask)">
+		<defs>
+			<linearGradient id="grd1" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stop-color="rgba(255,255,255,0.7)" />
+				<stop offset="0.8" stop-color="rgba(255,255,255,0)" />
+			</linearGradient>
+			<mask id="reflect-mask">
+				<rect x="-400" y="0" width="800" height="300" fill="url(#grd1)" />
+			</mask>
+		</defs>
+		<use xlink:href="#moon" transform="scale(1,-1) translate(0 -50)" />
+	</g>
+	<line x1="-400" y1="50" x2="400" y2="50" stroke="white" />
+	
+</svg>
+
+<script>
+var SVG_NS="http://www.w3.org/2000/svg", XLINK_NS="http://www.w3.org/1999/xlink";
+function $(s){return document.getElementById(s);}
+function random(min,max){return min+(max-min)*Math.random(); }
+/*
+
+*/
+</script>
+
+<pre>
+蒙版中黑色代表不可见（opacity: 0），白色代表可见（opacity: 100%）

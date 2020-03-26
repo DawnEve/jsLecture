@@ -1,0 +1,85 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+小球类 ball_2_move 撞墙<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+//tools
+function $(s){return document.getElementById(s);}
+function getColor(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	return("rgba("+r+","+g+","+b+",0.8)");
+}
+
+var canvas=$('canvas1');
+canvas.width=800; canvas.height=400;
+var ctx=canvas.getContext('2d');
+
+ctx.strokeRect(0,0,canvas.width,canvas.height); //画盒子
+
+//封装一个小球类, js6?的类的写法 https://www.cnblogs.com/pagoda/p/9473167.html
+class Ball{
+	constructor(x,y,radius){
+		this.x=x;
+		this.y=y;
+		this.radius=radius;
+		//
+		this.angle=Math.random()*360;//旋转角度
+		this.speed=5+5*Math.random();
+		this.color=getColor();
+	}
+	draw(ctx){
+		ctx.save()
+		ctx.beginPath();
+		ctx.arc(this.x,this.y,this.radius, 0, Math.PI*2);
+		ctx.fillStyle=this.color;
+		ctx.fill();
+		ctx.restore();
+		//console.log('this=',this)
+	}
+}
+var aBalls=[];
+//初始化小球
+var n=10;
+for(var i=0;i<n;i++){
+	var ball=new Ball(canvas.width*Math.random(), canvas.height*Math.random(), 10+20*Math.random())
+	aBalls.push(ball);
+}
+
+//画小球
+for(var i=0;i<aBalls.length;i++){
+	var ball=aBalls[i];
+	ball.draw(ctx);
+}
+
+//step2 move the ball
+function drawFrame () {
+	canvas.height = canvas.height // 清空画布
+	//ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+	// 绘制墙壁
+	ctx.strokeRect(0, 0, canvas.width, canvas.height)
+	
+	for(var i=0;i<aBalls.length;i++){
+		var ball=aBalls[i];
+		//判断与墙壁的碰撞反弹
+		if(ball.x+ball.radius>canvas.width || ball.x-ball.radius<0){
+			ball.angle=180-ball.angle;
+		}
+		if(ball.y-ball.radius<0 || ball.y+ball.radius>canvas.height){
+			ball.angle=-ball.angle;
+		}
+
+		// 计算小球下一帧的坐标
+		ball.x+=ball.speed*Math.cos(ball.angle*Math.PI/180);
+		ball.y+=ball.speed*Math.sin(ball.angle*Math.PI/180);
+
+		// 绘制
+		ball.draw(ctx);
+	}
+	//下一帧
+	window.requestAnimationFrame(drawFrame)
+}
+drawFrame()
+</script>

@@ -1,0 +1,23 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+brush 笔刷-绘制纹理: 格子背景<br>
+<style>svg{border:1px dashed #aaa;}</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="800" width="800">
+	<defs>
+		<!-- 格子背景笔刷 -->
+		<!-- 方格1 普通版 20px一个格子 -->
+		<pattern id="p1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+			<path d="M0,0 V20H20" stroke="lightgreen" fill="none" />
+		</pattern>
+		
+		<!-- 方格2 加强版 20px一个小格子，100px一个大格子 -->
+		<pattern id="p2" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+			<path d="M0,20h100 M0,40h100 M0,60h100 M0,80h100" stroke="#ddd" fill="none" />
+			<path d="M20,0v100 M40,0v100 M60,0v100 M80,0v100" stroke="#ddd" fill="none" />
+			<path d="M0,0 V100H100" stroke="#ddd" fill="none" stroke-width="5" />
+		</pattern>
+	</defs>
+	
+	<rect x="0" y="0" width="700" height="200" fill="url(#p1)" stroke="none"/>
+	<rect x="0.5" y="299.5" width="700" height="400" fill="url(#p2)" stroke="none"/>
+</svg>

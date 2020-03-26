@@ -1,0 +1,27 @@
+图形变换 translate _2<br>
+<canvas id="canvas1" width="800" height="600" style="border:1px solid red;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+ctx.strokeStyle='black'
+
+ctx.save() //保存图形状态
+ctx.beginPath()
+ctx.lineWidth=10; //恢复后是默认的1
+ctx.fillStyle="blue";
+ctx.translate(100,100); //变换基坐标到(x,y)位置
+ctx.fillRect(0,0,100,200)
+ctx.strokeRect(0,0,100,200)
+
+ctx.restore();//恢复刚才在save时的设置状态
+
+//ctx.translate(-100,-100); //陷阱: translate(x,y) 是叠加的，所以使用完后要反向再使用一次。
+//另一种方式是保存状态save()，之后再恢复restore()
+
+ctx.beginPath()
+ctx.fillStyle="rgba(255,0,0,0.5)";
+ctx.translate(100,100); //变换基坐标到(x,y)位置
+ctx.fillRect(0,0,200,100)
+ctx.strokeRect(0,0,200,100)
+</script>

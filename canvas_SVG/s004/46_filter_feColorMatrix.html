@@ -1,0 +1,117 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+feColorMatrix<br />
+<style>
+svg{border:1px solid #eee;}
+</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+	<filter id="linear">
+		<feColorMatrix type="matrix" 
+			values="1 0 0 0 0 
+					0 1 0 0 0 
+					0 0 1 0 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="green">
+		<feColorMatrix type="matrix" 
+			values="0 0 0 0 0 
+					0 1 0 0 0 
+					0 0 0 0 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<!--复杂滤镜组合-->
+	
+	<!--深浅-->
+	<filter id="darken">
+		<feColorMatrix type="matrix" 
+			values="0.5 0 0 0 0 
+					0 0.5 0 0 0 
+					0 0 0.5 0 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="lighter">
+		<feColorMatrix type="matrix" 
+			values="1.5 0 0 0 0 
+					0 1.5 0 0 0 
+					0 0 1.5 0 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="green_again">
+		<feColorMatrix type="matrix" 
+			values="0 0 0 0 0 
+					0 1 0 0 0 
+					0 0 1 -1 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="green_blueMore">
+		<feColorMatrix type="matrix" 
+			values="0 0 0 0 0 
+					0 1 0 0 0 
+					0 0 1 0.5 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="emit_green">
+		<feColorMatrix type="matrix" 
+			values="1 0 0 0 0 
+					0 1 0 0 0 
+					0 0 1 0 0 
+					0 -2 0 1 0 ">
+		</feColorMatrix>
+	</filter>	
+
+	<filter id="grey">
+		<feColorMatrix type="matrix" 
+			values="1 0 0 0 0 
+					1 0 0 0 0 
+					1 0 0 0 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<filter id="lime">
+		<feColorMatrix type="matrix" 
+			values="1 0 0 0 0 
+					0 2 0 0 0 
+					1 0 0 0.5 0 
+					0 0 0 1 0 ">
+		</feColorMatrix>
+	</filter>
+	
+	<image x="0" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#linear)" />
+	<image x="100" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#lighter)" />
+	<image x="200" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#darken)" />
+	<image x="300" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#green)" />
+	<image x="400" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#green_again)" />
+	<image x="500" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#green_blueMore)" />
+	<image x="600" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#emit_green)" />
+	<image x="700" y="0" width="90" xlink:href="../images/win7_H.png" filter="url(#grey)" />
+	
+	<image x="0" y="100" width="90" xlink:href="../images/win7_H.png" filter="url(#lime)" />
+</svg>
+
+<pre>
+矩阵计算RGBA自已每行的最终值，每个RGBA通道有自身的RGBA通道。最后一个值是一个乘数。最后RGBA的值从上向下读，像下面这个列表：
+
+默认值: 输出原图
+/* R G B A 1 */
+1 0 0 0 0 // R = 1*R + 0*G + 0*B + 0*A + 0
+0 1 0 0 0 // G = 0*R + 1*G + 0*B + 0*A + 0
+0 0 1 0 0 // B = 0*R + 0*G + 1*B + 0*A + 0
+0 0 0 1 0 // A = 0*R + 0*G + 0*B + 1*A + 0
+
+如果想得到一个 green colorized image:
+0 0 0 0 0 // R = 0*R + 0*G + 0*B + 0*A + 0=0
+0 1 0 0 0 // G = 0*R + 1*G + 0*B + 0*A + 0=G
+0 0 0 0 0 // B = 0*R + 0*G + 0*B + 0*A + 0=0
+0 0 0 1 0 // A = 0*R + 0*G + 0*B + 1*A + 0=A

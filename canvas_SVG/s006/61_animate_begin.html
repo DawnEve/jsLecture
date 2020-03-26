@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>begin属性: 2个动画顺序播放</title>
+
+<svg id='svg' xmlns="http://www.w3.org/2000/svg">
+	<rect id="rect1" x="10" y="10" width="20" height="40" fill="red">
+		<animate id="goRight"
+			attributeType="XML"
+			attributeName="x"
+			begin="0; goLeft.end"
+			from="10"
+			to="200"
+			dur="1s" 
+			fill="freeze">
+		</animate>
+		
+		<!--动画 顺序播放: begin 参数-->
+		<animate id="goLeft"
+			attributeType="XML"
+			attributeName="x"
+			begin="goRight.end+1s" 
+			from="200"
+			to="10"
+			dur="1s" 
+			fill="freeze">
+		</animate>
+	</rect>
+</svg>

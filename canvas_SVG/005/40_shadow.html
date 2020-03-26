@@ -1,0 +1,35 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+阴影 <br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.fillStyle="#F00"
+
+ctx.shadowColor="#a00"
+ctx.shadowOffsetX=30;
+ctx.shadowOffsetY=10;
+ctx.shadowBlur=5;
+ctx.fillRect(20,20,200,100)
+
+//函数设置阴影
+function setShadow(ctx,color, X,Y, blur){
+	ctx.shadowColor=color||"#eee"
+	ctx.shadowOffsetX=X||0;
+	ctx.shadowOffsetY=Y||0;
+	ctx.shadowBlur=blur||4;
+}
+
+//带阴影的文字
+ctx.save()
+setShadow(ctx, "rgb(200,200,200,0.5)", 5,-5,5)
+
+ctx.font="bold 40px Arial"
+ctx.fillStyle="yellow"
+ctx.fillText("CANVAS", 400,60)
+ctx.restore()
+</script>

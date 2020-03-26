@@ -1,0 +1,46 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+text 文本<br>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="20">
+	<text x="0" y="15" fill="red">I love SVG</text>
+</svg>
+<hr>
+
+
+<h3>旋转的文字</h3>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="80">
+  <text x="0" y="15" fill="blue" transform="rotate(30 -30,40)">I love SVG</text>
+</svg>
+
+
+<h3>沿着路径的文字</h3>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <defs>
+    <path id="path1" d="M25,10 a1,2 0 0,0 100,0" />
+  </defs>
+  <text x="10" y="100" style="fill:red;">
+    <textPath xlink:href="#path1">I love SVG I love SVG</textPath>
+  </text>
+</svg>
+<hr>
+
+
+<h3>分段的文字 tspan</h3>
+元素可以安排任何分小组与 tspan 元素的数量。每个 tspan 元素可以包含不同的格式和位置。几行文本(与 tspan元素):
+<br>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <text x="10" y="20" style="fill:red;">Several lines:
+    <tspan x="30" y="45" style="fill:lime">First line</tspan>
+    <tspan x="50" y="90">Second line</tspan>
+  </text>
+</svg>
+</hr>
+
+
+
+<h3>作为链接文字</h3>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <a xlink:href="http://www.w3schools.com/svg/" target="_blank">
+    <text x="0" y="15" fill="red">this is a link to w3c</text>
+  </a>
+</svg>

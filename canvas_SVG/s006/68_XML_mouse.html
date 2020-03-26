@@ -1,0 +1,21 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+鼠标事件 xml<br />
+
+<svg xmlns="http://www.w3.org/2000/svg">
+	<rect id="rect1" x="5" y="5" width="40" height="40" fill="red"  onclick="changeColor(evt)"/>  
+</svg>
+
+<script>
+//method1
+function changeColor(evt) { 
+	var rect = evt.target;
+	rect.setAttributeNS(null, "fill", "purple");
+}
+
+//method2
+function changeColor2(evt) { 
+	var rect = evt.target;
+	rect.setAttributeNS(null, "x", "100");
+}
+rect1.addEventListener("click", changeColor2, false);
+</script>

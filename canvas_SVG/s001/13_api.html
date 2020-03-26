@@ -1,0 +1,35 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+13_api<br>
+
+<pre>
+(1)创建图形
+document.createElementNS(namespace, tagName);
+(2)添加图形
+element.appendChild(childElement);
+(3)设置/获取属性
+element.setAttribute(name, value);
+element.getAttribute(name);
+</pre>
+
+<script>
+var ns="http://www.w3.org/2000/svg";//命名空间
+//创建svg标签
+var svg=document.createElementNS(ns, 'svg');
+//设置属性
+svg.setAttribute('xmlns',ns);
+svg.setAttribute('version',"1.1");
+svg.setAttribute('fill',"black"); //不起作用
+svg.setAttribute('width',"400");
+svg.setAttribute('height',"400");
+//添加到body末尾
+document.body.append(svg);
+
+//创建圆形circle
+var c1=document.createElementNS(ns, 'circle');
+c1.setAttribute('cx',"200");
+c1.setAttribute('cy',"200");
+c1.setAttribute('r',"200");
+c1.setAttribute('fill',"yellow");
+//添加到svg标签中
+svg.appendChild(c1);
+</script>

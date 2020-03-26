@@ -1,0 +1,118 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+放大镜(鼠标单击和拖动时 局部放大图片)<br>
+<style>
+#canvas1{display:block; margin:0 auto; border:1px solid #aaa;}
+#offCanvas{display:none;}
+</style>
+<canvas id="canvas1"></canvas>
+<canvas id="offCanvas"></canvas>
+
+<script>
+var canvas=document.getElementById('canvas1');
+canvas.width=300;canvas.height=300;
+var ctx=canvas.getContext('2d');
+//ctx.strokeRect(0,0,canvas.width,canvas.height);
+
+//放大镜canvas
+var offCanvas=document.getElementById('offCanvas');
+var offCtx=offCanvas.getContext('2d');
+var scale=5; //放大倍数, 可设置
+
+//载入图像
+var img=new Image();
+img.src="../images/win7.png";
+imgH=img;//第二个是高清图
+
+img.onload=function(){
+	//载入图像，全画布显示
+	ctx.drawImage(img, 0,0, canvas.width, canvas.height);
+	
+	//放大镜画布，载入高清图
+	offCanvas.width=canvas.width*scale;
+	offCanvas.height=canvas.height*scale;
+	
+	offCtx.drawImage(imgH, 0,0, offCanvas.width, offCanvas.height);
+}
+
+
+//获得相对于canvas的鼠标位置坐标，传入dom坐标
+function windowToCanvas(x,y,canvas){
+	var bbox=canvas.getBoundingClientRect();
+	return {x:x-bbox.left, y:y-bbox.top};
+}
+
+var IsMouseDown=false;
+
+//单击开始显示位置
+canvas.onmousedown=function(e){
+	e.preventDefault();//阻止默认事件
+	IsMouseDown=true;
+	//console.log(e.clientX,e.clientY);//这是dom文档坐标值
+	var point=windowToCanvas(e.clientX,e.clientY, ctx.canvas);
+	//console.log(point)
+	
+	drawCanvasWithMagnifier(true, point)
+}
+
+//鼠标移动时
+canvas.onmousemove=function(e){
+	e.preventDefault();
+	//console.log('mouse mvoe');
+	if(IsMouseDown==true){
+		var point=windowToCanvas(e.clientX,e.clientY, ctx.canvas);
+		drawCanvasWithMagnifier(true, point)
+	}
+}
+
+canvas.onmouseup=function(e){
+	e.preventDefault();
+	IsMouseDown=false;
+	//console.log('mouse up');
+	drawCanvasWithMagnifier(false)
+}
+
+canvas.onmouseout=function(e){
+	e.preventDefault();
+	IsMouseDown=false;
+	drawCanvasWithMagnifier(false)
+}
+
+//重绘带放大镜的画布
+function drawCanvasWithMagnifier(isShowMagnifier, point){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.drawImage(img, 0,0, canvas.width, canvas.height);
+	//绘制放大镜
+	if(isShowMagnifier){
+		drawMagnifier(point);
+	}
+	
+	//console.log(a,b)
+}
+
+function drawMagnifier(point){
+	var r=canvas.height/4;//放大镜半径
+	//放大镜画布的圆心坐标
+	var L_cx=point.x*scale;
+	var L_cy=point.y*scale;
+	
+	//source x,y
+	var sx=L_cx-r, sy=L_cy-r;
+	//destination x,y
+	var dx=point.x-r, dy=point.y-r;
+	
+	//绘制圆形的剪辑区域
+	ctx.save();
+	ctx.beginPath();
+	ctx.arc(point.x, point.y, r, 0, Math.PI*2);
+	//绘制放大镜边框
+	ctx.lineWidth=10;
+	ctx.strokeStyle='#069';
+	ctx.stroke();
+	//然后建立剪辑区域
+	ctx.clip();
+	//接下来只能在圆形内编辑
+	ctx.drawImage(offCanvas, sx,sy,2*r,2*r, dx,dy,2*r,2*r);
+	ctx.restore();
+}
+
+</script>

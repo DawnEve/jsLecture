@@ -1,0 +1,14 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+椭圆 ellipse() <br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//7个参数 (x,y, radiusX, radiusY, rotation, startAngle, endAngle, ?anticlockwise=false)
+ctx.ellipse(200,100, 100,50, 0, 0,Math.PI*2)
+ctx.stroke();
+
+</script>

@@ -1,0 +1,41 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+圆弧 ctx.arc(x,y,radius,startAngle,endAngle,?anticlockwise)<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//角度是顺时针的(右0，下90，左180，上270)
+
+//row1: 默认是顺时针的。（最后一个参数 是否逆时针 默认否）
+for(var i=0;i<13;i++){
+	ctx.beginPath()
+	ctx.arc(50*i,50,20,0,Math.PI/6*i)
+	ctx.closePath();
+	ctx.stroke();
+}
+//row2: 逆时针只是圆弧的方向。
+for(var i=0;i<13;i++){
+	ctx.beginPath()
+	ctx.arc(50*i,100,20,0,Math.PI/6*i, true)
+	//ctx.closePath();//收尾用直线连起来
+	ctx.stroke();
+}
+
+ctx.fillStyle="yellow"
+//row3: 圆弧顺时针 填充row1
+for(var i=0;i<13;i++){
+	ctx.beginPath()
+	ctx.arc(50*i,150,20,0,Math.PI/6*i, false)
+	ctx.fill();
+}
+ctx.fillStyle="blue"
+//row4: 圆弧逆时针 填充row2
+for(var i=0;i<13;i++){
+	ctx.beginPath()
+	ctx.arc(50*i,200,20,0,Math.PI/6*i, true)
+	ctx.fill();
+}
+</script>

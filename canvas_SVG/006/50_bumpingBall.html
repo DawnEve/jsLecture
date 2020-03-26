@@ -1,0 +1,118 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+碰撞的小球 bumpingBall<br>
+<a href="#" id="ctrl">stop</a><br>
+<canvas id="canvas1" style="border:1px solid red;"></canvas>
+
+
+<script>
+window.stop=true;
+function $(s){ return document.getElementById(s)}
+$('ctrl').onclick=function(){
+	window.stop=!window.stop;
+	if(window.stop){
+		this.innerHTML="stop"
+	}else{
+		this.innerHTML="begin"
+	}
+}
+
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=400;
+var ctx = canvas.getContext('2d');
+
+var aBalls=[]
+//产生颜色
+function getColor(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	return("rgba("+r+","+g+","+b+",0.8)");
+}
+//产生小球
+function getBalls(n){
+	for(var i=0;i<n;i++){
+		var ball={};
+		ball.x=Math.random()*canvas.width;
+		ball.y=Math.random()*canvas.height;
+		ball.r=Math.random()*20+20;
+		
+		//矫正坐标，不能出框
+		if(ball.x-ball.r<0)ball.x=ball.r;
+		if(ball.y-ball.r<0)ball.y=ball.r;
+		if(ball.x+ball.r>canvas.width)ball.x=canvas.width-ball.r;
+		if(ball.y+ball.r>canvas.height)ball.y=canvas.height-ball.r;
+		
+		ball.color=getColor();
+		
+		ball.speed=200/ball.r; //;Math.random()*30+5; //速度
+		ball.direction=Math.random()*Math.PI*2;//方向
+		
+		aBalls.push(ball);
+	}
+}
+
+//绘制小球
+function draw(){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	
+	for(var i=0;i<aBalls.length;i++){
+		var b=aBalls[i];
+		
+		//console.log('(',b.x.toFixed(2),b.y.toFixed(2),')', 	'; direction=', b.direction.toFixed(2), '; speed=',b.speed.toFixed(2))
+		
+		ctx.beginPath();
+		ctx.arc(b.x,b.y,b.r, 0,Math.PI*2);
+		ctx.fillStyle=b.color;
+		ctx.fill();
+	}
+}
+//动态更新球的参数
+function update(){
+	for(var i=0;i<aBalls.length;i++){
+		var b=aBalls[i];
+		//重力场 v=v0+g*t;
+		//var g=1;
+		//var vy=b.speed*Math.sin(b.direction)+g, vx=b.speed*Math.cos(b.direction);
+		//b.direction=Math.atan(vy/vx);
+		//b.speed=Math.sqrt(vx**2+vy**2);
+		
+		//计算新的位置
+		b.x=b.x+b.speed*Math.cos(b.direction);
+		b.y=b.y+b.speed*Math.sin(b.direction);
+		
+		//做碰撞判断 4个边
+		if(b.x-b.r<0){ //left ok;
+			b.direction=Math.PI-b.direction;
+			b.x=b.r;
+		}
+		if(b.x+b.r>canvas.width){ //right;
+			b.direction=Math.PI-b.direction;
+			b.x=canvas.width-b.r;
+			//console.log('====>>>>>=======Right', b)
+		}
+		
+		if(b.y-b.r<0){ //top ok;
+			b.direction=2*Math.PI-b.direction;
+			b.y=b.r
+		}
+		if(b.y+b.r>canvas.height){ //bottom ok;
+			b.direction=2*Math.PI-b.direction;
+			b.y=canvas.height-b.r;
+			//console.log('====>>>>>bottom', b)
+		}
+	}
+}
+
+//产生球
+getBalls(10);
+draw();//绘制球
+
+//开始刷新动画
+setInterval(function(){
+	if(window.stop){
+		update();
+		draw();
+	}
+}, 50)
+</script>

@@ -1,0 +1,32 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+图形变换 createPattern(canvas, 'repeat')<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+ctx.rect(0,0,canvas.width,canvas.height);//填充范围
+
+//创建canvas元素
+var canvas0=document.createElement('canvas');
+var ctx0=canvas0.getContext('2d');
+canvas0.width=15;
+canvas0.height=15;
+//绘制基本图形
+ctx0.beginPath();
+ctx0.moveTo(2,2)
+ctx0.lineTo(13,2)
+ctx0.lineTo(7,15)
+ctx0.closePath();
+ctx0.fillStyle="rgba(255,0,0,0.7)";
+ctx0.fill();
+//ctx0.fillRect(0,0,canvas0.width*0.8, canvas0.height*0.8)
+
+//参数1 基本元素 小canvas
+//参数2 重复方式，共4种: no-repeat,repeat-x,repeat-y,repeat
+var pat=ctx.createPattern(canvas0,"repeat");
+ctx.fillStyle=pat; 
+ctx.fill(); //填充
+</script>

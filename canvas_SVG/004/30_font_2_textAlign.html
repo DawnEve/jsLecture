@@ -1,0 +1,27 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+文字对齐 textAlign='left'<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//辅助线
+ctx.moveTo(400,0)
+ctx.lineTo(400,300)
+ctx.stroke();
+
+ctx.font="bold 40px Arial";
+ctx.fillStyle="#058"
+
+ctx.textAlign='left'
+ctx.fillText("textAlign=left 默认", 400,50);
+
+ctx.textAlign='center'
+ctx.fillText("textAlign=center", 400,100);
+
+ctx.textAlign='right'
+ctx.fillText("textAlign=right", 400,150);
+</script>

@@ -1,0 +1,36 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+圆弧 切线画圆弧_2 context.arcTo(x1,y1,x2,y2,r);<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//指定起点，控制点，终点，半径
+function pathArcTo(x0,y0, xC,yC, x1,y1, r){
+	ctx.save()
+	ctx.beginPath();
+	ctx.strokeStyle="red"
+	ctx.lineWidth=4;
+	ctx.moveTo(x0,y0)
+	ctx.arcTo(xC,yC,  x1,y1, r) //画相切 圆弧
+	ctx.stroke();
+	ctx.restore();
+
+	//辅助线
+	ctx.save()
+	ctx.beginPath();
+	ctx.moveTo(x0,y0); //point 1
+	ctx.lineTo(xC,yC); //point 2
+	ctx.lineTo(x1,y1); //point 3
+	ctx.setLineDash([5,5]);
+	ctx.stroke();
+	ctx.restore();
+}
+
+//r=100,200,300 分别查看红色弧线的效果
+pathArcTo(100,50,  300,200, 100,400, 100) 
+
+pathArcTo(400,50,  500,50, 400,150, 80)
+</script>

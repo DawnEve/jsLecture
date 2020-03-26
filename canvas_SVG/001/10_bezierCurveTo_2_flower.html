@@ -1,0 +1,73 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+贝塞尔曲线 三次 花朵 context.bezierCurveTo(cp1x,cp1y, cp2x,cp2y, xEnd,yEnd);<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//花瓣 开头宽度width，花瓣长度length，控制点距离ctrlDist(越小越窄，越大越宽)
+function pathPedal(ctx, width, length, ctrlDist){
+	ctx.moveTo(-width/2,0);
+	ctx.bezierCurveTo(-width/2-ctrlDist,length,  width/2+ctrlDist,length,  width/2,0)
+}
+
+//path: 花朵
+function pathFlower(ctx,R,n, length,ctrlDist){
+	ctx.beginPath();
+	
+	var part=2*Math.PI/n;
+	var width=2*R*Math.sin(part/2);
+	
+	for(var i=0;i<n;i++){
+		// if(i>=1) break;
+		
+		var angle=part*i;
+		ctx.save()
+		
+		// 搞不清楚，应该怎么移动，才能让几个花瓣收尾相接？ todo
+		var x1=R*Math.cos(angle-part), y1=-R*Math.sin(angle-part);
+		var x2=R*Math.cos(angle), y2=-R*Math.sin(angle);
+		
+		// console.log('i=',i,'; n=',n, '; ', x1,y1, x2,y2, angle/Math.PI*180)
+		
+		//找花瓣内边距的中心位置
+		//ctx.translate( (x1+x2)/2, (y1+y2)/2 );//花瓣顶部中心位置
+		ctx.rotate(angle); //旋转角度
+		
+		pathPedal(ctx, width, length, ctrlDist);//花瓣
+		ctx.restore()
+	}
+}
+
+//花的正中心x0,y0, 花环内半径R ,n个花瓣， 
+//旋转角度angle, 花瓣长度length，控制点距离ctrlDist
+function drawFlower(ctx, x0,y0, R,n, angle, length,ctrlDist,fillStyle){
+	ctx.save()
+	var n=n||4;
+	ctx.translate(x0,y0);
+	ctx.rotate(angle);
+	
+	pathFlower(ctx, R, n, length,ctrlDist);
+	
+	//ctx.stroke();
+	ctx.fillStyle=fillStyle||"rgba(255,0,0,0.3)"
+	ctx.fill()
+	ctx.restore()
+	
+	ctx.save()
+	ctx.beginPath()
+	ctx.fillStyle=fillStyle||"rgba(255,0,0,0.3)"
+	ctx.arc(x0,y0,R,0,Math.PI*2)
+	ctx.fill()
+	ctx.restore()
+}
+
+//测试
+drawFlower(ctx, 200,200, 10,6, Math.PI/6, 200,50)
+//drawFlower(ctx, 200,200, 10/2,6, Math.PI/6*2, 120,50, 'rgba(255,0,255,0.5)')
+
+drawFlower(ctx, 450,200, 10,5,Math.PI/6, 50,20, 'rgba(255,155,0,0.3)')
+drawFlower(ctx, 450,200, 10,5, 2*Math.PI/6, 100,40, 'rgba(255,155,0,0.4)')
+</script>

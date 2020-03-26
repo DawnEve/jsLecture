@@ -1,0 +1,23 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>values属性：渐变动画</title>
+<style>
+svg{border:1px solid #eee;}
+</style>
+
+<svg width="400" height="400" >
+	<radialGradient id="gr-radial" cx="50%" cy="50%" r="70%">
+		<animate attributeName="r" values="0%;150%;100%;0%" dur="5s" repeatCount="indefinite" />
+		<stop stop-color="#FFF" offset="0">
+			<animate attributeName="stop-color" values="#333;#FFF;#FFF;#333" dur="5s" repeatCount="indefinite" />
+		</stop>
+
+		<stop stop-color="rgba(55,55,55,0)" offset="100%" />
+	</radialGradient>
+	
+  <circle cx="50%" cy="50%" r="30%" fill="url(#gr-radial)"/>
+</svg>
+
+<pre>
+1. 对镜像渐变的半径r进行渐变，因为渐变收缩，会产生波纹效果;
+2. 对stop的0%位置的stop-color渐变，中心颜色会有深浅变化
+

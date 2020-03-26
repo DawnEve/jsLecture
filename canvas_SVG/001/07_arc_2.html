@@ -1,0 +1,37 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+圆角矩形 ctx.arc(x,y,radius,startAngle,endAngle,?anticlockwise)<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//arc(): 角度系统是顺时针的(右0，下90，左180，上270);最后一个参数 是否逆时针 默认否
+
+function drawRoundRect(ctx,x,y,width,height,radius){
+	ctx.save();//aim: 不改变原始环境
+	ctx.translate(x,y);//移动原点到该点，则实际绘制只需要从(0,0)开始
+	pathRoundRect(ctx,width,height,radius);
+	ctx.strokeStyle="black"
+	ctx.stroke();
+	ctx.restore();
+}
+
+function pathRoundRect(ctx,width,height,radius){
+	ctx.beginPath();//aim:中间绘制封闭图形
+	//绘制4边，4个半圆弧
+	ctx.arc(width-radius, height-radius,radius,0,Math.PI/2) //右下角
+	ctx.lineTo(radius,height);//底
+	ctx.arc(radius, height-radius,radius,Math.PI/2, Math.PI) //左下角
+	ctx.lineTo(0,radius)//left
+	ctx.arc(radius,radius,radius,Math.PI, Math.PI*3/2) //左上角
+	ctx.lineTo(width-radius,0); //top
+	ctx.arc(width-radius,radius,radius,Math.PI*3/2, Math.PI*2) //右上角
+	ctx.closePath();	
+}
+
+//绘制圆角矩形
+drawRoundRect(ctx,10,20,300,200,20)
+drawRoundRect(ctx,20,80,100,50,20)
+</script>

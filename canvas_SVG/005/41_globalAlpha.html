@@ -1,0 +1,30 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+不透明度 globalAlpha <br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+for(var i=0;i<200;i++){
+	//获得随机颜色
+	var R=Math.floor(Math.random()*255);
+	var G=Math.floor(Math.random()*255);
+	var B=Math.floor(Math.random()*255);
+	ctx.fillStyle="rgb("+R+","+G+","+B+")";
+	
+	//设置不透明度
+	ctx.globalAlpha=Math.random();
+	ctx.globalAlpha=ctx.globalAlpha<0.4?0.4:ctx.globalAlpha;
+	
+	//开始画圆
+	ctx.beginPath();
+	var R=Math.random()*50;
+	R=R<20?20:R;
+	ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, R,
+		0,2*Math.PI)
+	ctx.fill();
+}
+</script>

@@ -1,0 +1,50 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+requestAnimationFrame 更流畅的动画效果<br>
+<canvas id="canvas1" style="border:1px solid black;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=400;
+var ctx = canvas.getContext('2d');
+
+//自由落体运动
+var g=0.9;
+var ratio=0.9;//垫子的位置
+var ball={x:canvas.width/2,	y:20, r:15, vy:0}
+
+//画底部垫子
+ctx.fillRect(canvas.width/6*2.5, canvas.height*ratio, canvas.width/6, 20)
+
+//画小球
+function draw(){
+	//清除画布
+	ctx.clearRect(0,0,canvas.width,canvas.height*ratio);
+	//画小球
+	ctx.beginPath();
+	ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
+	ctx.fillStyle="orange";
+	ctx.fill();
+}
+
+function update(){	
+	var oldY=ball.y;
+	//计算下一帧位置
+	ball.vy+=g;	//更新速度 vt=v0+a;
+	ball.y+=ball.vy;//更新位置 s=s0+v*t;
+	
+	//碰撞检测
+	if(ball.y+ball.r>canvas.height*ratio){
+		//ball.y-=ball.r; //位置矫正 不好，有可能还是出不来，有可能穿透
+		ball.y=oldY; //取消当前帧的更新，这个处理更好
+		ball.vy=-ball.vy;
+	}
+	
+	//绘图
+	draw();
+	//该函数能根据电脑的屏幕刷新频率，自动更新动画
+	requestAnimationFrame(update);
+}
+
+update();
+</script>

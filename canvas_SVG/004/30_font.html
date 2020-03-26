@@ -1,0 +1,48 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+文字渲染 fillText(string, x,y[, maxLen])<br>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.font="bold 40px Arial";
+
+ctx.save()
+ctx.fillStyle="#058"
+ctx.fillText("R1: fill text", 100,50); //填充后的文字
+ctx.restore();
+
+
+ctx.save()
+ctx.lineWidth=2
+ctx.strokeStyle="red"
+ctx.strokeText('R2: stroke text', 20,100); //空心文字：描边后的文字
+ctx.restore();
+
+ctx.strokeText('R3: stroke text', 20,150, 100); //最后一个参数限定最长长度
+
+//渐变色填充
+//同理，也可以使用image图片填充，canvas对象来填充
+var grd=ctx.createLinearGradient(0,0, 200,0)
+grd.addColorStop(0, 'blue')
+grd.addColorStop(0.5, 'white')
+grd.addColorStop(1, 'red')
+//
+ctx.save()
+ctx.fillStyle=grd;
+ctx.font="italic bold 40px Arial";//斜体, 加粗
+ctx.fillText('R4: stroke text', 20,200, 150);
+ctx.restore()
+
+
+ctx.save();
+//小号大写字母 来显示小写
+ctx.font="normal small-caps 40px Arial";//不加粗
+ctx.fillText("R5: Small caps", 20,250)
+ctx.restore();
+
+
+</script>

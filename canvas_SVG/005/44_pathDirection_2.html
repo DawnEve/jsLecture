@@ -1,0 +1,35 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+路径方向和剪纸效果 _2 剪纸效果<br>
+<canvas id="canvas1" style="border:1px solid black;"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+ctx.shadowColor="grey"
+ctx.shadowOffsetX=10;
+ctx.shadowOffsetY=10;
+ctx.shadowBlur=5;
+
+ctx.beginPath();
+ctx.rect(50,50, 400,400) // 默认是顺时针
+
+//逆时针画剪影
+pathRect(ctx, 100,100, 100, 50) 
+pathRect(ctx, 400,100, 100, 50)
+ctx.arc(300,300, 30, 0,2*Math.PI, true)
+
+ctx.fill()
+
+//逆时针画矩形
+function pathRect(ctx,x,y, width, height){
+	ctx.moveTo(x,y);
+	ctx.lineTo(x, y+height)
+	ctx.lineTo(x+width, y+height)
+	ctx.lineTo(x+width, y)
+	ctx.lineTo(x, y)
+}
+
+</script>

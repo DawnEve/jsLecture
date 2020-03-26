@@ -1,0 +1,52 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+water mark 添加水印<br>
+<style>
+#canvas1{display:block; margin:0 auto; border:1px solid #aaa;}
+</style>
+<canvas id="canvas1"></canvas>
+
+<script>
+var canvas=document.getElementById('canvas1');
+canvas.width=300;canvas.height=300;
+var ctx=canvas.getContext('2d');
+
+//载入图像
+var img=new Image();
+img.src="../images/win7.png";
+
+//水印函数
+function getWaterMark(text,width, fillStyle){
+	var canvas2=document.createElement('canvas');
+	canvas2.width=width; canvas2.height=20;
+	var ctx2=canvas2.getContext('2d');
+	//设置文字
+	ctx2.textAligh='left'
+	ctx2.textBaseline='top'
+	ctx2.fillStyle=fillStyle || "rgba(255,0,0,0.7)";
+	ctx2.font="Bold 20px Arial";
+	//获取文字宽度
+	var textWidth=ctx2.measureText(text).width;
+	//canvas2.width=textWidth; //这句直接啥都没了?!
+	ctx2.fillText(text, 0,0,width);
+	
+	//ctx2.strokeRect(0,0,canvas2.width,canvas2.height);//水印外边框
+	//document.body.append(canvas2);//添加到dom中可见
+	return( [canvas2, textWidth] );
+}
+
+//载入主图
+img.onload=function(){
+	//载入主图，填充整个画布
+	ctx.drawImage(img, 0,0, canvas.width,canvas.height);
+	
+	//获取水印图像: 返回值维数组，第一个为canvas，第二个为文字宽度
+	var arr=getWaterMark("water mark 2020", 150, 'rgba(255,255,255,0.5)');//白色文字
+	//var arr=getWaterMark("water mark 2020", 150, 'rgba(0,0,0,0.4)');//灰色文字
+	var waterMarkCanvas=arr[0];
+	//添加水印到主图
+	//ctx.drawImage(waterMarkCanvas, 0,canvas.height-waterMarkCanvas.height);//原始比例，左下角
+	//ctx.drawImage(waterMarkCanvas, 0,canvas.height-waterMarkCanvas.height, waterMarkCanvas.width/2,waterMarkCanvas.height);//压缩长度
+	ctx.drawImage(waterMarkCanvas, canvas.width-waterMarkCanvas.width,canvas.height-waterMarkCanvas.height);//右下角
+	//ctx.drawImage(waterMarkCanvas, 0,0,arr[1],arr[0].height,  10,170,arr[1],arr[0].height);
+}
+</script>

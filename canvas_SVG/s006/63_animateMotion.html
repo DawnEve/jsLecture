@@ -1,0 +1,53 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>animateMotion: 轨迹运动</title>
+<style>
+svg{border:1px solid #eee;}
+
+</style>
+
+<svg width="500" height="350" viewBox="-50 -50 500 450">
+	<!--(1) path属性 定义路径 -->
+	<path id="motionPath1" d="M0,0A200 50 0 0 1 0 100" stroke="blue" fill="none" />
+	<rect x="0" y="0" width="20" height="40" fill="blue">
+		<animateMotion
+			path="M0,0A200 50 0 0 1 0 100"
+			rotate="auto"
+			dur="3s"
+			repeatCount="indefinite">
+		</animateMotion>
+	</rect>
+
+	<!--(2) mpath标签指定路径 -->
+	<path id="motionPath2" d="M0,0A200 50 0 0 1 0 200Z" stroke="#eee" fill="none" transform="translate(0,150)" />
+	<circle id="circle" r="20" cx="0" cy="150" fill="tomato"></circle>
+
+	<!--运动的相关参数  1、href链接到图片   mpath链接到路径-->
+	<animateMotion xlink:href="#circle" dur="2s" begin="click" fill="freeze" repeatCount="indefinite">
+		<mpath xlink:href="#motionPath2" />
+	</animateMotion>
+</svg>
+
+
+
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 150 600 400" height="300" width="500">
+	<!-- mpath标签  not ok-->
+	<defs>
+		<path id="motionPath2" d="M0,200A200 50 0 0 1 0 400Z" stroke="red" fill="none" transform="translate(0,100)" />
+	</defs>
+	<use xlink:href="#motionPath2" />
+	<rect id="rect2" x="0" y="100" width="30" height="60" fill="red">
+		<!-- rotate="auto" 会在复杂曲线时运动异常 rotate="auto"-->
+		<animateMotion  
+			dur="3s" repeatCount="indefinite" fill="freeze">
+			<mpath xlink:href="#motionPath2"></mpath>
+		</animateMotion>
+	</rect>
+</svg>
+
+
+<pre>
+矩形 M0,0h100v100h-100v-100z
+弧线 M0,0A 100 50 0 0 1 200 100
+
+rotate="auto" 能主动旋转，保持法线方向。但是对复杂路径，设置该属性后运动会异常

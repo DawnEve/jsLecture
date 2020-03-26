@@ -1,0 +1,63 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+圆弧 切线画圆弧_3_moon context.arcTo(x1,y1,x2,y2,r);<br>
+<canvas id="canvas1"></canvas>
+<script>
+var canvas = document.getElementById('canvas1');
+canvas.width=800;
+canvas.height=600;
+var ctx = canvas.getContext('2d');
+
+//tool: 计算2点之间的欧氏距离
+function dist(x1,y1, x2,y2){
+	return( Math.sqrt( (x1-x2)**2+(y1-y2)**2 ) )
+}
+
+//path 月亮: 指定半径，指定控制点距离中心的距离和半径的比例
+function pathMoon(ctx,R,dr){
+	var x0=0,y0=0; //起始点
+	var xC=dr*R,yC=R;//控制点
+	var x1=0,y1=2*R; //结束点
+	//根据tan求圆弧半径
+	var r=R*dist(x0,y0, xC,yC)/dist( (x0+x1)/2,(y0+y1)/2, xC,yC );
+	
+	ctx.beginPath();
+	//半圆
+	ctx.arc((x0+x1)/2, (y0+y1)/2, R, Math.PI/2, Math.PI*3/2, true)
+	//圆弧
+	ctx.moveTo(x0,y0);
+	ctx.arcTo(xC,yC, x1,y1, r);
+	
+	ctx.closePath();
+}
+
+//画月亮: 位置，半径，控制点半径比，倾斜角度，填充颜色
+//控制点和半径的比例越大，则月亮越弯
+function drawMoon(ctx,x0,y0, R,dr, angle, fillColor){
+	ctx.save()
+	
+	ctx.translate(x0,y0);//移动到位置
+	ctx.rotate(angle); //旋转角度
+	//画图形
+	pathMoon(ctx, R,dr) 
+	ctx.fillStyle=fillColor||"yellow"
+	ctx.fill()
+	
+	ctx.restore()
+}
+
+//黑背景
+ctx.fillStyle="black"
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+//画一个月亮
+drawMoon(ctx, 200, 150, 80, 3, -Math.PI/6, 'red');//blood moon
+
+//画多个月亮
+var n=8,x0=300,y0=260, R=250;//月亮轨道圆心、半径，月亮个数
+for(var i=0;i<n;i++){
+	var angle=Math.PI*(1+i/n);
+	drawMoon(ctx, x0+R*Math.cos(angle),y0+R*Math.sin(angle), 30,i/4, Math.PI/20*i, 'yellow')
+		
+	//drawMoon(ctx, 300+R*Math.cos(-angle),300+R*Math.sin(-angle),	30,-30*i/3, Math.PI/10, 'rgba(255,255,255,0.4)')
+}
+</script>

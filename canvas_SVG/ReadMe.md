@@ -9,4 +9,4 @@
 
 # url
 - local: http://localhost/js/jsLecture/canvas_SVG/
-- web: 
+- web: http://jsLecture.biomooc.com/canvas_SVG/

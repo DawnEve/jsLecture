@@ -8,5 +8,5 @@
 
 
 # url
-- local: http://localhost/test/canvas/
+- local: http://localhost/js/jsLecture/canvas_SVG/
 - web: 

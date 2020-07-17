@@ -1,14 +1,42 @@
+
 <meta http-equiv=Content-Type content="text/html;charset=utf-8">
 ctx.createImageData(w,h) 创建图像 一段感受到人类璀璨智慧的图像构建代码<br>
 <style>
 canvas{display:inline-block; margin:10px 50px;}
 </style>
 
+单击选择效果: 
+<a href="?method=paint1">1单色</a> |  
+<a href="?method=paint2">2色环</a> | 
+<a href="?method=paint3">3印象派(倾斜45度涂抹)油画</a> |  
+<a href="?method=paint4&DIM=1024" title="DIM=1024效果最好">4绚丽的水平涂抹效果(可自定义DIM=600或400等)</a> | 
+<br>
 <canvas id="canvas1"></canvas>
 
 <script>
+function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+	if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+
+//获取绘图函数
+var DIM=600;
+var method=getUrlParam('method')
+if(method==null){method='paint3'} //默认是3
+
+//获取图片大小，如果为空则根据绘图函数设置默认值
+DIM=getUrlParam('DIM')
+if(DIM==null){
+	DIM=600
+	if(method=='paint4'){
+		DIM=1024
+	}
+}
+
+
+//初始化画布
 var canvas=document.getElementById('canvas1');
-const DIM=600;
 canvas.width=DIM;canvas.height=DIM;
 var ctx=canvas.getContext('2d');
 //ctx.strokeRect(0,0,canvas.width, canvas.height);
@@ -16,32 +44,45 @@ var ctx=canvas.getContext('2d');
 //1.创建imageData
 var imgData=ctx.createImageData(canvas.width, canvas.height);
 //2.为其data赋值
+eval(method)(imgData)
 /*
 paint1(imgData)
 paint2(imgData)
-*/
 paint3(imgData)
+paint4(imgData) //const DIM=1024 时效果最好;
+*/
 
 //3.填充画布
 ctx.putImageData(imgData,0,0, 0,0, canvas.width, canvas.height);
+
+
+
+
 
 //=============编写paint函数=============
 //https://www.zhihu.com/question/30262900
 
 //method1: 纯色
 function paint1(imgData){
+	//随机化颜色
+	var r=Math.random()*255;
+	var g=Math.random()*255;
+	var b=Math.random()*255;
+	
 	for (var x=0;x<imgData.width;x++){
 		for (var y=0;y<imgData.height;y++){
 			var i=x*imgData.width+y;
-			imgData.data[4*i+0]=55;
-			imgData.data[4*i+1]=200;
-			imgData.data[4*i+2]=2000;
+			imgData.data[4*i+0]=r;
+			imgData.data[4*i+1]=g;
+			imgData.data[4*i+2]=b;
 			imgData.data[4*i+3]=255;
 		}
 	}
 }
 
-//method2: 放射色轮
+
+
+//method2: 放射色环
 function paint2(imgData){
 	// 函数库
 	var _sq=function(x){return Math.pow(x,2)}, cos=Math.cos, atan2=Math.atan2, acos=Math.acos;
@@ -63,6 +104,8 @@ function paint2(imgData){
 		}
 	}
 }
+
+
 
 
 //method3: 涂抹的油画颜料，45度斜角
@@ -98,8 +141,49 @@ function paint3ByChannelId(imgData, channelId){
 			//imgData.data[4*p+2]=0 //BL(i,j);
 			imgData.data[4*p+3]=255;
 			
-			c[i][j]=imgData.data[4*p+0]
+			c[i][j]=imgData.data[4*p+channelId]
 		}
 	}
 }
+
+
+
+
+//method4: 水平涂抹效果，像水中的倒影
+// const DIM=1024 时效果最好;
+function paint4(imgData){
+	paint4ByChannelId(imgData, 0);
+	paint4ByChannelId(imgData, 1);
+	paint4ByChannelId(imgData, 2);
+}
+function paint4ByChannelId(imgData, channelId){
+	var RAND_MAX=10;
+	var obj={} //保证k是按照值传递的
+	obj.k =  Math.random()*RAND_MAX
+	
+	//每个点的颜色值不依赖于坐标i和j。依赖于k的迭代累加
+	getRand=function(){
+		obj.k=obj.k+ Math.random()
+		var l=Math.floor(obj.k) //取整数
+		l=l%(DIM/2)  //512
+		l=l>255?(DIM/2-1)-l:l
+		return(l)
+	}
+
+	//填充点
+	for (var i=0;i<imgData.height;i++){
+		for (var j=0;j<imgData.width;j++){
+			var p=i*imgData.width+j;//点的位置		
+			//填充
+			imgData.data[4*p+channelId]=getRand();
+			imgData.data[4*p+3]=255;
+		}
+	}
+}
+
+
+
+
+
+
 </script>

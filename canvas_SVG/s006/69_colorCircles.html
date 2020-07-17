@@ -1,0 +1,144 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+colorful Circles<br>
+<pre>
+转动的彩色轮子，无js，综合了
+https://codepen.io/zhaojun/pen/qjbXYm
+</pre>
+
+<div class="wrap">
+  <svg class="circle" viewBox="0,0,120,120" width="400" height="400">
+	<!--定义线性渐变 3个 -->
+    <defs>
+      <linearGradient id="basic1" x1="0" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:rgba(238,66,14,0.3);stop-opacity:1" />
+        <stop offset="100%" style="stop-color:rgba(238,66,14,0.3);stop-opacity:1"/>
+      </linearGradient>
+      <linearGradient id="basic2" x1="0" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:rgba(255,114,0,0.3);stop-opacity:1" />
+        <stop offset="100%" style="stop-color:rgba(255,114,0,0.7);stop-opacity:1" />
+      </linearGradient>
+      <linearGradient id="basic3" x1="0" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:rgba(204,0,102,0.3);stop-opacity:0.9" />
+        <stop offset="100%" style="stop-color:rgba(204,0,102,0.7);stop-opacity:0.9" />
+      </linearGradient>
+    </defs>
+	
+	<!-- 定义形状和旋转运动3个，旋转时围绕着变动的点 -->
+    <g>
+      <path class="c1" fill="url(#basic1)" d="m 40 25.35 q 20 -25.35 40 0 q 31.96 4.65 20 34.64 q 11.96 30 -20 34.64 q -20 25.35 -40 0 q -31.96 -4.65 -20 -34.64 q -11.96 -30 20 -34.64"/>
+      <animateTransform attributeName="transform" begin="0s" dur="11s" type="rotate" values="0 60 60;180 58 58;360 60 60" repeatCount="indefinite"/>
+    </g>
+    <g>
+      <path class="c2" fill="url(#basic2)" d="m 40 25.35 q 20 -25.35 40 0 q 31.96 4.65 20 34.64 q 11.96 30 -20 34.64 q -20 25.35 -40 0 q -31.96 -4.65 -20 -34.64 q -11.96 -30 20 -34.64"/>
+      <animateTransform attributeName="transform" begin="0s" dur="7s" type="rotate" values="0 60 60;-180 62 58;-360 60 60" repeatCount="indefinite"/>
+    </g>
+    <g>
+      <path class="c3" fill="url(#basic3)" d="m 40 25.35 q 20 -25.35 40 0 q 31.96 4.65 20 34.64 q 11.96 30 -20 34.64 q -20 25.35 -40 0 q -31.96 -4.65 -20 -34.64 q -11.96 -30 20 -34.64"/>
+      <animateTransform attributeName="transform" begin="0s" dur="13s" type="rotate" values="0 60 60;180 58 62;360 60 60" repeatCount="indefinite"/>
+    </g>
+	
+	
+	<!-- 定义一个圆，透明度交替变化 -->
+    <g>
+      <circle cx="60" cy="60" r="40" class="c0" fill="rgb(100,100,100)">
+        <animate attributeName="opacity" values="1;0;1" dur="11s" repeatCount="indefinite" />
+      </circle>
+    </g>
+	
+    <text class="scores" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">halo</text>
+    
+	<!-- 定义很多圆形, 周围的背景点缀 -->
+	<g>
+      <circle class="small-circle" cx="30" cy="8" r="4" fill="#e7f9fd"/>
+       <circle class="small-circle" cx="70" cy="8" r="1.5" fill="#e3f1fa"/>
+       <circle class="small-circle" cx="85" cy="11" r="2" fill="#e2e4f9"/>
+       <circle class="small-circle" cx="100" cy="21" r="3" fill="#f3e8f6"/>
+       <circle class="small-circle" cx="119" cy="30" r="2" fill="#e8ebfa"/>
+       <circle class="small-circle" cx="117" cy="51" r="4" fill="#f3d9fc"/>
+       <circle class="small-circle" cx="103" cy="103" r="6" fill="#e2eaff"/>
+       <circle class="small-circle" cx="60" cy="113" r="2" fill="#efe0f5"/>
+       <circle class="small-circle" cx="37" cy="115" r="3" fill="#deefff"/>
+       <circle class="small-circle" cx="26" cy="107" r="1.5" fill="#c6e9fc"/>
+       <circle class="small-circle" cx="6" cy="97" r="2.5" fill="#e3f1fa"/>
+       <circle class="small-circle" cx="4" cy="77" r="5" fill="#e6fafb"/>
+    </g>
+	
+  </svg>
+</div>
+
+<style>
+/*
+html,body{
+  height:100%;
+  margin:0;
+}
+.wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+.circle{
+  width:100vw;
+  max-width:500px;
+  height:100vw;
+  max-height:500px;
+  padding:5px;
+}
+*/
+
+.circle .c0{
+  stroke:none;
+  stroke-width:0;
+  fill:rgb(100,100,100);
+}
+
+.circle .c1{
+  stroke:#none;
+  stroke-width:0;
+  fill:url("#basic1");
+  stroke-linecap:round;
+}
+
+.circle .c2{
+  stroke:#none;
+  stroke-width:0;
+  fill:url("#basic2");
+  stroke-linecap:round;
+  transform:rotate(20deg);
+  transform-origin:50% 50%;
+}
+
+.circle .c3{
+  stroke:none;
+  stroke-width:0;
+  fill:url("#basic3");
+  stroke-linecap:round;
+  transform:rotate(40deg);
+  transform-origin:50% 50%;
+}
+
+
+/*文字效果*/
+.circle .scores{
+  fill:#c88585;
+  stroke:none;
+  stroke-width:0;
+  font-family:"Times New Roman",Georgia,Serif;
+  font-size:10px;
+  font-style:italic;
+}
+
+/*背景小圆7s内慢慢消失，重复*/
+.circle .small-circle{
+  animation:op 7s ease infinite;
+}
+@keyframes op{
+  50%{
+    opacity:0.3;
+  }
+}
+
+</style>
+
+

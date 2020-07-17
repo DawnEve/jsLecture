@@ -18,21 +18,31 @@ canvas{display:inline-block; border:1px solid #aaa; margin:10px 50px;}
 	<br>
 	<button id='filter6'>filter6 模糊Blur(耗时)</button>
 	<button id='filter7'>filter7 马赛克Mosaic</button>
+	<button id='filter8'>filter8 浮雕</button>
+	<button id='filter9'>filter9 雕刻</button>
 </div>
+
+<pre>
+浮雕与雕刻：
+基于当前像素的前一个像素RGB值与它的后一个像素的RGB值之差再加上128
+
+</pre>
+
 
 <script>
 var canvas1=document.getElementById('canvas1');
-canvas1.width=300;canvas1.height=300;
+canvas1.width=300;canvas1.height=200;
 var ctx1=canvas1.getContext('2d');
 
 var canvas2=document.getElementById('canvas2');
-canvas2.width=300;canvas2.height=300;
+canvas2.width=300;canvas2.height=200;
 var ctx2=canvas2.getContext('2d');
 
 //载入图片
 var img=new Image();
 img.src='../images/github.png';
 img.src='../images/win7_H.png';
+//img.src='../images/test.png';
 img.onload=function(){
 	ctx1.drawImage(img, 0,0);
 	//ctx1.drawImage(img, 0,0, canvas1.width, canvas1.height);
@@ -107,7 +117,7 @@ function filterBase(imageData, filterCore){
 	for(var x=0;x<imageData.width;x++){
 		for(var y=0;y<imageData.height;y++){
 			//计算像素编号
-			var i=x*imageData.width+y;
+			var i=x+imageData.width*y;
 			//获取rgba值:
 			var r=pixelData[4*i+0], g=pixelData[4*i+1], b=pixelData[4*i+2], a=pixelData[4*i+3];
 			//处理 r,g,b,a并返回
@@ -164,7 +174,7 @@ function filter6(imageData,blurR){
 	for(var x=0;x<imageData.width;x++){
 		for(var y=0;y<imageData.height;y++){
 			//获取该像素点位置
-			var i=x*imageData.width+y;
+			var i=x+imageData.width*y;
 			
 			//获取该点上下左右点的rgb值的和
 			var totalR=0,totalG=0,totalB=0;
@@ -178,7 +188,7 @@ function filter6(imageData,blurR){
 					//求和的点数
 					totalNumber++;
 					//获取该像素编号
-					var di=(x+dx)*imageData.width+(y+dy);
+					var di=(x+dx)+imageData.width*(y+dy);
 					//获取该点的rgba值
 					totalR+=data[4*di+0];
 					totalG+=data[4*di+1];
@@ -220,7 +230,8 @@ function filter7(imageData,blurR=15){
 					//求和的点数
 					totalNumber++;
 					//获取该像素编号
-					var di=(x+dx)*imageData.width+(y+dy);
+					//var di=(x+dx)*imageData.width+(y+dy);
+					var di=(x+dx)+imageData.width*(y+dy);
 					//获取该点的rgba值
 					totalR+=data[4*di+0];
 					totalG+=data[4*di+1];
@@ -236,7 +247,7 @@ function filter7(imageData,blurR=15){
 			//覆盖: 赋值给原始采样点
 			for(var dx=0;dx<=blurR;dx++){
 				for(var dy=0;dy<=blurR;dy++){
-					var di=(x+dx)*imageData.width+(y+dy);
+					var di=(x+dx)+imageData.width*(y+dy);
 					data[4*di+0]=resultR;
 					data[4*di+1]=resultG;
 					data[4*di+2]=resultB;
@@ -246,4 +257,66 @@ function filter7(imageData,blurR=15){
 	}
 	return(imageData);
 }
+
+
+//定义滤镜8,9: 浮雕与雕刻。原理：基于当前像素的前一个像素RGB值与它的后一个像素的RGB值之差再加上128
+//https://www.cnblogs.com/st-leslie/p/8317850.html?utm_source=debugrun&utm_medium=referral
+function filter8(imageData){
+	var C=128;
+	//after pixel value - before pixel value + 128 * 浮雕效果
+	return filter8_9(imageData,function(a,b){return b-a+C});
+}
+function filter9(imageData){
+	var C=128;
+	//before pixel value - after pixel value + 128 * 雕刻效果
+	return filter8_9(imageData,function(a,b){return a-b+C});
+}
+
+//母函数，相同的部分
+function filter8_9(imageData,process){
+	var data=imageData.data;
+	//深度拷贝一份原始数据
+	var nData=[];
+	for(var i=0;i<data.length;i++){
+		nData.push(imageData.data[i]);
+	}
+	
+	for(var x=0;x<imageData.width-1;x++){
+		for(var y=0;y<imageData.height;y++){
+			//index of picel
+			var idx = 4*(x+imageData.width * y);
+			var bidx =4*((x-1)+imageData.width * y);
+			var aidx =4*((x+1)+imageData.width * y);
+			
+			// calculate new RGB value
+			//var C=128
+			//var ng = data[aidx + 1] - data[bidx + 1] + C;
+			var nr = process(data[aidx + 0], data[bidx + 0]);
+			var ng = process(data[aidx + 1], data[bidx + 1]);
+			var nb = process(data[aidx + 2], data[bidx + 2]);
+			
+			nr = (nr < 0) ? 0 : ((nr >255) ? 255 : nr);
+			ng = (ng < 0) ? 0 : ((ng >255) ? 255 : ng);
+			nb = (nb < 0) ? 0 : ((nb >255) ? 255 : nb);
+			
+			// 4.把结果通道的值进行求和并按权平均作为最终通道的值
+            var value = parseInt(nr*0.3 + ng*0.59 + nb*0.11);
+			
+			// assign new pixel value
+			nData[idx + 0] =value;//nr; // Red channel
+			nData[idx + 1] =value;//ng; // Green channel
+			nData[idx + 2] =value;//nb; // Blue channel
+			nData[idx + 3] = 255; // Alpha channel
+		}
+	}
+	
+	//覆盖
+	for(var i=0;i<imageData.data.length;i++){
+		imageData.data[i]=nData[i];
+	}
+	imageData.data=data;
+	return(imageData);
+}
+
+
 </script>

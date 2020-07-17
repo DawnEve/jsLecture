@@ -2,10 +2,12 @@
 
 目标：本项目计划推出一个案例驱动的javascript系列教程。
 
+
 实现方式：
 1.对常见组件进行重写、优化、封装。
 常见组件：焦点图、tab图、下拉菜单、提示框、
 dir:example/
+
 
 2.对常见操作的函数归类汇总。
 origin: lib/js/
@@ -22,16 +24,14 @@ test: lib/JStest/
 (2)贯穿从0基础，到熟手、高手的整个过程。
 (3)本项目仅是一个指引，没有强制力，主要还是靠自觉和自学。
 (4)欢迎新老朋友加入。希望新朋友好好学习，也希望老朋友多多贡献力量。
-(5)本项目主要在teambition上推出，同时提供如下平台咨询。
+(5)本项目主要在github上推出，同时提供如下平台咨询。
 ---------------------------------------------------------
 javascript/php熟手交流群 369578518  [对闲聊、广告、大图刷屏零容忍！！入群请遵守]
 贴吧：http://tieba.baidu.com/p/4211931264
-邮箱：jimmyMall@live.com
-博客：http://miostudio.blog.163.com/blog/static/22076512920143201454778/
+邮箱：jimmyMall at live dot com
+web：jsLecture.biomooc.com
 github【主要渠道】： https://github.com/DawnEve/jsLecture
 其他渠道：有待完善
-teambition：http://tburl.in/qlMCEnId/
-  如果邀请链接失效，请先用邮箱注册teambition，再留言告诉我您注册的邮箱号。
 ---------------------------------------------------------
 案例：
 001-slider 焦点图【视频】
@@ -52,11 +52,8 @@ teambition：http://tburl.in/qlMCEnId/
 ------------------
 ----视频----------
 ------------------
-1.秒味课堂视频：
-from 沈阳-静待 2015-12-13 22:20:58
-http://pan.baidu.com/share/link?shareid=4022944808&uk=1413169451&fid=350758510465521 
+1.秒味课堂视频：(之前的链接都已失效)
 
-http://pan.baidu.com/s/1pJqJvAV#path=%252F%25E5%25A6%2599%25E5%2591%25B3%25E8%25AF%25BE%25E5%25A0%2582js%25E8%25A7%2586%25E9%25A2%2591%25E6%2595%2599%25E7%25A8%258B
 
 ------------------
 ----书籍----------

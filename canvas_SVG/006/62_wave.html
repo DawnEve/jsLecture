@@ -1,0 +1,67 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+wave<br>
+
+<canvas id="canvas"></canvas>
+
+<style>
+#canvas{
+  height:400px;
+  width:100%;
+  background:#e0e0e0;
+}
+</style>
+
+<script>
+var canvas = document.querySelector("#canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = parseInt(getComputedStyle(canvas).width);
+canvas.height = parseInt(getComputedStyle(canvas).height);
+
+//这俩干啥的？
+var P = 4; //4 波纹 周期T=2PI/w,这个是w
+var A = 4; //4 主波 周期T=2PI/w,这个是w
+
+function draw(shift) {
+   var w = canvas.width;
+   var h = canvas.height;
+   shift = shift >= 500*Math.PI ? shift - 500*Math.PI : shift; //变量
+   
+   ctx.clearRect(0, 0, w, h); //清屏
+   
+   //创建线性渐变
+   var grd = ctx.createLinearGradient(0, 0, w, h);
+   grd.addColorStop(0, "#4a8bf5"); //4a8bf5
+   grd.addColorStop(1, "#f16b55"); //f16b55
+   
+   ctx.strokeStyle = grd; //为画布添加描边？
+
+   ctx.lineCap = "round"; //圆端，画点就是一个圆
+   
+   for (var i = 0; i < w; i++) { //x坐标，遍历
+      var _A = Math.abs(A*Math.cos(2*i)); //y坐标，计算
+	  
+      ctx.beginPath();
+	  //y位置
+      var pos = Math.exp(-_A * i / w) * Math.sin(P * Math.PI * (i + shift) / w);
+      pos *= h / 2;
+	  
+	  //线宽度
+      var lw = Math.exp(-_A * i / w) * Math.sin(1 * Math.PI * (i - shift) / w) * 2;
+	  
+      ctx.lineWidth = (lw)*2+2; // (lw)+1
+	  
+      ctx.lineTo(i, h / 2 - pos);//画个点?
+      //ctx.closePath();
+	  
+      ctx.stroke();
+   }
+   //return;
+
+   //请求下一帧动画
+   window.requestAnimationFrame(() => {
+      draw(shift + 1);
+   });
+}
+draw(0);
+
+</script>

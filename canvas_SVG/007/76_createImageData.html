@@ -1,4 +1,3 @@
-
 <meta http-equiv=Content-Type content="text/html;charset=utf-8">
 ctx.createImageData(w,h) 创建图像 一段感受到人类璀璨智慧的图像构建代码<br>
 <style>
@@ -10,6 +9,8 @@ canvas{display:inline-block; margin:10px 50px;}
 <a href="?method=paint2">2色环</a> | 
 <a href="?method=paint3">3印象派(倾斜45度涂抹)油画</a> |  
 <a href="?method=paint4&DIM=1024" title="DIM=1024效果最好">4绚丽的水平涂抹效果(可自定义DIM=600或400等)</a> | 
+<a href="?method=paint5&DIM=600&s=1">5HSL色环</a> | 
+<a href="?method=paint6&DIM=1024">6-3D</a> | 
 <br>
 <canvas id="canvas1"></canvas>
 
@@ -32,6 +33,8 @@ if(DIM==null){
 	if(method=='paint4'){
 		DIM=1024
 	}
+}else{
+	DIM=parseInt(DIM)
 }
 
 
@@ -40,6 +43,7 @@ var canvas=document.getElementById('canvas1');
 canvas.width=DIM;canvas.height=DIM;
 var ctx=canvas.getContext('2d');
 //ctx.strokeRect(0,0,canvas.width, canvas.height);
+
 
 //1.创建imageData
 var imgData=ctx.createImageData(canvas.width, canvas.height);
@@ -185,5 +189,101 @@ function paint4ByChannelId(imgData, channelId){
 
 
 
+//method5: HSL 色环
+// const DIM=1024 时效果最好;
+function paint5(imgData){
+	var _sq=function(x,y){return Math.sqrt(x**2+y**2);}
+	/**(4) 
+	* input: h:[0,360], s,l : [0, 1]
+	* output: rgb array, [0,255]
+	* ref: https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+	*/
+	function hsl2rgb(hsl){
+		var h=hsl[0], s=hsl[1], l=hsl[2];
+		var c=(1-Math.abs(2*l -1))*s;
+		var x=c*(1- Math.abs( (h/60) % 2 -1 ) );
+		var m=l-c/2;
+		var r=0, g=0, b=0;
+		if(h<60){r=c;g=x;
+		}else if(h<120){r=x;g=c;
+		}else if(h<180){    g=c;b=x;
+		}else if(h<240){    g=x;b=c;
+		}else if(h<300){r=x;    b=c;
+		}else if(h<360){r=c;    b=x;
+		}else{return false;}
+		
+		return([(r+m)*255, (g+m)*255, (b+m)*255])
+	}
+	//hsl2rgb([0,1,0.5]) # [255, 0, 0]
+	
+	// 位置x,y, 圆形cx,cy;
+	var getHSLbyCoord=function(x,y,cx,cy,R){
+		var dist=_sq(x-cx,y-cy);
+		// get angle
+		var angle=Math.asin( (y-cy)/dist); //1
+		if( x-cx >=0){ if(angle<0){angle += 2*Math.PI} }//4
+		if( x-cx <0){ angle=Math.PI-angle;} //3, 2
+		// get hsl
+		var h=angle/Math.PI*180;
+		var l=dist/R;
+		var s=1; //------------------ 手动设定，或通过url传入
+		var getS=getUrlParam('s');
+		if(getS!=null && getS>=0 && getS<=1){ s=getS; }
+		return [h,s,l];
+	}
+	
+	//填充点
+	for (var y=0;y<imgData.height;y++){
+		for (var x=0;x<imgData.width;x++){
+			var rgb=[255,255,255];
+			// to rgb;
+			var R=DIM/2; // 圆心(DIM/2, DIM/2)
+			var dist=_sq(x-R,y-R);
+			if(dist<=R){
+				var hsl=getHSLbyCoord(x,y, R,R, R);
+				rgb=hsl2rgb( hsl ); 
+			}
+			//填充
+			var p=y*imgData.width+x;//点的位置	
+			imgData.data[4*p+0]=rgb[0];
+			imgData.data[4*p+1]=rgb[1];
+			imgData.data[4*p+2]=rgb[2];
+			imgData.data[4*p+3]=255;
+		}
+	}
+}
+
+
+
+
+
+
+//method6: 3D效果 棉布 https://www.cnblogs.com/sky-heaven/p/6846332.html
+function paint6(imgData){
+	paint6ByChannelId(imgData, 0);
+	paint6ByChannelId(imgData, 1);
+	paint6ByChannelId(imgData, 2);
+}
+function paint6ByChannelId(imgData, channelId){
+	//var DIM=800 //imgData.height;
+	var int=parseInt; //Math.floor;
+	
+	// a5 控制着格子的形状
+	if(channelId==0){a5=1;}
+	else if(channelId==1){a5=5;}
+	else{a5=29;}
+	
+	//填充点
+	for (var i=0;i<imgData.height;i++){
+		for (var j=0;j<imgData.width;j++){
+			var p=i*imgData.width+j;//点的位置
+			var s=3/(j+199); //99； 控制着格子的形状
+			var y=(j+Math.sin((i*i+Math.sqrt(j-0)*5)/100/DIM)*35)*s;
+			//填充
+			imgData.data[4*p+channelId]=(int(a5*((i+DIM)*s+y))%2+int(a5*((DIM*2-i)*s+y))%2)*127;
+			imgData.data[4*p+3]=255;
+		}
+	}
+}
 
 </script>

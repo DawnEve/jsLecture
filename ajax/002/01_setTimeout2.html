@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+GUI引擎在渲染时会阻塞js引擎计算.原因很简单:<br />
+如果在GUI渲染的时候,js改变了dom,那么就会造成渲染不同步<br />
+
+<hr>
+calculating....和calclation done的dom操作都被放到事件队列后面而且紧跟在一起,造成了丢帧.无法实时的反应.
+<hr>
+
+    <table border=1>
+        <tr><td><button id='do'>Do long calc - bad status!</button></td>
+            <td><div id='status'>Not Calculating yet.</div></td>
+        </tr>
+        <tr><td><button id='do_ok'>Do long calc - good status!</button></td>
+            <td><div id='status_ok'>Not Calculating yet.</div></td>
+        </tr>
+    </table>    
+<script>
+
+// 耗时任务
+function long_running(status_div) {
+	var x=1;
+    var result = 0;
+    for (var i = 0; i < 1000; i++) {
+        for (var j = 0; j < 700; j++) {
+            for (var k = 0; k < 500; k++) {
+				result = result + i + j + k-x;
+            }
+        }
+    }
+    document.querySelector(status_div).innerHTML = 'calclation done' ;
+}
+
+
+// UI 看[不]到 calculating.... 被显示出来
+document.querySelector('#do').onclick = function () {
+    document.querySelector('#status').innerHTML = 'calculating....';
+    long_running('#status');
+};
+
+// UI 能看到 calculating....
+document.querySelector('#do_ok').onclick = function () {
+    document.querySelector('#status_ok').innerHTML = 'calculating....';
+    window.setTimeout(function (){ long_running('#status_ok') }, 0);
+};
+
+</script>
+</body>
+</html>

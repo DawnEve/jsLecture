@@ -1,0 +1,22 @@
+05_Promise_all: <hr>
+press F12
+
+<script>
+var p1 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 500, 'P1-parameters1', 'P1-para2');
+});
+
+var p2 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 100, 'P2-fastest');
+});
+
+var p3 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 200, 'P3-para1');
+});
+
+
+// 只需要获取返回最快的，其他的丢弃。
+Promise.race([p1, p2, p3]).then(function (results) {
+    console.log(results); // 获得一个Array: ['P1', 'P2']
+});
+</script>

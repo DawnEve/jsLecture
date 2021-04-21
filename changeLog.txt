@@ -4,3 +4,12 @@ v0.2.3 添加 CNAME
 v0.2.4 修正链接
 v0.2.5 canvas 随机图像新增一个效果
 v0.2.6 canvas 3D棉布效果
+	dev0.2.6-1@sustech test ajax and Promise, file upload
+#->commit
+#------>push
+
+
+
+###########	
+# local: jsLecture.dawneve.cc
+# url: jsLecture.biomooc.com

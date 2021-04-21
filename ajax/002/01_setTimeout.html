@@ -1,0 +1,20 @@
+a03_Promise.html
+<hr>
+Press F12
+
+<script>
+function callback() {
+    console.log('Done');
+}
+
+console.log('before setTimeout()');
+setTimeout(callback, 1000); // 1秒钟后调用callback函数
+console.log('after setTimeout()');
+
+/*
+before setTimeout()
+after setTimeout()
+(等待1秒后)
+Done
+*/
+</script>

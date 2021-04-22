@@ -1,0 +1,35 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="../js/vue.js"></script>
+<script src="../js/vue-resource.min.js"></script>
+<!--script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script-->
+
+
+<div id="box">
+	<h6>ajax</h6>
+	<button v-on:click="get">get</button>
+	{{msg}}
+</div>
+
+
+<script>
+window.onload = function(){
+    var vm = new Vue({
+        el:'#box',
+        data:{
+            msg:'Hello World, Vue!',
+        },
+        methods:{
+            get:function(){
+                //发送get请求
+                this.$http.get('/ajax/a2.py').then(function(res){
+					this.msg=res.body + new Date()
+                    //document.write(res.body);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+            }
+        }
+    });
+}
+
+</script>

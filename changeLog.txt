@@ -1,3 +1,8 @@
+jsLecture: js, jQ, ES5, ES6
+
+# local: jsLecture.dawneve.cc
+# url: jsLecture.biomooc.com
+
 v0.2.1 添加 canvas, svg基础
 v0.2.2 修正链接
 v0.2.3 添加 CNAME
@@ -5,8 +10,13 @@ v0.2.4 修正链接
 v0.2.5 canvas 随机图像新增一个效果
 v0.2.6 canvas 3D棉布效果
 	dev0.2.6-1@sustech test ajax and Promise, file upload
+	dev0.2.6-2@sustech multiple file upload;
+		ajax/003/, 004/
+		jQuery/001/
+		lib/js/map.js
+#
 #->commit
-#------>push
+#------>push to dawneve
 
 
 

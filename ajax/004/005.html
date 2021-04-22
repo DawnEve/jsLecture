@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/lib/axios/axios.min-0.18.0.js"></script>
+</head>
+<body>
+    ajax by axios config:
+<hr>
+Press F12, look at the Console: 返回json from php
+<img id="pic1" src="">
+
+<script>
+// 获取远端图片
+axios({
+  method:'get',
+  url:'/images/vue.png',
+  responseType: 'arraybuffer'
+})
+.then(response => {
+	//https://blog.csdn.net/weixin_41628411/article/details/106002390
+	return 'data:image/png;base64,' + btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+}).then(res => {
+	document.getElementById("pic1").src=res
+})
+</script>
+
+</body>
+</html>

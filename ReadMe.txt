@@ -26,6 +26,9 @@ ajax/
 jQuery/
 	
 
+4. 类库
+Vue repo: https://github.com/miostudio/vue_learn
+
 
 
 

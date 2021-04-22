@@ -1,0 +1,29 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+
+动态绑定 title 属性
+<hr>
+
+<div id="bind-attribute">
+  <span v-bind:title="message203">
+    Hover your mouse over me for a few seconds to see my dynamically bound
+    title!
+  </span>
+</div>
+
+
+
+<script>
+//1. v-bing:title指定绑定的html属性
+//2. =“paraName” 这个是被替换的值，值由js的 data()返回的obj按照该key提供。
+const AttributeBinding = {
+  data() {
+    return {
+      message203: 'You loaded this page on ' + new Date().toLocaleString()
+    }
+  }
+}
+
+Vue.createApp(AttributeBinding).mount('#bind-attribute')
+</script>

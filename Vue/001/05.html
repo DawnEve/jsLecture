@@ -1,0 +1,25 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+05 Conditionals
+<hr>
+
+
+<div id="conditional-rendering">
+  <span v-if="seen">Now you see me</span>
+</div>
+
+
+
+<script>
+const ConditionalRendering = {
+  data() {
+    return {
+      //seen: true
+      seen: false
+    }
+  }
+}
+
+Vue.createApp(ConditionalRendering).mount('#conditional-rendering')
+</script>

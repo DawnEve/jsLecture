@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/lib/axios/axios.min-0.18.0.js"></script>
+</head>
+<body>
+    multi ajax by axios:
+<br>
+<hr>
+Press F12, look at the Console: 返回json from php
+
+
+<script>
+function getUserAccount() {
+  return axios.get('get.php?name=vue3&pass=aaa12345');
+}
+
+function getUserPermissions() {
+  return axios.get('get.php?name=vue&pass=78910');
+}
+
+axios.all([getUserAccount(), getUserPermissions()])
+  .then(axios.spread(function (acct, perms) {
+      console.log('1>', acct.data);
+      console.log('2>', perms.data);
+    // 两个请求现在都执行完成，才打印结果
+  }));
+</script>
+
+</body>
+</html>

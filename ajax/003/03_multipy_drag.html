@@ -1,0 +1,72 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<style>
+#dropContainer{
+	border:1px dashed #ccc; 
+	height:100px; line-height:100px;
+	color:#ccc;
+}
+</style>
+
+<h1>多文件拖拽到input file</h1>
+
+<div id="dropContainer" style="">
+   Drop Here: at least 3 files
+</div>
+  Should update here, or drop to above area:
+  <input type="file" id="fileInput" />
+
+<hr>
+then F12 console: 
+> fileInput.files
+
+
+<script>
+// 阻止浏览器默认行为
+document.addEventListener( "dragleave", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "drop", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragenter", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragover", function(e) {
+     e.preventDefault();
+}, false);
+
+
+// https://stackoverflow.com/questions/8006715/drag-drop-files-into-standard-html-file-input
+// dragover and dragenter events need to have 'preventDefault' called
+// in order for the 'drop' event to register. 
+// See: https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Drag_operations#droptargets
+dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+
+
+dropContainer.ondrop = function(evt) {
+	// pretty simple -- but not for IE :(
+	
+	var all=1; //是否上传全部拖拽文件
+	
+	if(all!=0){
+		fileInput.files = evt.dataTransfer.files;
+	}
+	else{
+		// If you want to use some of the dropped files
+		const dT = new DataTransfer();
+		dT.items.add(evt.dataTransfer.files[0]);
+		dT.items.add(evt.dataTransfer.files[2]);
+		fileInput.files = dT.files;
+	}
+	
+	evt.preventDefault();
+
+	// test
+	var log=console.log;
+	log("fileInput.files: ")
+	log(fileInput.files)
+};
+</script>

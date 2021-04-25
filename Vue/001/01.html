@@ -1,0 +1,31 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+
+<div id="counter102">
+  Counter: {{ counter }}
+</div>
+
+
+<script>
+// 定义obj，其中几个重要的方法 data(), mounted()
+
+const Counter = {
+  data() {
+    return {
+      counter: 0
+    }
+  },
+    
+  mounted() {
+    setInterval(() => {
+      this.counter++
+    }, 1000)
+  }
+  
+}
+
+
+Vue.createApp(Counter) //传入对象
+	.mount('#counter102') //绑定dom
+</script>

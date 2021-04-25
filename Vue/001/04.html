@@ -1,0 +1,28 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+04 双向绑定 表单和app状态
+<hr>
+
+
+<div id="two-way-binding">
+  <p>{{ message }}</p>
+  <input v-model="message" />
+</div>
+
+
+
+<script>
+
+const TwoWayBinding = {
+
+  data() {
+    return {
+      message: 'Hello Vue!'
+    }
+  }
+
+}
+
+Vue.createApp(TwoWayBinding).mount('#two-way-binding')
+</script>

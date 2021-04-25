@@ -1,0 +1,38 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+深入组件：组件注册 Component Registration
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+
+<div id='app1'>
+    {{msg}}
+</div>
+ 
+
+
+
+
+<script>
+var app=Vue.createApp({
+    data(){
+        return{
+            msg:"组件注册"
+        }
+    }
+})
+
+var vm=app.mount('#app1')
+</script>
+

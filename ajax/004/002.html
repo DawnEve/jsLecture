@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>axios post test</title>
+    <script src="/lib/axios/axios.min-0.18.0.js"></script>
+</head>
+<body>
+        ajax post by axios:
+<br>
+<hr>
+Press F12, look at the Console: 返回json from php
+
+<script>
+axios.post('post.php', {
+      name:"axios",
+      pass:'123456x'
+  })
+  .then(function (response) {
+    console.log('1>', response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+</script>
+</body>
+</html>

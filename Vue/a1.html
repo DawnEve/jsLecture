@@ -1,0 +1,34 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+
+
+<div id="box">
+	<h6>ajax</h6>
+	<button v-on:click="get">get</button>
+	{{msg}}
+</div>
+
+
+<script>
+window.onload = function(){
+    let vm = new Vue({
+        el:'#box',
+        data:{
+            msg:'Hello World, Vue!',
+        },
+        methods:{
+            get:function(){
+                //发送get请求
+                this.$http.get('/api/ajax_info.txt').then(function(res){
+					this.msg=res.body + new Date()
+                    //document.write(res.body);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+            }
+        }
+    });
+}
+
+</script>

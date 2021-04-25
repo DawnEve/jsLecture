@@ -1,0 +1,77 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+01 Application & Component Instances
+<p style="color:red;">可以在控制台修改 vm.msg="123"</p>
+<hr>
+
+<div id="app"> msg: {{msg}} </div>
+
+
+
+<script>
+//createApp 设置的是 根组件，在mount后渲染的起点。
+// 根组件 和 一般组件 没有区别。config是一样的，行为也一样。
+const RootComponent = {
+  /* options */
+  data(){
+	return{
+		msg: "hello! root" //组件的属性
+	}
+  }
+  
+  // 还有各种用户自定义的特性: methods, props, computed, inject and setup
+  // 不管怎么定义，都可以在组件的模板中访问这些特性。
+  // 还有 $开头的 内置 特性，比如 $attrs and $emit
+}
+
+const app = Vue.createApp(RootComponent)
+const vm = app.mount('#app') //mount不返回app，返回的是 根组件 实例。
+
+console.log(vm.msg)
+
+
+
+/*
+const app = Vue.createApp({ //app中定义的可以被后面的组件使用。
+  // options
+})
+
+//const app = Vue.createApp({})
+app.component('SearchInput', SearchInputComponent)
+app.directive('focus', FocusDirective)
+app.use(LocalePlugin)
+
+// 大多方法支持链式调用
+Vue.createApp({})
+  .component('SearchInput', SearchInputComponent)
+  .directive('focus', FocusDirective)
+  .use(LocalePlugin)
+*/
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

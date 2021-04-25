@@ -1,0 +1,120 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<style>
+#dropContainer{
+	border:1px dashed #ccc; 
+	height:100px; line-height:100px;
+	color:#ccc;
+}
+.preview{height:200px; border:1px dashed #eee; margin:2px;}
+</style>
+
+
+<h1>多文件拖拽到input file，预览</h1>
+
+
+<div id="dropContainer" style="">
+   Drop Here: at least 3 files
+</div>
+  Should update here, or drop to above area:
+  <input type="file" id="fileInput" />
+
+<hr>
+then F12 console: 
+> fileInput.files
+
+<hr />
+preview<br />
+<div id="preview"></div>
+
+
+
+
+<script>
+// 阻止浏览器默认行为
+document.addEventListener( "dragleave", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "drop", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragenter", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragover", function(e) {
+     e.preventDefault();
+}, false);
+
+
+// https://stackoverflow.com/questions/8006715/drag-drop-files-into-standard-html-file-input
+// dragover and dragenter events need to have 'preventDefault' called
+// in order for the 'drop' event to register. 
+// See: https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Drag_operations#droptargets
+dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+
+
+dropContainer.ondrop = function(evt) {
+	evt.preventDefault();
+	
+	previewImage(evt);
+	
+	
+	
+	// pretty simple -- but not for IE :(
+	
+	var all=1; //是否上传全部拖拽文件
+	
+	if(all!=0){
+		fileInput.files = evt.dataTransfer.files;
+	}
+	else{
+		// If you want to use some of the dropped files
+		const dT = new DataTransfer();
+		dT.items.add(evt.dataTransfer.files[0]);
+		dT.items.add(evt.dataTransfer.files[2]);
+		fileInput.files = dT.files;
+	}
+	
+
+	// test
+	var log=console.log;
+	log("fileInput.files: ")
+	log(fileInput.files)
+};
+
+
+
+// 处理拖拽事件文件的预览
+var previewImage=function (e) {
+    var fileList = e.dataTransfer.files; //获取文件对象
+    //检测是否是拖拽文件到页面的操作
+    if (fileList.length == 0) {
+        return false;
+    }
+	
+	var oView=document.getElementById("preview");
+	oView.innerHTML="";
+
+    for(var i = 0; i < fileList.length; i++){
+		var file=fileList[i]
+
+		//如果是图片，则预览
+		if(file.type.indexOf ( 'image' )  !=  -1 ){
+			var img  = document.createElement('img');
+			img.setAttribute("class", "preview")
+			if(window.URL.createObjectURL ){
+				img.src = window.URL.createObjectURL(fileList[i]);//FF4+, chrome
+			}/* else if (window.webkitURL.createObjectURL){
+				img.src = window.webkitURL.createObjectURL(fileList[i]);//Chrome8+
+			}*/
+			oView.appendChild(img);
+		}
+    }
+}
+
+
+
+
+</script>

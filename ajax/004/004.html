@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/lib/axios/axios.min-0.18.0.js"></script>
+</head>
+<body>
+    ajax by axios config:
+<hr>
+Press F12, look at the Console: 返回json from php
+
+
+<script>
+// 发送 POST 请求
+axios({
+  method: 'post',
+  url: 'post.php?user=newAxios',
+  data: {
+    name: 'Fred1000',
+    pass: 'Flintstone'
+  }
+})
+.then(function(res){
+    console.log(res.data) //获取json
+});
+
+</script>
+
+</body>
+</html>

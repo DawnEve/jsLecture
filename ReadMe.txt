@@ -1,7 +1,7 @@
 ﻿{name:'javascript百年讲堂'}
 
 目标：本项目计划推出一个案例驱动的javascript系列教程。
-
+version log: changeLog.txt
 
 实现方式：
 1.对常见组件进行重写、优化、封装。
@@ -9,10 +9,30 @@
 dir:example/
 
 
+
 2.对常见操作的函数归类汇总。
 origin: lib/js/
 test: lib/JStest/
 
+
+
+
+
+3.JS功能学习
+
+canvas_SVG/
+	canvas
+	SVG
+ajax/
+	001/ XMLHttpRequest
+jQuery/
+	
+
+
+
+
+4. 类库
+Vue repo: https://github.com/miostudio/vue_learn
 
 
 
@@ -27,11 +47,10 @@ test: lib/JStest/
 (5)本项目主要在github上推出，同时提供如下平台咨询。
 ---------------------------------------------------------
 javascript/php熟手交流群 369578518  [对闲聊、广告、大图刷屏零容忍！！入群请遵守]
-贴吧：http://tieba.baidu.com/p/4211931264
-邮箱：jimmyMall at live dot com
+github： https://github.com/DawnEve/jsLecture
 web：jsLecture.biomooc.com
-github【主要渠道】： https://github.com/DawnEve/jsLecture
-其他渠道：有待完善
+贴吧(基本废弃)：http://tieba.baidu.com/p/4211931264
+
 ---------------------------------------------------------
 案例：
 001-slider 焦点图【视频】
@@ -52,7 +71,7 @@ github【主要渠道】： https://github.com/DawnEve/jsLecture
 ------------------
 ----视频----------
 ------------------
-1.秒味课堂视频：(之前的链接都已失效)
+1.视频：(之前的链接都已失效)
 
 
 ------------------

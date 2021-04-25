@@ -1,0 +1,83 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+ES6 Promise: <br>
+https://segmentfault.com/a/1190000011652907<br>
+https://es6.ruanyifeng.com/#docs/promise
+<hr>
+press F12
+
+<pre>
+1. Promise()需要传入一个函数，这个函数有2个参数，分别是2个函数名
+new Promise(function(){}) //"pending
+new Promise(function(fn1, fn2){}) //"pending
+
+2. 如果第一个函数执行了，则Promise的状态变为 fulfilled
+i1=new Promise(function(fn1, fn2){ fn1("fn1 run")}); i1
+//[[PromiseState]]: "fulfilled"
+//[[PromiseResult]]: "fn1 run"
+
+3. 如果第二个函数执行了，则Promise的状态变为 rejected，同时报错
+i2=new Promise(function(fn1, fn2){ fn2("fn2 run")}); i2
+//[[PromiseState]]: "rejected"
+//[[PromiseResult]]: "fn2 run"
+Uncaught (in promise) fn2 run
+
+
+4. 如果接着执行 .then(fnSucceed(arg1){}, fnFailed(arg1){})，
+
+(1) 之前状态是 fulfilled 执行前面的函数
+i1.then(function(arg1){console.log("1", arg1)}, function(arg1){console.log("2", arg1)}) //1 fn1 run
+
+(2) 之前状态是 rejected 执行后面的函数
+i2.then(function(arg1){console.log("1", arg1)}, function(arg1){console.log("2", arg1)}) //2 fn2 run
+
+(3) 对于错误的，还可以链式执行一个.catch()，Promise的状态再次变为 fulfilled
+
+i2_=i2.catch(function(arg){	console.log("Error:", arg) }); //Error: fn2 run
+i2_ 
+//[[PromiseState]]: "fulfilled"
+//[[PromiseResult]]: undefined
+
+
+
+
+
+</pre>
+
+<script>
+new Promise(function () {
+	console.log('支持Promise!');
+});
+
+
+// 产生随机数，模拟联网时间，小于1s 解析成功，超过1s则 失败
+function log(str){ console.log("log >>>",str); }
+function test(resolve1, reject2) { //需要传入2个函数名，这个函数名由后面的.then(function(para))提供实现和形式参数
+	log('start new Promise...');
+    var timeOut = Math.random() * 2;
+    log('set timeout to: ' + timeOut + ' seconds.');
+    setTimeout(function () {
+        if (timeOut < 1) {
+            log('call resolve()...');
+            resolve1('200 OK'); 
+			//第一个函数执行，则Promise的状态由 pending变为"fulfilled"
+        }
+        else {
+            log('call reject()...');
+            reject2('timeout in ' + timeOut + ' seconds.');
+			//第二个函数执行，则Promise的状态由 pending变为 rejected
+        }
+    }, timeOut * 1000);
+}
+
+
+//
+var p1 = new Promise(test);
+
+var p2 = p1.then(function (result) {
+    console.log('成功：' + result);
+});
+
+var p3 = p2.catch(function (reason) {
+    console.log('失败：' + reason);
+});
+</script>

@@ -1,0 +1,151 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+02 drag upload: <b>拖拽自动上传，选择文件手动上传。能不能统一行为呢？</b> 
+<style>
+b{color:red;}
+#box1{
+	border:1px dashed red; 
+	width:200px; height:100px;
+	color:#ccc;
+	line-height:100px;
+	text-align:center;
+}
+</style>
+<hr>
+
+<pre>
+1. ref
+php+原生ajax实现上传 https://www.cnblogs.com/wennice/p/6737274.html
+拖拽上传详解(HTML5 Drag&Drop、FileReader API、formdata) https://blog.csdn.net/sqzhao/article/details/50736357
+
+2. 拖拽上传实现
+先阻止页面默认的拖放行为，不然页面会被拖放的文件替换了。
+file.getAsBinary获取文件的二进制数据流。
+XMLHttpRequest Level 2中的FormData接口。
+
+
+小结：
+1.监听拖拽：监听页面元素的拖拽事件，包括：dragenter、dragover、dragleave和drop，一定要将dragover的默认事件取消掉，不然无法触发drop事件。如需拖拽页面里的元素，需要给其添加属性draggable=”true”；
+2.获取拖拽文件：在drop事件触发后通过e.dataTransfer.files获取拖拽文件列表，.length属性获取文件数量，.type属性获取文件类型。
+3.读取图片数据并添加预览图：实例化FileReader对象，通过其readAsDataURL(file)方法获取文件二进制流，并监听其onload事件，将e.result赋值给img的src属性，最后将图片append到DOM中。
+4.发送图片数据：使用file.getAsBinary 和 FormData分别模拟表单数据AJAX提交文件流。
+</pre>
+
+<!--
+
+<input type="file" id="file" draggable="true" />
+-->
+<form action="upload.php" method="post" enctype="multipart/form-data">
+<div id="box1" draggable="true">拖拽图片预览</div>
+
+<input type="file" id="file1" name="file" />
+
+<input type="submit" name="submit" value="Submit" id="upload"/>
+</form>
+
+
+
+<script>
+//3. 阻止浏览器默认行为
+document.addEventListener( "dragleave", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "drop", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragenter", function(e) {
+     e.preventDefault();
+}, false);
+document.addEventListener( "dragover", function(e) {
+     e.preventDefault();
+}, false);
+
+var log=console.log
+
+/*  */
+var doUpload=function(file=""){
+	log("do upload")
+	var xhr  =  new XMLHttpRequest ( ) ;
+	var url  =  'upload.php' ;
+	
+	if(file==""){
+		log(">>get file from dom")
+		file = document.getElementById("file1").files[0];
+	}else{
+		log('use passed file:')
+		//log(file)
+	}
+	//var fileName  = file.name ;
+
+	// prep data
+	var formData  =  new FormData() ;
+	formData.append ( 'file' , file ) ;
+	var data  = formData ;
+
+	//事件处理函数
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if( xhr.status == 200){
+				var msg = xhr.responseText;
+				log('msg Success:',msg)
+			}else{
+				log("msg Error:", xhr.status, xhr.responseText)
+			}
+		}
+	};
+	xhr.open ( "post" , url ,  true ) ;
+	//xhr.setRequestHeader ( 'Content-Type' ,  'multipart/form-data;') ; //大文件时使用，还需要添加 边界 参数
+	xhr.send (data ) ;
+}
+
+
+
+var dropHandler=function (e) {
+    var fileList = e.dataTransfer.files; //获取文件对象
+    //检测是否是拖拽文件到页面的操作
+    if (fileList.length != 1) {
+        return false;
+    }
+	//其实只支持一个文件拖拽上传
+    //for(var i = 0; i < fileList.length; i++){
+		var file=fileList[0]
+        var reader = new FileReader();
+        reader.onload = function(e) {
+			//console.log(file);
+        };
+        reader.onerror = function(e){
+           alert('目前只能上传文件');
+        }
+		//如果是图片，则预览
+		if(file.type.indexOf ( 'image' )  !=  -1 ){
+			var img  = document. createElement ( 'img' ) ;
+			img.setAttribute("height", "200"); img.setAttribute("border", "1px dotted red")
+			if(window.URL.createObjectURL ){
+				img.src = window.URL.createObjectURL(fileList[0]);//FF4+, chrome
+			}/* else if (window.webkitURL.createObjectURL){
+				img.src = window.webkitURL.createObjectURL(fileList[0]);//Chrome8+
+			}*/
+			oDragWrap.innerHTML="";
+			oDragWrap.appendChild(img);
+		//}
+		
+        reader.readAsDataURL(file);
+    }
+	
+	doUpload(file)
+}
+
+//设置drop区域: 当文件拖放到drop区域时，就能触发上传。
+var oDragWrap = document.getElementById("box1"); //drop区域的DOM元素
+oDragWrap.addEventListener("drop", function(e){dropHandler(e)} , false);
+
+
+//不起作用
+var oBtn = document.getElementById("upload");
+oBtn.onclick=function(e){
+	e.preventDefault()
+	
+	doUpload()
+}
+
+
+</script>

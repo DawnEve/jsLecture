@@ -1,0 +1,217 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Components Basics 组件基础
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:10px purple solid; margin:2px; padding-left:5px;}
+
+</style>
+
+<pre>
+组件是可复用的组件实例，所以它们与根实例接收相同的选项，例如 
+  data、computed、watch、methods 
+  以及生命周期钩子等。
+
+两种组件的注册类型：
+  全局注册： component 方法全局注册
+  局部注册
+
+const app = Vue.createApp({})
+app.component('my-component-name', {
+  // ... 选项 ...
+})
+
+
+父 - > 子，在子组件中使用 prosp:[] 接收父组件上定义的属性。
+而父组件上可以使用 v-bind 来动态传递 prop。
+
+
+</pre>
+
+
+
+<div id="components-demo">
+  <hr>1. 自定义标签，会被替换成 component中的template 中定义好的 html， 变量采用component中的变量。<br>
+  <button-counter></button-counter> vm.count 访问不到组件内部
+
+
+  <hr>2. 可以重用组件任意次。
+  <br> 每个组件都会各自独立维护它的 count。因为你每用一次组件，就会有一个它的新实例被创建。
+  <div id="components-demo">
+    <button-counter></button-counter>
+    <button-counter>2没啥用</button-counter>
+    <button-counter>3</button-counter>
+  </div>
+
+
+
+
+  <hr>3. 通过 Prop 向子组件传递数据
+  <blog-post title="title1 here"></blog-post>
+  <blog-post title="title2 here"></blog-post>
+
+
+
+  <hr> 4. 如果是 根实例 中的数组 posts，怎么用以上组件显示呢？
+  <div id="blog-posts-demo">
+    相当于2遍渲染，1.把自定义标签按照v-for显示出来，得到几个带 title属性的 blog-post; 2. 把自定义标签按照组件模板替换渲染成html。
+    <blog-post
+      v-for="post in posts"
+      :key="post.id"
+      :title="post.title"
+    ></blog-post>
+  </div>
+
+
+  
+  <hr>5. 监听子组件事件
+  postFontSize 在模板中用来控制所有博文的字号。
+  <br> (2)父组件上 添加事件处理方法 @eventName 自定义事件名，等待(1)子函数触发该事件
+  <br> (3)多亏了 @enlarge-text="postFontSize += 0.1" 监听器，父级组件能够接收事件并(4)更新 postFontSize 值。
+  <div id="blog-posts-events-demo">
+    <div :style="{ fontSize: postFontSize + 'em' }">
+      <blog-post2 
+
+        @enlarge-text="postFontSize += 0.1"
+
+        v-for="post in posts"
+        :key="post.id"
+        :title="post.title"
+      ></blog-post2>
+    </div>
+  </div>
+
+
+
+  <hr>6. 监听子组件事件时，传递参数
+  子组件可以使用$emit的第二个参数位置抛出参数，父组件可以使用$event 访问到被抛出的这个值
+  <div :style="{ fontSize: postFontSize6 + 'em' }">
+    <blog-post3 
+      @enlarge-text="postFontSize6 += $event"
+      v-for="post in posts"
+      :key="post.id"
+      :title="post.title"
+    ></blog-post3>
+  </div>
+
+
+  <hr>7. 监听子组件事件时，传递参数，父组件使用方法接收
+  子组件可以使用$emit的第二个参数位置抛出参数，父组件可以使用 方法的参数 访问到被抛出的这个值
+  <div :style="{ fontSize: postFontSize7 + 'em' }">
+    <blog-post3 
+      @enlarge-text="onEnlarge"
+      v-for="post in posts"
+      :key="post.id"
+      :title="post.title"
+    ></blog-post3>
+  </div>
+
+</div>
+
+
+
+
+<script>
+// 创建一个Vue 应用
+const app = Vue.createApp({ /*根组件*/ 
+  data(){
+    return{
+      title2:"a title here.",
+
+      //4
+      posts: [
+        { id: 1, title: 'My journey with Vue' },
+        { id: 2, title: 'Blogging with Vue' },
+        { id: 3, title: 'Why Vue is so fun' }
+      ],
+
+      postFontSize: 1, //5
+      postFontSize6: 1, //6
+      postFontSize7: 1, //7
+
+
+    }
+  }, 
+
+  methods:{
+    onEnlarge(enlargeAmount){
+      this.postFontSize7 += enlargeAmount
+    }
+
+  }
+
+})
+
+// 定义一个名为 button-counter 的新全局组件
+app.component('button-counter', {
+
+  //提供数据
+  data() {
+    return {
+      count: 0
+    }
+  },
+  
+  //提供模板
+  template: `
+    <button @click="count++">
+      You clicked me {{ count }} times.
+    </button>`
+})
+
+
+
+// 3. 另一个组件：博客文章
+app.component('blog-post', {
+  props: ['title'], //给组件传递一个标题，数据来源是 全局 vm.title
+  template: `<h4>title = {{ title }}</h4>`
+})
+/*
+1. 组件上定义的 title 属性，2. 被传递到组件内部使用。
+*/
+
+
+//5 另一个组件
+//子组件可以通过调用内建的 $emit 方法并传入事件名称来触发一个事件，父组件监听后执行handler
+app.component('blog-post2', {
+  props: ['title'],
+  emits: ['enlargeText'], //可以在组件的 emits 选项中列出已抛出的事件, 这将允许我们检查组件抛出的所有事件，还可以选择 validate them
+  template: `
+    <div class="blog-post">
+      <h4>{{ title }}</h4>
+
+      <button @click="$emit('enlargeText')">
+
+        Enlarge text
+      </button>
+    </div>
+  `
+})
+
+
+//6.传参: 子组件在事件发生时抛出一个值，可以放在 $emit('enlargeText', 0.2) 这个位置
+app.component('blog-post3', {
+  props: ['title'],
+  emits: ['enlargeText'],
+  template: `
+    <div class="blog-post">
+      <h4>{{ title }}</h4>
+
+      <button @click="$emit('enlargeText', 0.2)">
+        Enlarge text
+      </button>
+    </div>
+  `
+})
+
+
+
+
+var vm=app.mount('#components-demo')
+
+</script>
+

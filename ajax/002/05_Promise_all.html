@@ -1,0 +1,22 @@
+05_Promise_all: <hr>
+press F12
+
+<script>
+var p1 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 500, 'P1-parameters1', 'P1-para2');
+});
+
+var p2 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 100, 'P2');
+});
+
+var p3 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 200, 'P3-para1');
+});
+
+
+// 同时执行p1和p2，并在它们都完成后执行then:
+Promise.all([p1, p2, p3]).then(function (results) {
+    console.log(results); // 获得一个Array: ['P1', 'P2']
+});
+</script>

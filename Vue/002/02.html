@@ -1,0 +1,75 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+02 Lifecycle Hooks
+<p style="color:red;">可以在控制台修改 vm.count=123</p>
+<hr>
+<pre>
+1. 创建时都有一些列init步骤，比如 
+	set up data observation, 
+	compile the template, 
+	mount the instance to the DOM, 
+	and update the DOM when data changes.
+
+2. 这个过程中，也会运行 lifecycle hooks，允许我们在不同阶段运行自己的代码。
+	created,
+	mounted, 
+	updated, 
+	and unmounted.
+
+	这些函数内的 this 都指向触发它的当前活动的实例。
+	不用用箭头函数，因为this会被解析错。
+		[x] created: () => console.log(this.a) or 
+		[x] vm.$watch('a', newValue => this.myMethod())
+</pre>
+
+
+<div id="app"> count: {{count}} </div>
+
+
+
+<script>
+var vm=Vue.createApp({
+  data() {
+    return { count: 1 }
+  },
+  
+  
+  created() { // 实例被创建后的钩子: created hook
+    // `this` points to the vm instance
+	console.log(this)
+    console.log('count is: ' + this.count) // => "count is: 1"
+  },
+  
+  updated() {
+	console.log('updated! count is: ' + this.count)
+  }
+  
+  
+}).mount("#app")
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

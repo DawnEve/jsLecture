@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="/lib/axios/axios.min-0.18.0.js"></script>
+</head>
+<body>
+    ajax by axios:
+<hr>
+Press F12, look at the Console: 返回json from php
+
+<script>
+axios.get('get.php?name=vue&pass=aaa12345')
+    .then(function(res){
+        if(res.status==200 && res.statusText=="OK"){
+            var data=res.data;
+            console.log('1> data=', data,   '\n server=',data.server);
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+
+// also: 上面的请求也可以这样做
+axios.get('get.php', {
+    params: {
+      name:"axios",
+      pass:'bbb543210'
+    }
+  })
+  .then(function (response) {
+    console.log('2>', response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+</script>
+
+</body>
+</html>

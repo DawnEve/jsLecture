@@ -1,0 +1,69 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+07 Composing with Components 
+<hr>
+每个应用都可以抽象为一个组件树，很多组件可以复用。
+
+
+<div id="todo-list-app">
+  <ol>
+    <!--
+      Now we provide each todo-item with the todo object
+      it's representing, so that its content can be dynamic.
+      We also need to provide each component with a "key",
+      which will be explained later.
+    -->
+    <todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id"
+    ></todo-item>
+  </ol>
+</div>
+
+
+
+<script>
+// Create Vue application
+const TodoList = {
+  data() { //data() 返回一个obj，key是groceryList，value是一个obj组成的数组[]
+    return {
+      groceryList: [
+        { id: 0, text: 'Vegetables' },
+        { id: 10, text: 'Cheese' },
+        { id: 2, text: 'Whatever else humans are supposed to eat' }
+      ]
+    }
+  }
+}
+
+const app = Vue.createApp(TodoList)
+
+
+// Define a new component called todo-item
+app.component('todo-item', { //对于组件<todo-item>其中的 
+							//v-bind:todo="item" 等号左侧是todo组件内容，右侧是data()提供的内容
+  props: ['todo'], //组件内部一直是 props 提供形参
+  // template: `<li> {{ todo.text }}</li>`  //可以在不改变 父app 的情况下，随意修改丰富组件内容。
+  template: `<li> id={{ todo.id }}, {{ todo.text }}</li>`
+})
+
+
+// Mount Vue application
+app.mount('#todo-list-app')
+</script>
+
+<!-- 一个应用，可能被分解成很多组件，方便每部分的管理。
+这和  Web Components Spec 很像，甚至借鉴了 slot 和 is 的规定。
+但是更兼容，能跨组件数据流动，自定义事件通信，以及构建工具集成。
+
+
+<div id="app">
+  <app-nav></app-nav>
+  <app-view>
+    <app-sidebar></app-sidebar>
+    <app-content></app-content>
+  </app-view>
+</div>
+-->

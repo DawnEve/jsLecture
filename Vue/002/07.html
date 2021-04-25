@@ -1,0 +1,109 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Class and Style Bindings
+<p style="color:red;">F12 </p>
+<hr>
+<style>
+.round{ border:2px dashed #ccc; width:300px; border-radius:20px;}
+.active{color:blue; background:yellow;}
+.text-danger{font-size:30px; color:red;}
+</style>
+
+<pre>
+v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。
+
+
+绑定内联样式 - 对象语法
+:style 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。CSS property 名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用引号括起来) 来命名
+</pre>
+
+
+<div id="style-switch">
+	
+	<hr> 1. v-bind:class 简写 :class;<br>
+	{}内的: 左侧active是html本身，右侧是实例中定义的变量 isActive
+	<div :class="{ active: isActive }">vm.isActive={{isActive}}</div>
+	
+	<hr> 2.
+	<div class="round"
+	  :class="{ active: isActive, 'text-danger': hasError }"
+	>可以设置多个类名，并与普通的class并存: vm.hasError=false</div>
+	
+	<hr> 3. vm.classObject.active=0; vm.classObject['text-danger']=1; vm.classObject['round']=1
+	<div :class="classObject">绑定的数据对象不必内联定义在模板里。可以定义在实例的data()中。</div>
+	
+	<hr> 4. vm.error={type:'fatal'}
+	<div :class="classObject2">在计算属性中定义，是一个更常用、更强大的方式。</div>
+	
+	<hr> 5. vm.activeClass="round" 
+	<div :class="[activeClass, errorClass]">5.1数组语法 :class="[activeClass, errorClass]"</div>
+	vm.isActive=false;
+	<div :class="[isActive ? activeClass:'', errorClass]">5.2根据条件切换 :class="[isActive ? activeClass:"", errorClass]"</div>
+	
+	//更简单的写法是对象语法
+	<div :class="[{ active: isActive }, errorClass]">5.3对象语法 :class="[{ active: isActive }, errorClass]"</div>
+	
+	
+	<hr> 6. 绑定内联样式
+	<div :style="{ color: activeColor, fontSize: fontSize + 'px' }">对象语法</div>
+	
+	<div :style="styleObject6">直接绑定到一个样式对象, 这会让模板更清晰</div>
+	
+	<div :style="[baseStyles, overridingStyles]">数组语法</div>
+	
+</div>
+
+
+
+<script>
+var vm=Vue.createApp({
+	data(){
+		return{
+			isActive:true, //1
+			hasError:true, //2
+			
+			classObject: {  //3
+			  active: true,
+			  'text-danger': false
+			},
+			
+			error: null, //4
+			
+			//5
+			activeClass: 'active',
+			errorClass: 'text-danger',
+			
+			
+			//6
+			activeColor:'blue',
+			fontSize: 40,
+			
+			styleObject6: {
+				color: 'purple',
+				fontSize: '13px',
+				'border-left':'10px purple solid',
+				paddingLeft:'15px',
+			},
+			
+			baseStyles:{color: 'blue'},
+			overridingStyles:{color:'orange'},
+			
+		}
+	},
+	
+	
+	computed: {
+	  classObject2() {
+		return {
+			round: true,
+		  active: this.isActive && !this.error, //激活 且 不出错
+		  'text-danger': this.error && this.error.type === 'fatal' //错误，且错误类型为 fatal
+		}
+	  }
+	}
+
+
+}).mount("#style-switch")
+
+</script>

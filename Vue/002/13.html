@@ -1,0 +1,148 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+在组件上使用 v-model
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:10px purple solid; margin:2px; padding-left:5px;}
+pre b{color:red;}
+hr{margin-top:30px;}
+
+.demo-alert-box{
+    padding: 10px 20px;
+    background: #f3beb8;
+    border: 1px solid #f09898;
+}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+
+<div id='app1'>
+    <hr>1. vm.searchText="123"<br>
+    <input v-model="searchText" />
+    等价于
+    <input :value="searchText" @input="searchText = $event.target.value" />
+
+
+    <hr>2. 当用在组件上时，v-model 则会这样
+
+    <custom-input
+    :model-value="searchText2"
+    @update:model-value="searchText = $event"
+    ></custom-input>
+
+    <br> 2.2 简写形式 &lt;custom-input2 v-model="searchText"&gt;&lt;/custom-input2&gt;<br>
+    <custom-input2 v-model="searchText2"></custom-input2>
+<pre>
+    为了让它(简写)正常工作，这个组件内的 input 必须：不能修改名字！
+    - 将其 <b>value</b> attribute 绑定到一个名叫 <b>modelValue</b> 的 prop 上;
+    - 在其 <b>input 事件</b>被触发时，将新的值通过自定义的 <b>update:modelValue 事件</b>抛出.
+</pre>
+    
+    
+    <hr>3. 另一种写法: 在该组件中实现 v-model 的另一种方法是使用 computed property 的功能来定义 getter 和 setter。
+    <br>get 方法应返回 modelValue property，set 方法应该触发相应的事件。
+    <custom-input3 v-model="searchText3"></custom-input3> {{searchText3}}
+
+
+
+
+    <hr>4. 通过插槽(slots)分发内容: 就是自定义标签中间的内容，可以在 组件模板中用一对slot标签 做占位符。
+    <alert-box4>
+        Something bad happened.
+    </alert-box4>
+
+
+
+
+</div>
+ 
+
+
+
+
+<script>
+const app = Vue.createApp({
+    data(){
+        return { 
+            searchText:'',
+            searchText2:'',
+            searchText3:'',
+        }
+    }
+})
+
+
+//2. 组件
+app.component('custom-input', {
+    props:['modelValue'],
+    emits: ['update:modelValue'],
+
+    template: `
+        <input 
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+        >
+    `
+})
+
+// 2.2 组件内，只能叫做 :value="modelValue"，换做其他名字 不能双向绑定。
+app.component('custom-input2', {
+    props:['modelValue'],
+    emits: ['update:modelValue'],
+
+    template: `
+        <input 
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+        >
+    `
+})
+
+
+
+//3. 
+app.component('custom-input3', {
+  props: ['modelValue'],
+  emits: ['update:modelValue'],
+  template: `
+    <input v-model="value3"> 
+  `,
+
+  computed: {
+    value3: {
+      get() {
+        return this.modelValue
+      },
+      set(value) { 
+        this.$emit('update:modelValue', value)
+      }
+    }
+  }
+})
+
+
+
+//4. slots
+app.component('alert-box4', {
+  template: `
+    <div class="demo-alert-box">
+      <strong>Error!</strong>
+      <slot>...标签中间的内容会被忽略。</slot>
+    </div>
+  `
+})
+
+var vm=app.mount("#app1")
+
+
+</script>
+

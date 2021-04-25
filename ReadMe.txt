@@ -9,9 +9,11 @@ version log: changeLog.txt
 dir:example/
 
 
+
 2.对常见操作的函数归类汇总。
 origin: lib/js/
 test: lib/JStest/
+
 
 
 
@@ -25,6 +27,9 @@ ajax/
 	001/ XMLHttpRequest
 jQuery/
 	
+
+
+
 
 4. 类库
 Vue repo: https://github.com/miostudio/vue_learn

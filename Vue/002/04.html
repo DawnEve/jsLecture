@@ -1,0 +1,75 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Directives
+<p style="color:red;">F12 </p>
+<hr>
+<pre>
+v-前缀的是指令。
+后面可以是js单句，如 v-for, v-on 
+指令就是指变动后修改DOM。
+
+
+</pre>
+
+
+<style>
+hr{margin-top:50px;}
+</style>
+<div id="app">
+	<hr> > vm.seen=false //根据seen的值，是否插入该p标签。
+	<p v-if="seen">Now you see me</p>
+	
+	
+	<hr> Arguments 
+	<p><a v-bind:href="url"> 绑定属性 {{siteName}} </a></p>
+	<p v-on:click="doSth">绑定事件 click me </p>
+	
+	<hr> 缩写形式
+	<p><a :href="url"> 绑定属性2 {{siteName}} </a></p>
+	<p @click="doSth">绑定事件2 click me </p>
+	
+	
+	
+	
+	<hr> 动态参数(无效)
+	<!--
+	Note that there are some constraints to the argument expression, as explained
+	in the "Dynamic Argument Expression Constraints" section below.
+	-->
+	<a v-bind:[attributeName2]="url"> attributeName2={{attributeName2}} </a> <br>
+	<a v-on:[eventName300]="doSth"> eventName3={{eventName3}} </a>
+	
+	
+	<hr> 修饰符
+	<form v-on:submit.prevent="onSubmit">
+		阻止提交的表单：v-on:submit.prevent 的修饰符.prevent 告诉 v-on事件函数去调用 event.preventDefault() 
+		<input type="submit" />
+	</form>
+</div>
+
+
+
+<script>
+var vm=Vue.createApp({
+	data(){
+		return{
+			seen: true,
+			url: "http://www.biomooc.com",
+			siteName: "biomooc.com",
+			attributeName2: "href",
+			eventName3:"click",
+		}
+	},
+	
+	methods:{
+		doSth(){
+			alert("You clicked me!")
+		},
+		onSubmit(){
+			alert("you submit now")
+		}
+	}
+}).mount("#app")
+
+</script>

@@ -1,0 +1,149 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Form Input Bindings 表单输入绑定
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+
+</style>
+
+<pre>
+双向绑定 form input, textarea, and select elements
+
+v-model 会忽略所有表单元素的 value、checked、selected attribute 的初始值而总是将当前活动实例的数据作为数据来源。
+
+</pre>
+
+
+
+
+<div id="form-input">
+	<hr>1. text 和 textarea 元素使用 value property 和 input 事件；
+	<input v-model="message" placeholder="edit me" />
+	<p>Message is: {{ message }}</p>
+	
+	<hr> 1.2 多行文本 Multiline message is:
+	<br> 在文本区域插值不起作用，应该使用 v-model 来代替。
+	<p style="white-space: pre-line;">{{ message2 }}</p>
+	<textarea v-model="message2" placeholder="add multiple lines"></textarea>
+
+
+	
+	
+	
+	
+	<hr>2. checkbox 和 radio 使用 checked property 和 change 事件；
+	<br>2.1 单个复选框，绑定到布尔值：
+	<input type="checkbox" id="checkbox" v-model="checked" />
+	<label for="checkbox">{{ checked }}</label>
+	
+	<br>
+	<input type="checkbox" v-model="toggle" true-value="yes" false-value="no" /> {{toggle}}
+	
+	
+	
+	<br>2.2 多选时 (绑定到一个数组)<br>	
+	<div id="v-model-multiple-checkboxes">
+		<input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+		<label for="jack">Jack</label>
+		
+		<input type="checkbox" id="john" value="John" v-model="checkedNames" />
+		<label for="john">John</label>
+		
+		<input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+		<label for="mike">Mike</label>
+		<br />
+		<span>Checked names: {{ checkedNames }}</span>
+	</div>
+	
+	<br>2.3 单选框(Radio)
+	<div id="v-model-radiobutton">
+		<input type="radio" name="one" value="One" v-model="picked" />
+		<label for="one">One</label>
+		
+		<br />
+		<input type="radio" name="one" value="Two" v-model="picked" />
+		<label for="two">Two</label>
+		<br />
+		
+		<span>Picked: {{ picked }}</span>
+	</div>
+	
+	
+	
+	
+	
+	<hr>3. select 字段将 value 作为 prop 并将 change 作为事件。
+	<br> 3.1 选择框 (Select) 单选 > vm.selected
+	<div id="v-model-select" class="demo">
+		<select v-model="selected">
+			<option disabled value="">Please select one</option>
+			<option>A</option>
+			<option>B</option>
+			<option>C</option>
+		</select>
+		<span>Selected: {{ selected }}</span>
+	</div>
+	
+
+	<br> 3.2 选择框 (Select) 多选 > vm.selected2<br>
+	<select v-model="selected2" multiple>
+	  <option>A</option>
+	  <option>B</option>
+	  <option>C</option>
+	</select>
+	<br />
+	<span>Selected2: {{ selected2 }}</span>
+	
+	
+	<br>3.3 用 v-for 渲染的动态选项
+	<div id="v-model-select-dynamic" class="demo">
+	  <select v-model="selected3">
+		<option v-for="option in options" :value="option.value">
+		  {{ option.text }}
+		</option>
+	  </select>
+	  <span>Selected3: {{ selected3 }}</span>
+	</div>
+	
+	
+	
+	
+	
+</div>
+
+
+<script>
+var vm=Vue.createApp({
+	data(){
+		return{
+			message:"", //1
+			message2:"", //1.2
+			
+			checked: "", //2.1 单个时初始化为 字符串
+			toggle:'yes', //2.1
+			
+			checkedNames:[], //2.2 多个时初始化为 数组
+			picked: '', //2.3 单选框
+			
+			selected:'', //3.1
+			selected2: [], //3.2 多选 
+			
+			//3.3 多选 
+			selected3: 'A', 
+			options:[
+				{ text: 'One', value: 'A' },
+				{ text: 'Two', value: 'B' },
+				{ text: 'Three', value: 'C' }
+			]
+			
+		}
+	}
+	
+}).mount("#form-input");
+
+</script>
+

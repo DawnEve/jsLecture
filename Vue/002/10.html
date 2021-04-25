@@ -1,0 +1,216 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Event Handling 事件处理
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+
+</style>
+
+<pre>
+v-on:click 简写做 @click
+
+</pre>
+
+<div id="basic-event">
+	<hr>1. 基本的单击事件: 直接在html中定义响应函数
+	<button @click="counter += 1">Add 1</button>
+	<p>The button above has been clicked {{ counter }} times.</p>
+	
+	<hr>2. 事件处理方法
+	<button @click="greet">Greet</button>
+	
+	<hr>3. 内联事件
+	<br>3.1 传递参数
+	<button @click="say('hi')">say hi</button>
+	<button @click="say('不好')">say 不好</button>
+	
+	<br>3.2 内联事件，使用 $event 传递 event参数 给事件处理函数
+	<form action="/api/get.php">
+		是偶数才提交，奇数不提交: {{counter}} 
+		<input type="submit" target="_new" @click="warn('Form cannot be submitted yet.', $event)" name="submit2"/>
+	</form>
+	
+	<hr>4. 多事件处理，用逗号隔开
+	<button @click="one($event), two($event), three($event)">多事件</button>
+	
+	<hr>5. 事件修饰符
+<pre>
+经常在事件内调用: event.preventDefault() or event.stopPropagation()
+
+在Vue中，方法只处理逻辑，不处理DOM，为了统一行为，可以使用 事件修饰符:
+.stop  防止事件继续传播
+.prevent
+.capture
+.self
+.once
+.passive
+
+使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。
+</pre>
+	<!-- 阻止单击事件继续传播 -->
+	<a href="http://baidu.com" @click.stop.prevent="doThis">5.1 stop 并阻止默认行为: 不打开链接 </a>
+	<br>
+	<!-- 点击事件将只会触发一次 -->
+	<a href="http://baidu.com" @click.once.prevent="doThis" target="_blank">5.2 once(F12 console)</a>
+	
+	
+	<hr>6. 每懂 //todo 这个 .passive 修饰符尤其能够提升移动端的性能。
+	<pre @scroll.passive="onScroll" 
+	style="max-height:100px; width:300px; overflow:scroll; border:1px solid red;">
+	滚轮事件
+
+1	
+
+
+
+2
+
+
+
+3
+	</pre>
+	
+	
+	<hr>7. 键盘修饰符
+	<br>7.1 only call `vm.pressEnter()` when the `key` is `Enter`
+	<br> keyup 事件，只有 enter 按键时响应：
+	<input type="input" name="text" @keyup.enter="pressEnter" value="Enter" />
+	
+	<br>7.2  KeyboardEvent.key: 处理函数只会在 $event.key 等于 'PageDown' 时被调用
+	<input type="input" name="text" @keyup.page-down="pressEnter" value="PageDown" />
+<pre>	
+按键别名：
+.enter
+.tab
+.delete (捕获“删除”和“退格”键)
+.esc
+.space
+.up
+.down
+.left
+.right
+
+
+系统修饰键
+.ctrl
+.alt
+.shift
+.meta #win的win键， Mac的 command键；
+
+鼠标按钮修饰符
+.left
+.right
+.middle
+</pre>
+	<hr>7.3 
+	<input @keyup.alt.enter="pressEnter" value="Alt + Enter " />
+	<div @click.ctrl="say('click+ctrl')">click + ctrl me</div>
+
+
+
+
+	<br>8. .exact 修饰符，只有完全一样才触发，不能多！
+	<br> 即使 Alt 或 Shift 被一同按下时也会触发 
+	<button @click.ctrl="alertKey">A, if ctrl</button>
+
+	<br>  有且只有 Ctrl 被按下的时候才触发
+	<button @click.ctrl.exact="alertKey">A, only ctrl</button>
+
+	<br>  没有任何系统修饰符被按下的时候才触发
+	<button @click.exact="alertKey">A, only if no ctrl, no shift, no alt</button>
+	
+	
+	
+	<br>
+	<br>
+
+</div>
+
+
+<script>
+var log=console.log
+var vm=Vue.createApp({
+	data() {
+		return {
+			msg:"Hi event!", //2
+			counter: 0,
+		}
+	},
+  
+	methods:{
+	
+		greet(evt){ //2
+			log("\n2begin --- >this 指向当前实例:", this.msg, this)
+			
+			if (evt) {
+				log("原生dom event: evt.target=",evt.target)
+				log("evt.target.tagName=", evt.target.tagName, "\n2<----end")
+			}
+			//wjl=evt;
+		}, 
+		
+		//3, 7
+		say(sth){
+			alert("say: "+sth)
+		},
+		
+		//3.2 evt 原生事件
+		warn(msg, evt){
+			if(evt && this.counter%2==1){
+				log('阻止默认事件')
+				evt.preventDefault()
+			}else{
+				log('不 阻止默认事件')
+			}
+			wjl=evt
+			log("原生鼠标事件：", evt) //MouseEvent
+			alert(msg)
+		},
+		
+		
+		//4.
+		one(e){alert('one, please look at F12 console')},
+		two(e){log('2 e=', e)},
+		three(e){log('3 e.target=', e.target)},
+		
+		//5. 
+		doThis(e){
+			log("5--->", e)
+		},
+		
+		//6.
+		onScroll(e){
+			wjl=e;
+			log("6-- >onScroll:", e.target.tagName, ".", e.type, this.counter++)
+		},
+		
+		
+		//7
+		pressEnter(e){
+			wjl=e;
+			var obj=e.target;
+			log("7-- >pressEnter: \ntext:", obj.value, 
+				"\n |obj:", e.target.tagName, 
+				"\n |eventype:", e.type, 
+				"\n |key pressed:",e.key);
+		},
+		
+		
+		//8
+		alertKey(e){
+			var kl=[];
+			if(e.altKey) kl.push("alt");
+			if(e.ctrlKey) kl.push("ctrl");
+			if(e.shiftKey) kl.push("shift");
+			log('a,c,s: ',kl.join(', '))
+			//alert("alt:"+e.altKey +", ctrl:"+ e.ctrlKey +", shift:"+ e.shiftKey)
+		},
+	}
+}).mount('#basic-event')
+
+</script>
+

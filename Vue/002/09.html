@@ -1,0 +1,167 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+List Rendering 列表渲染
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+
+</style>
+
+<pre>
+/
+</pre>
+
+
+<div id="array-rendering">
+	<hr>1. 数组 -> 元素：v-for="item in items"，
+	<br>其中 items是data实例中定义的，item是html循环中使用的别名 > vm.items
+	<div v-for="item in items">
+		{{item}} - {{ item.message }}
+	</div>
+	
+	<hr>2. 在 v-for 块中，我们可以访问所有父作用域的 property。v-for 还支持一个可选的第二个参数，即当前项的索引。
+	
+	<div v-for="(item, index) in items">
+		{{msg}}: {{index}} - {{ item.message }}
+	</div>
+	
+	
+	
+	
+	<hr>3. 在 v-for 里使用对象
+	<br>--- 3.1 v-for="value in myObject"
+	<div v-for="value in myObject">
+		value: {{value}}
+	</div>
+	
+	
+	<br>--- 3.2 v-for="(value, key) in myObject"(或许应该用name，用key可能有风险)
+	<ul>
+		<li v-for="(value, key) in myObject">
+			{{key}} : {{value}}
+		</li>
+	</ul>
+	
+	
+	<br>--- 3.3 v-for="(value, name, index) in myObject"
+	<ul>
+		<li v-for="(value, key, index) in myObject">
+		  {{ index }}. {{ key }}: {{ value }}
+		</li>
+	</ul>
+	
+		
+	<br>--- 3.4 :key=name 增加绑定 //todo 不懂，参考 Maintaining State 维护状态
+	<ul>
+		<li v-for="item in items" :key=item.id>
+		  {{item.id}} - {{ item.message }}
+		</li>
+	</ul>
+	
+	<hr>4. 变更方法 vm.items.push({message:"third"}); vm.items.push({message:"4th"});
+<pre>
+push()
+pop()
+shift()
+unshift()
+splice()
+sort()
+reverse()
+</pre>
+
+	<hr>5. 替换数组 
+	filter()、concat() 和 slice() 不改变原始数组，而是返回新数组。<br>
+	当使用非变更方法时，可以用新数组替换旧数组：<br>
+	example1.items = example1.items.filter(item => item.message.match(/Foo/))
+	<pre>
+	vm.items=vm.items.filter(item => item.message.match(/Foo/))
+	</pre>
+	
+	<hr>6. 显示过滤/排序后的结果
+	<br>6.1 使用计算方法
+	<ul>
+		<li v-for="n in evenNumbers" :key="n">{{ n }}</li>
+	</ul>
+	
+	<br>6.2 也可以使用一个方法，如在嵌套 v-for 循环中
+	<ul v-for="numbers in sets">
+		<li v-for="n in even(numbers)" :key="n">fn -> {{ n }}</li>
+	</ul>
+	
+	<br>6.3 v-for 也可以使用范围 span
+	<li v-for="n in 4" :key="n">span(1-based): {{n}}</li>
+	
+	<hr>7 在template中使用v-for，可以渲染更多元素
+	<ul>
+		<template v-for="item in items" :key="item.message">
+			<li>{{ item.message }}</li>
+			<li class="divider" role="presentation">|-- 解释: 长度 {{item.message.length}}</li>
+		</template>
+	</ul>
+	
+	<hr> 8. v-if 比 v-for 优先级更高，所以不要放到同一个元素上。
+	<ol>
+		<template v-for="todo in todos" :key="todo.name"> <!--v-for 控制循环-->
+			<li v-if="!todo.isComplete"> <!--v-if 控制显示-->
+				{{ todo.name }}
+			</li>
+		</template>
+	</ol>
+	
+	
+	<hr>9. 在组件上使用 v-for //todo
+	
+	
+	
+	
+</div>
+
+
+<script>
+var vm=Vue.createApp({
+  data() {
+    return {
+		msg: "hello3",
+		items: [{ message: 'Foo' }, { message: 'Bar' }], //1,2
+	  
+		myObject: { //3
+			title: 'How to do lists in Vue',
+			author: 'Jane Doe',
+			publishedAt: '2021-04-25'
+		},
+		
+		//6
+		numbers: [0,1,2,3,4,5,6,7],
+		
+		//6.2
+		sets: [ [120, 6, 7, 8, 9, 10], [ 1, 2, 3, 4, 5 ]],
+		
+		todos:[
+			{name:"task1", isComplete:false},
+			{name:"task2", isComplete:true},
+			{name:"task3", isComplete:false},
+		],
+	  
+    }
+  },
+  
+  computed:{
+	evenNumbers(){ //6
+		return this.numbers.filter(num => num%2 ===0 )
+	}
+  },
+  
+  methods:{
+	even(numbers){
+		return numbers.filter(num => num % 2===0)
+	}
+  }
+	
+  
+}).mount('#array-rendering')
+
+
+</script>

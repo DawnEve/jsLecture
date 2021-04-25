@@ -2,42 +2,84 @@
 <script src="/lib/Vue/vue.global-3.0.11.js"></script>
 
 01 Template Syntax
-<p style="color:red;">可以在控制台修改 vm.count=123</p>
+<p style="color:red;">F12 > vm.dynamicClass="red" //"black"</p>
 <hr>
 <pre>
+Vue能绑定DOM和模板实例的数据。 所有模板都是合法的html。
 
+内部，Vue编译模板为虚拟Dom渲染函数。
+结合响应系统，当app状态改变时，Vue能智能识别最小变动并修改Dom。
+如果熟悉虚拟DOM概念(Virtual DOM)，且想用原生js，可以直接写渲染函数，而不用写模板，可选的JSX支持。
+
+v-html 很危险，容易XSS，防范：只用可信内容，不用用户提供的内容。
 </pre>
 
 
-<div id="app"> count: {{count}} </div>
+<style>
+#box{width:100px; height:100px;}
+.orange{background:orange;}
+.black{background:black; color:white;}
+.red{background:red;}
+
+#list-4,#list-5,#list-6{font-size:200px;}
+hr{margin-top:50px;}
+</style>
+<div id="app">
+	<hr> 绑定
+	<p> counter: {{counter}} </p>
+	
+	<hr> 只更新一次
+	<p v-once> once: {{counter}} </p>
+	
+	
+	<hr> 不渲染 原生html
+	<p> rawHtml: {{rawHtml}} </p>
+
+	<hr> 渲染原生html
+	<span v-html="rawHtml"></span>
+	
+	
+	<hr> 绑定属性 v-bind:class
+	<div id="box" v-bind:class="dynamicClass">
+		null or undefined 则没有该属性
+	</div>
+	
+	
+	<hr> 如果是按钮，则false: <button>button</button> , true: <button disabled="">button</button><br>
+	vm.isButtonDisabled=true //false
+	<button v-bind:disabled="isButtonDisabled">button</button>
+	
+	
+	<hr> js 表达式: 不能是语句(var a=1;); 不能包含控制流 if(ok){return message}
+	<p class=red>counter + 100: {{ counter + 100 }}</p>
+	<p class=red>counter>=4 :  {{ counter>=4 ? 'YES' : 'NO' }} </p>
+	<p>counter>10 :  {{ message.split('').reverse().join('') }}</p>
+	
+	<div class=red v-bind:id="'list-' + counter"> id=list-{{counter}}</div>
+	
+</div>
 
 
 
 <script>
 
+var vm=Vue.createApp({
+	data(){
+		return{
+			counter: 0, 
+			rawHtml: "<h1>H1 title</h1>",
+			
+			dynamicClass:"orange",
+			isButtonDisabled: true,
+			message: "this is a book.",
+		}
+	}
+}).mount("#app")
+
+
+// 更新计数器
+setInterval(function(){
+	vm.counter++
+}, 1000)
+
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

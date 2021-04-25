@@ -15,9 +15,10 @@ v0.2.6 canvas 3D棉布效果
 		jQuery/001/
 		lib/js/map.js
 	dev0.2.6-3@sustech Vue3 入门
+	dev0.2.6-4@sustech Vue3 002/ 基础
 #
 #->commit
-#------>push to dawneve
+#------>push to dawneve /jsLecture
 
 
 

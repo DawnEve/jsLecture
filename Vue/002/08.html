@@ -1,0 +1,79 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Conditional Rendering 条件渲染 
+<p style="color:red;">F12 </p>
+<hr>
+<style>
+
+</style>
+
+<pre>
+
+</pre>
+
+<div id="app">
+	<hr>1. v-if: try > vm.awesome=0
+	<h1 v-if="awesome">1.Vue is awesome!</h1>
+	
+	<hr>2. v-else
+	<h1 v-if="awesome">2.Vue is awesome!</h1>
+	<h1 v-else>2.Oh no 😢</h1>
+
+	<hr>3. 控制多个元素的渲染，template 元素上使用 v-if > vm.ok=0
+	<template v-if="ok">
+	  <h1>Title</h1>
+	  <p>Paragraph 1</p>
+	  <p>Paragraph 2</p>
+	</template>
+	<template v-else>
+		<h1>Title else</h1>
+		<p>Paragraph 1 else</p>
+	</template>
+	
+	<hr>4. v-else 表示 v-if 之外的情况
+	<br> 每次更新实例，html都会刷新 > vm.type="A"; 想稳定就要放到js中。
+	<div v-if="Math.random() > 0.5">
+		注意这里! 大于0.5
+	</div>
+	<div v-else>
+	  注意这里! <=0.5
+	</div>
+	
+	<hr>5. v-else-if > vm.type="B"; vm.type="C"; vm.type="X"
+	<div v-if="type === 'A'">
+	  A
+	</div>
+	<div v-else-if="type === 'B'">
+	  B
+	</div>
+	<div v-else-if="type === 'C'">
+	  C
+	</div>
+	<div v-else>
+	  Not A/B/C
+	</div>
+
+	<hr> 6. v-show 和 v-if 差不多 > vm.ok=1; vm.ok=0;
+	<h1 v-show="ok">Hello! from v-show</h1>
+	注意: v-show 不支持 template 元素，也不支持 v-else
+	<br> v-if and v-for不推荐一起用到一个元素，如果用到一个元素，则v-if先执行。
+	
+</div>
+
+
+
+<script>
+
+var vm=Vue.createApp({
+	data(){
+		return{
+			awesome: true, //1
+			ok:true, //3
+			
+			type:"A", //5
+		}
+	}
+}).mount('#app')
+
+</script>

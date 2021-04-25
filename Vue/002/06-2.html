@@ -1,0 +1,73 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+<script src="/lib/axios/axios.min-0.18.0.js"></script>
+<!--
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+-->
+
+侦听器Watchers
+<p style="color:red;">F12 </p>
+<hr>
+<pre>
+当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+
+在这个示例中，使用 watch 选项允许我们执行异步操作 (访问一个 API)，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。
+
+除了 watch 选项之外，你还可以使用命令式的 vm.$watch API
+
+
+
+</pre>
+
+
+<div id="watch-example">
+  <p>{{msg}} 问题要问号结尾:<br>
+    Ask a yes/no question:
+    <input v-model="question" />
+  </p>
+  <p>{{ answer }}</p>
+</div>
+
+
+
+<script>
+var vm=Vue.createApp({
+	data(){
+		return {
+			msg:"1",
+			question:"",
+			answer:"Questions usually contain a question mark. ;-)"
+		}
+	},
+	
+	// 监听变化，内部可以根据条件(发现有问号)执行某个函数
+	watch: {
+      // whenever question changes, this function will run
+      question(newQuestion, oldQuestion) {
+        if (newQuestion.indexOf('?') > -1) {
+          this.getAnswer()
+        }
+      }
+    },
+	
+	// 发现有问号后被调用的函数，是一个ajax请求
+	methods: {
+      getAnswer() {
+        this.answer = 'Thinking...'
+		
+		// 发起ajax请求
+        axios
+          .get('https://yesno.wtf/api')
+          .then(response => {
+            this.answer = response.data.answer
+          })
+          .catch(error => {
+            this.answer = 'Error! Could not reach the API. ' + error
+          })
+		  
+      }
+    }
+	
+}).mount("#watch-example")
+
+</script>

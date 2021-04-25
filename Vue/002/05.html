@@ -1,0 +1,68 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Data Property 和方法
+<p style="color:red;">F12 </p>
+<hr>
+<pre>
+console.log(vm.$data.count) // => 4
+console.log(vm.count)       // => 4
+</pre>
+
+
+<style>
+hr{margin-top:50px;}
+</style>
+<div id="app">
+	count: {{count}}
+	<button @click="increment">Up vote</button>
+	
+	<hr> 直接从模板中调用方法：<br>
+	<span :title="toTitleDate(date)">
+	  {{ formatDate(date) }}
+	</span>
+</div>
+
+
+
+<script>
+const app=Vue.createApp({
+	data(){
+		return{
+			count: 3,
+			date: "20210423"
+		}
+	},
+	
+	methods:{
+		increment(){
+			this.count++  // `this` 指向该组件实例
+		},
+		toTitleDate(x){
+			return "td:"+x
+		},
+		formatDate(x){
+			return "fmt:"+x
+		}		
+		
+	}
+})
+
+const vm=app.mount("#app")
+
+
+console.log(1, vm.$data.count) // => 4
+console.log(2, vm.count)       // => 4
+
+// Assigning a value to vm.count will also update $data.count
+vm.count = 5
+console.log(3, vm.$data.count) // => 5
+
+// ... and vice-versa
+vm.$data.count = 6
+console.log(4, vm.count) // => 6
+
+
+//
+console.log("input: vm.increment(); then vm.count;")
+</script>

@@ -13,7 +13,11 @@ vue.global.js is the "full" build that includes both the compiler and the runtim
 <script src="../js/vue-resource.min.js"></script>
 <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 -->
-
+<style>
+.red{color:red;}
+h1, h2,p{margin:0; padding:0;}
+ol{margin:0;}
+</style>
 
 
 
@@ -43,17 +47,42 @@ https://v3.vuejs.org/guide/introduction.html#declarative-rendering
 
 
 
-<h2>002 Vue app和组件实例</h2>
+<h2>002 Vue 基础: DOM 模板中的 kebab-case</h2>
 https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 <ol>
 	<li><a target="_blank" href="002/01.html">002/01.html</a> 根组件也是一个普通组件</li>
 	<li><a target="_blank" href="002/02.html">002/02.html</a> 生命周期钩子 Lifecycle Hooks / Lifecycle Diagram</li>
 	
 	<br>https://v3.vuejs.org/guide/template-syntax.html#interpolations<br>
-	<li><a target="_blank" href="002/03.html">002/03.html</a> Template Syntax</li>
+	<li><a target="_blank" href="002/03.html">002/03.html</a> Template Syntax: v-once; v-html; Attributes &lt;div v-bind:id="dynamicId"; js表达式</li>
+	<li><a target="_blank" href="002/04.html">002/04.html</a> Directives 指令，动态参数不行(用的不多)；缩写 v-bind :, v-on @</li>
+	<li><a target="_blank" href="002/05.html">002/05.html</a> Data Property 和方法，避免使用$和_开头的变量，这是系统内置顶级变量。<span class=red>防抖和节流 lodash.js//todo</span></li>
+	<li><a target="_blank" href="002/06.html">002/06.html</a> 计算属性</li>
+	<li><a target="_blank" href="002/06-2.html">002/06-2.html</a> 侦听器Watchers, 不要滥用watch，很多时候computed更简洁。</li>
+	<li><a target="_blank" href="002/07.html">002/07.html</a> Class and Style Bindings 类和样式绑定</li>
+	<p class=red>在组件上使用 类和样式绑定//todo</p>
+	<li><a target="_blank" href="002/08.html">002/08.html</a> Conditional Rendering 条件渲染: v-if, v-show </li>
+	<li><a target="_blank" href="002/09.html">002/09.html</a> List Rendering 列表渲染 <span class=red>//todo 组件中的v-for</span></li>
+	<li><a target="_blank" href="002/10.html">002/10.html</a> Event Handling 事件处理</li>
+	<li><a target="_blank" href="002/11.html">002/11.html</a> Form Input Bindings 表单输入绑定 <span class=red>//todo 值绑定、修饰符、组件上使用v-model</span></li>
+	<li><a target="_blank" href="002/12.html">002/12.html</a> Components Basics 组件基础</li>
+	<li><a target="_blank" href="002/13.html">002/13.html</a> 在组件上使用 v-model <span class=red>//todo: props, 自定义事件, slots, 动态组件 is, 解析 DOM 模板时的注意事项 v-is</span> </li>
+	
 </ol>
 
 
+
+
+
+<h2>003 Vue 深入组件</h2>
+https://v3.vuejs.org/guide/component-registration.html#component-names <br>
+https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D
+<ol>
+	<li><a target="_blank" href="003/01.html">003/01.html</a> 组件注册</li>
+	
+	
+	
+</ol>
 
 
 

@@ -1,0 +1,88 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Custom Events 自定义事件
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+当在 emits 选项中定义了原生事件 (如 click) 时，将使用组件中的事件替代原生事件侦听器。
+
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>1. 事件名字也是 js的 eventName, html中 event-name: 
+    <br>
+    <my-post @my-event="doSomething"></my-post>
+ 
+
+</div>
+
+
+ 
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi!",
+        }
+    },
+
+    methods:{
+        
+        doSomething(obj){
+            log('outer fn: ', obj.tagName, obj.num)
+        },
+
+
+    }
+})
+
+//组件
+app.component("myPost",{
+    emits: ['myEvent', 'submit'],
+
+    data(){
+        return{
+            counter:2,
+        }
+    },
+
+    template:`
+        <h4 @click="onClick">click me {{counter}}, 能被3整除时触发自定义事件</h4>
+    `,
+
+    methods:{
+
+        onClick(e){
+            this.counter++;
+            if(this.counter %3 ==0){
+                wjl=e;
+                this.$emit('myEvent', {num: this.counter, tagName:e.target.tagName});
+                log('-->能被3整除时，内部主动触发事件 myEvent', e)
+            }
+        },
+
+    }
+
+})
+
+var vm=app.mount("#app1")
+</script>
+

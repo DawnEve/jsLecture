@@ -3,9 +3,6 @@
 <h1>Vue3 index</h1>
 <hr>
 <!--
-https://vuejs.org/
-https://v3.vuejs.org/guide/introduction.html
-
 https://cdn.jsdelivr.net/npm/vue@next/dist/
 vue@3.0.11/dist/
 vue.global.js is the "full" build that includes both the compiler and the runtime so it supports compiling templates on the fly.
@@ -17,9 +14,17 @@ vue.global.js is the "full" build that includes both the compiler and the runtim
 .red{color:red;}
 h1, h2,p{margin:0; padding:0;}
 ol{margin:0;}
+.box{border:1px dashed #ddd;}
 </style>
 
+<pre class=box>
+https://vuejs.org/
+https://v3.vuejs.org/guide/introduction.html
 
+Vue2
+https://github.com/miostudio/vue_learn
+http://vue.biomooc.com/
+</pre>
 
 
 <h2>ES5 ES6 简介</h2>
@@ -65,7 +70,7 @@ https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 	<li><a target="_blank" href="002/09.html">002/09.html</a> List Rendering 列表渲染 <span class=red>//todo 组件中的v-for</span></li>
 	<li><a target="_blank" href="002/10.html">002/10.html</a> Event Handling 事件处理</li>
 	<li><a target="_blank" href="002/11.html">002/11.html</a> Form Input Bindings 表单输入绑定 <span class=red>//todo 值绑定、修饰符、组件上使用v-model</span></li>
-	<li><a target="_blank" href="002/12.html">002/12.html</a> Components Basics 组件基础</li>
+	<li><a target="_blank" href="002/12.html">002/12.html</a> Components Basics 组件基础: 父子组件的通信：父->子 props, 子->父 $emit("eventName")</li>
 	<li><a target="_blank" href="002/13.html">002/13.html</a> 在组件上使用 v-model <span class=red>//todo: props, 自定义事件, slots, 动态组件 is, 解析 DOM 模板时的注意事项 v-is</span> </li>
 	
 </ol>
@@ -75,10 +80,15 @@ https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 
 
 <h2>003 Vue 深入组件</h2>
-https://v3.vuejs.org/guide/component-registration.html#component-names <br>
-https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D
+https://v3.vuejs.org/guide/component-registration.html#component-names 
+<a target="" href="https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D">中文版</a><br>
 <ol>
 	<li><a target="_blank" href="003/01.html">003/01.html</a> 组件注册</li>
+	<li><a target="_blank" href="003/02.html">003/02.html</a> Prop类型: 父传子 一个数字/布尔值/数组/对象/ 传入一个对象的所有property</li>
+	<li><a target="_blank" href="003/02-2.html">003/02-2.html</a> Prop类型: 父传子 单向流动，怎么改变传入组件内的变量？ <span class=red>//todo Prop 类型验证</span></li>
+	<li><a target="_blank" href="003/03.html">003/03.html</a> 非 Prop 的 Attribute</li>
+	<li><a target="_blank" href="003/04.html">003/04.html</a> Custom Events 自定义事件 <span class=red>//todo 验证抛出的事件</span></li>
+	<li><a target="_blank" href="003/04-2.html">003/04-2.html</a> v-model 参数 </li>
 	
 	
 	
@@ -87,7 +97,10 @@ https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%
 
 
 
-
+<br>
+<br>
+<br>
+<br>
 
 
 

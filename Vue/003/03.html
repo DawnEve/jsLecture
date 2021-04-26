@@ -1,0 +1,148 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+非 Prop 的 Attribute
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+1.当组件返回单个根节点时，非 prop attribute 将自动添加到根节点的 attribute 中
+
+2.
+通过将 inheritAttrs 选项设置为 false，你可以访问组件的 $attrs property，
+该 property 包括组件 props 和 emits property 中未包含的所有属性 (例如，class、style、v-on 监听器等)。
+
+</pre>
+
+
+
+<div id='app1'>
+    if library is ok: {{msg}}
+
+    <hr>1 具有非prop attribute的Date-picker组件
+    <date-picker data-status="activated" wjl="wjl001" @change="submitChange"></date-picker>
+    
+    <hr>2. 当有一个 HTML 元素将 change 事件作为 date-picker 的根元素时，这可能会有帮助。
+    <br>在这种情况下，change 事件监听器从父组件传递到子组件，它将在原生 select 的 change 事件上触发。我们不需要显式地从 date-picker 发出事件
+    <br> 改变元素，F12控制台会有输出<br>
+    <date-picker2 data-status="activated" @change="showChange"></date-picker2>
+    
+    <hr>3 禁用 Attribute 继承
+    <br>3.1 Date-picker 组件 根目录之外的元素 使用非 prop attribute
+    <date-picker3 data-status="activated" author="Tom"></date-picker3>
+    渲染后：
+<pre>
+&lt;div class="date-picker"&gt;
+    &lt;input type="datetime" data-status="activated" author="Tom"/&gt;
+&lt;/div&gt;
+</pre>
+
+    <hr>3.2 多个根节点上的 Attribute 继承
+    <br>与单个根节点组件不同，具有多个根节点的组件不具有自动 attribute 回退行为。如果未显式绑定 $attrs，将发出运行时警告。
+    <custom-layout id="custom-layout" @click="changeValue"></custom-layout>
+
+
+</div>
+
+
+ 
+
+
+
+
+<script>
+var log=console.log;
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"ok",
+            activated:true,
+        }
+    },
+
+    methods:{
+        submitChange(e){ //1
+            console.log(e, e.target, e.target.value)
+            return true;
+        },
+        
+        showChange(e){ //2
+            log(e.target.value) // 将记录所选选项的值
+        },
+
+        changeValue(){ //3.2
+            alert("My name is changeValue()")
+        },
+
+    }
+
+})
+
+// 1. 全局组件
+app.component('date-picker', {
+  template: `
+    <div class="date-picker">
+      <input type="datetime" />
+    </div>
+  `,
+
+  created() {
+    console.log("on created: ", this.$attrs) // { onChange: () => {}  }
+  },
+
+})
+
+// 2. 全局组件
+app.component('date-picker2', {
+  template: `
+    <select>
+      <option value="1">Yesterday</option>
+      <option value="2">Today</option>
+      <option value="3">Tomorrow</option>
+    </select>
+  `
+})
+
+//3
+app.component('date-picker3', {
+  inheritAttrs: false, // 不希望组件的根元素继承 attribute
+  //需要将 attribute 应用于根节点之外的其他元素， 
+  template: `
+    <div class="date-picker">
+      <input type="datetime" v-bind="$attrs" />
+    </div>
+  `
+})
+
+//3.2 这将发出警告
+app.component('custom-layout2', {
+  template: `
+    <header>...</header>
+    <main>...</main>
+    <footer>...</footer>
+  `
+})
+
+
+//3.2 没有警告，$attrs被传递到<main>元素
+app.component('custom-layout', {
+  template: `
+    <header>...</header>
+    <main v-bind="$attrs">...</main>
+    <footer>...</footer>
+  `
+})
+
+
+var vm=app.mount("#app1")
+
+</script>
+

@@ -7,17 +7,30 @@
 <style>
 div,hr,p{margin:0; padding:0;}
 ul{margin:0;}
-
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
 </style>
 
 <pre>
+我们强烈推荐遵循 W3C 规范中的自定义组件名 (字母全小写且必须包含一个连字符)。
+组件名字：DOM中使用 xx-yy, 而js中使用 xxYy;
 
+推荐： 局部注册组件
+
+嵌套使用组件，失败 //todo
 </pre>
 
 
 
 <div id='app1'>
     {{msg}}
+
+    <component-a title="titleA"></component-a>
+    <component-c title="titleC test">
+        <component-a title="titleA in c"></component-a>
+    </component-c>
+    <component-a title="titleA3"></component-a>
+
+    <component-x title="titleX"></component-x>
 </div>
  
 
@@ -25,13 +38,61 @@ ul{margin:0;}
 
 
 <script>
+//1.定义组件
+const ComponentA = {
+  /* ... */
+  props:['title'],
+  template:`
+    <h4>组件A: {{title}}</h4>
+  `
+}
+
+const ComponentB = {
+  /* ... */
+  props:['title'],
+  template:`
+    <h4>组件B: {{title}}</h4>
+  `
+}
+
+const ComponentC = {
+  /* ... */
+  props:['title'],
+  template:`
+    <h4>组件C: {{title}}</h4>
+  `,
+
+    //如果想在组件中使用其他组件，需要显式标出
+  components: {
+    'component-a': ComponentA
+  }
+}
+
+
+//2. 局部注册： 局部注册的组件在其子组件中不可用
 var app=Vue.createApp({
     data(){
         return{
-            msg:"组件注册"
+            msg:"组件注册msg from 实例"
         }
+    },
+
+    components: {
+        'component-a': ComponentA,
+        'component-c': ComponentC
     }
 })
+
+
+//全局注册？
+app.component('component-x',{
+  /* ... */
+  props:['title'],
+  template:`
+    <h4>组件X: {{title}}</h4>
+  `
+})
+
 
 var vm=app.mount('#app1')
 </script>

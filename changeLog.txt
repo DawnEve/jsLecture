@@ -18,6 +18,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.6-4@sustech Vue3 002/ 基础
 ======> merge to master [2021.4.25]
 	dev0.2.6-5@sustech Vue3 003/ 深入 自定义事件
+	dev0.2.6-6@sustech Vue3 003/ 深入 slot
 
 #
 #->commit

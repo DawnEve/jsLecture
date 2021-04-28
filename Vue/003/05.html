@@ -1,0 +1,110 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：Slots 插槽</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>1. slot 就是组件占位符，表示html自定义标签中间夹着的内容
+    <todo-button> Add todo </todo-button>
+    <todo-button> done </todo-button>
+
+    <br>1.2 slots 还可以包含html元素
+    <todo-button>
+        <!-- 添加一个Font Awesome 图标 -->
+        <i class="fas fa-plus"></i>
+        Add todo
+    </todo-button>
+
+
+
+
+    <hr>2 html中还可以放 实例中的变量
+    <todo-button>value in app: {{msg}}</todo-button>
+
+    <br> 2.2 但是不能访问组件内部的变量
+    <todo-button2 action="delete">
+        in html action= {{ action2 }} <span class=red>//这里的警告 warn, 在实例中设置变量 actions2 即可</span>
+    </todo-button2>
+
+    <br>3 备用内容：如果没有通过标签属性传递值，则js slot标签夹着的部分会作为默认内容
+    <todo-button3 action="传入">text in html 有内容，就显示内容</todo-button3>
+    <br> 3.2 
+    <todo-button3 action="传入"></todo-button3>
+    <br> 3.3 
+    <todo-button3></todo-button3>
+
+
+
+
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 05!",
+            //action2: "in 实例" //2.2
+        }
+    },
+})
+
+// 
+app.component("todoButton",{
+    template:`
+        <button class="btn-primary">
+            <slot></slot>
+        </button>
+    `,
+})
+
+//2.2
+app.component("todoButton2",{
+    data(){
+        return{
+            action2: "in 组件 2.2", //访问不到
+        }
+    },
+    props:["action"],
+    template:`
+        <h4>in js template: action={{action}}</h4>
+        <button class="btn-primary">
+            <slot></slot>
+        </button>
+    `,
+})
+
+
+//3
+app.component("todoButton3",{
+    props:["action"],
+    template:`
+        <h4>in js template: action={{action}}</h4>
+        <button class="btn-primary">
+            <slot>默认内容</slot> | action={{action}}
+        </button>
+    `,
+})
+
+var vm=app.mount("#app1")
+</script>
+

@@ -1,0 +1,79 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 多个组件之间过渡</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+
+/*1*/
+.box{background: #FFFFee; padding:10px;}
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.component-fade-enter-from,
+.component-fade-leave-to {
+  opacity: 0;
+}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>1 
+    <div id="demo">
+        <input v-model="view" type="radio" value="v-a" id="a"><label for="a">A</label>
+        <input v-model="view" type="radio" value="v-b" id="b"><label for="b">B</label>
+
+        <transition name="component-fade" mode="out-in">
+          <component :is="view"></component>
+        </transition>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const Demo = {
+  data() {
+    return {
+        msg:"02-5",
+        view: 'v-a'
+    }
+  },
+
+  components: {
+    'v-a': {
+      template: '<div class=box>Component A</div>'
+    },
+
+    'v-b': {
+      template: '<div class=box>Component B</div>'
+    }
+  }
+}
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+
+</script>
+

@@ -1,0 +1,115 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 列表的交错过渡</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+</style>
+
+<pre>
+
+</pre>
+
+<script src="/lib/animation/gsap.min-3.3.4.js"></script>
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>4. 通过 data attribute 与 JavaScript 通信，就可以实现列表的交错过渡
+    <div id="demo">
+        <input v-model="query" />
+
+        <transition-group
+          name="staggered-fade"
+          tag="ul"
+          :css="false"
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @leave="leave"
+        >
+
+          <li
+            v-for="(item, index) in computedList"
+            :key="item.msg"
+            :data-index="index"
+          >
+            {{ item.msg }}
+          </li>
+        
+        </transition-group>
+
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log;
+
+const Demo = {
+  data() {
+    return {
+        msg:'03-4',
+
+      query: '',
+      list: [
+        { msg: 'Bruce Lee' },
+        { msg: 'Jackie Chan' },
+        { msg: 'Chuck Norris' },
+        { msg: 'Jet Li' },
+        { msg: 'Kung Fury' }
+      ]
+    }
+  },
+
+  computed: {
+    computedList() {
+      var vm = this
+      return this.list.filter(item => {
+        return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+      })
+    }
+  },
+
+  methods: {
+    beforeEnter(el) {
+      el.style.opacity = 0
+      el.style.height = 0
+    },
+
+    enter(el, done) {
+      gsap.to(el, {
+        opacity: 1,
+        height: '1.6em',
+        delay: el.dataset.index * 0.15,
+        onComplete: done
+      })
+    },
+
+    leave(el, done) {
+      gsap.to(el, {
+        opacity: 0,
+        height: 0,
+        delay: el.dataset.index * 0.15,
+        onComplete: done
+      })
+    }
+
+    
+  }
+}
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+
+</script>
+

@@ -1,0 +1,72 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 列表的移动过渡</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+.limited{max-height:200px; overflow-y: scroll; background: #eee; border:2px solid #555;}
+
+
+
+
+/*2*/
+.flip-list-move {
+  transition: transform 1.8s ease;
+}
+
+</style>
+
+<pre>
+    内部的实现，Vue 使用了一个叫 FLIP 简单的动画队列使用 transforms 将元素从之前的位置平滑过渡新的位置。
+</pre>
+
+<script src="/lib/lodash.min-4.17.15.js"></script>
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>2.
+    <div id="flip-list-demo">
+        <button @click="shuffle">Shuffle</button>
+        <transition-group name="flip-list" tag="ul">
+            <li v-for="item in items" :key="item">
+            {{ item }}
+            </li>
+        </transition-group>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const Demo = {
+  data() {
+    return {
+        msg:"03-2",
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+
+    }
+  },
+  methods: {
+    shuffle() {
+        this.items = _.shuffle(this.items)
+    }
+
+  }
+}
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+
+</script>
+

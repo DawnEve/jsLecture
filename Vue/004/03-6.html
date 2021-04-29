@@ -1,0 +1,129 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 动态过渡 </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+</style>
+
+<pre>
+    http://shouce.jb51.net/velocity/index.html
+</pre>
+
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>6.
+
+    <div id="dynamic-fade-demo" class="demo">
+        Fade In:
+        <input type="range" v-model="fadeInDuration" min="0" :max="maxFadeDuration" />
+
+        Fade Out:
+        <input
+          type="range"
+          v-model="fadeOutDuration"
+          min="0"
+          :max="maxFadeDuration"
+        />
+
+        <transition
+          :css="false"
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @leave="leave"
+        >
+          <p v-if="show">hello</p>
+        </transition>
+
+        <button v-if="stop" @click="stop = false; show = false">
+          Start animating
+        </button>
+
+        <button v-else @click="stop = true">Stop it!</button>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+<script src="/lib/animation/velocity.min-1.5.2.js"></script>
+
+<script>
+var log=console.log;
+
+const app = Vue.createApp({
+  data() {
+    return {
+        msg:"03-6",
+
+      show: true,
+      fadeInDuration: 1000,
+      fadeOutDuration: 1000,
+      maxFadeDuration: 1500,
+      stop: true
+    }
+  },
+  mounted() {
+    this.show = false
+  },
+
+
+  methods: {
+    beforeEnter(el) {
+      el.style.opacity = 0
+    },
+
+    enter(el, done) {
+      var vm = this
+      Velocity(
+        el,
+        { opacity: 1, fontSize:30, },
+        {
+          duration: this.fadeInDuration,
+          complete: function() {
+            done()
+            if (!vm.stop) vm.show = false
+          }
+        }
+      )
+
+    },
+
+    leave(el, done) {
+      var vm = this
+      Velocity(
+        el,
+        { opacity: 0, fontSize:15, },
+        {
+          duration: this.fadeOutDuration,
+          complete: function() {
+            done()
+            vm.show = true
+          }
+        }
+      )
+
+    }
+
+
+  }
+})
+
+
+var vm=app.mount('#app1')
+
+</script>
+

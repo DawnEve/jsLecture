@@ -1,0 +1,123 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： Transitioning Between Elements</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+
+
+/*2*/
+
+#demo {
+  position: relative;
+}
+
+button {
+  position: absolute;
+}
+
+.mode-fade-enter-active, .mode-fade-leave-active {
+  transition: opacity .5s ease
+}
+
+.mode-fade-enter-from, .mode-fade-leave-to {
+  opacity: 0
+}
+
+button {
+  background: #05ae7f;
+  border-radius: 4px;
+  display: inline-block;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1 >vm.docState="saved"; //"edited"; "editing"<br>
+    docState={{docState}}
+    <br>
+    <transition>
+        <button :key="docState">
+          {{ buttonMessage }}
+        </button>
+    </transition>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+    <hr>2. 元素之间的过渡： mode="out-in" 模式更好
+    <div id="demo">
+        <transition name="mode-fade" mode="out-in">
+          <button v-if="on" key="on" @click="on = false">
+            on
+          </button>
+
+          <button v-else key="off" @click="on = true">
+            off
+          </button>
+        </transition>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"02-4",
+            docState:'editing',
+            on: false,
+        }
+    },
+
+    // ...
+    computed: {
+        buttonMessage() {
+            switch (this.docState) {
+                case 'saved': return 'Edit'
+                case 'edited': return 'Save'
+                case 'editing': return 'Cancel'
+            }
+        }
+    }
+
+})
+var vm=app.mount('#app1')
+</script>
+

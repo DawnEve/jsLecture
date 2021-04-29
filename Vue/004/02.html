@@ -1,0 +1,234 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 过渡与 Style 绑定</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+
+/*1*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+
+/*3*/
+/* 可以设置不同的进入和离开动画   */
+/* 设置持续时间和动画函数        */
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+
+
+/*4*/
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+
+</style>
+
+<pre>
+1.当只用 JavaScript 过渡的时候，在 enter 和 leave 钩中必须使用 done 进行回调。否则，它们将被同步调用，过渡会立即完成。
+
+2.添加 :css="false"，也会让 Vue 会跳过 CSS 的检测，除了性能略高之外，这可以避免过渡过程中 CSS 规则的影响。
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1. 单元素/组件的过渡: Vue 提供了 transition 的封装组件
+    <div id="demo">
+        <button @click="show = !show">
+          Toggle
+        </button>
+      
+        <transition name="fade">
+          <p v-if="show">hello</p>
+        </transition>
+    </div>
+
+
+
+    <hr>2. 过渡class
+    <br> 在进入/离开的过渡中，会有 6 个 class 切换。
+    <br>如果你使用一个没有名字的 transition，则 v- 是这些class名的默认前缀。
+    <br>如果你使用了 transition name="my-transition"，那么 v-enter-from会替换为 my-transition-enter-from。
+
+
+
+
+    <hr>3. CSS 过渡: 常用的过渡都是使用 CSS 过渡。
+    <div id="demo">
+        <button @click="show3 = !show3">
+          Toggle render
+        </button>
+      
+        <transition name="slide-fade">
+          <p v-if="show3">hello</p>
+        </transition>
+    </div>
+
+
+    <hr>4. CSS 动画: CSS 动画用法同 CSS 过渡，区别是在动画中 v-enter-from 类名在节点插入 DOM 后不会立即删除，而是在 animationend 事件触发时删除。
+    <div id="demo">
+        <button @click="show4 = !show4">Toggle show</button>
+        <transition name="bounce">
+          <p v-if="show4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis
+            enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi
+            tristique senectus et netus.
+          </p>
+        </transition>
+      </div>
+
+
+
+      <hr>5. 自定义过渡 class 类名:  我们可以通过以下 attribute 来自定义过渡类名：
+<pre>
+enter-from-class
+enter-active-class
+enter-to-class
+leave-from-class
+leave-active-class
+leave-to-class
+</pre>
+
+    <hr>6. 显性的过渡持续时间
+
+    <hr>7.JavaScript 钩子: 可以在 attribute 中声明 JavaScript 钩子
+    <br><button @click="show7 = !show7">Toggle show</button>
+    <my-list6>
+        <transition name="bounce"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+            @enter-cancelled="enterCancelled"
+            @before-leave="beforeLeave"
+            @leave="leave"
+            @after-leave="afterLeave"
+            @leave-cancelled="leaveCancelled"
+            :css="false"
+        >
+            <p v-show="show7">js 钩子</p>
+        </transition>
+    </my-list6>
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '02!',
+      show: true,
+      show3: true,
+      show4: true,
+      show7: true,
+    }
+  },
+
+
+  
+  methods: { //7js 钩子
+        // --------
+        // ENTERING
+        // --------
+
+        beforeEnter(el) {
+            // ...
+            log('beforeEnter')
+        },
+        // 当与 CSS 结合使用时
+        // 回调函数 done 是可选的
+        enter(el, done) {
+            // ...
+            done()
+        },
+        afterEnter(el) {
+            // ...
+        },
+        enterCancelled(el) {
+            // ...
+        },
+
+        // --------
+        // 离开时
+        // --------
+
+        beforeLeave(el) {
+            // ...
+        },
+        // 当与 CSS 结合使用时
+        // 回调函数 done 是可选的
+        leave(el, done) {
+            // ...
+            done()
+        },
+        afterLeave(el) {
+            // ...
+        },
+        // leaveCancelled 只用于 v-show 中
+        leaveCancelled(el) {
+            // ...
+        }
+    }
+
+})
+
+
+app.component("my-list6",{
+    template:`
+        <slot></slot>
+    `,
+
+})
+
+var vm=app.mount('#app1')
+</script>
+

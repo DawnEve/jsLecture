@@ -1,0 +1,118 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： List Transitions 列表过渡</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+.limited{max-height:200px; overflow-y: scroll; background: #eee; border:2px solid #555;}
+
+
+/*1*/
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>1 
+    <div id="list-demo">
+        <button @click="add">Add</button>
+        <button @click="remove">Remove</button>
+
+        <transition-group name="list" tag="p">
+          <span v-for="item in items" :key="item" class="list-item">
+            {{ item }}
+          </span>
+        </transition-group>
+
+    </div>
+<pre class=limited>
+var arr=document.getElementById('list-demo').getElementsByTagName('button');
+
+
+//1
+for(var i=0; i < 10; i++){
+    var index=Math.floor(Math.random()*2);
+    console.log(i, index);
+    (function(x){
+        console.log('-- > ',x);
+        if(vm.items.length==0){
+            x=0
+        }
+        setTimeout( arr[x].click(), 2000 )
+    })(index)
+}
+
+//2 ok!
+var fn=function(){
+    var x=Math.floor(Math.random()*2);
+    console.log(x);
+    if(vm.items.length==0){
+        x=0
+    }
+    console.log('-- > ',x);
+    arr[x].click();
+}
+
+setInterval( fn, 200 )
+
+</pre>
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const Demo = {
+  data() {
+    return {
+        msg:"03",
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      nextNum: 10
+    }
+  },
+  methods: {
+    randomIndex() {
+      return Math.floor(Math.random() * this.items.length)
+    },
+    add() {
+      this.items.splice(this.randomIndex(), 0, this.nextNum++)
+    },
+    remove() {
+      this.items.splice(this.randomIndex(), 1)
+    }
+  }
+}
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+
+</script>
+

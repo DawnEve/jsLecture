@@ -1,6 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
 <h1>Vue3 index</h1>
+https://www.jsdelivr.com/?query=vue
 <hr>
 <!--
 https://cdn.jsdelivr.net/npm/vue@next/dist/
@@ -19,8 +20,9 @@ ol{margin:0;}
 
 <pre class=box>
 https://vuejs.org/
-https://github.com/vuejs/vue
 https://v3.vuejs.org/guide/introduction.html
+https://github.com/vuejs/vue
+https://github.com/vuejs/docs-next-zh-cn
 
 Vue2
 https://github.com/miostudio/vue_learn
@@ -80,7 +82,7 @@ https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 
 
 
-<h2>003 Vue 深入组件</h2>
+<h2>003 Vue 深入组件（前置知识: 组件基础）</h2>
 https://v3.vuejs.org/guide/component-registration.html#component-names 
 <a target="" href="https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D">中文版</a><br>
 <ol>
@@ -99,10 +101,45 @@ https://v3.vuejs.org/guide/component-registration.html#component-names
 	<li><a target="_blank" href="003/05-3.html">003/05-3.html</a> 作用域插槽: 子组件通过slot v-bind 传值给 父组件，父组件根据数据渲染模板后，返回给slot占位符。 </li>
 	<li><a target="_blank" href="003/05-4.html">003/05-4.html</a> 解构插槽 Prop: <a target="_blank" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring">源于ES2015新特性，结构数组和对象</a> </li>
 	
-	
-	
+	<li><a target="_blank" href="003/06.html">003/06.html</a> Provide / inject: 依赖注入看作是“long range props”， 但是父子互不知晓对方。 </li>
+	<li><a target="_blank" href="003/07.html">003/07.html</a> Dynamic Components 动态组件： keep-alive </li>
+	<li><a target="_blank" href="003/07-2.html">003/07-2.html</a> Async Components 异步组件： <span class=red>//toto 不懂怎么用； 与 Suspense 一起使用也不懂；</span></li>
+	<li><a target="_blank" href="003/08.html">003/08.html</a>Template refs 模板引用： 通过 ref 还可以引用页面上的元素或组件。</li>
+	<li><a target="_blank" href="003/09.html">003/09.html</a> Handling Edge Cases 处理边界情况: $forceUpdate, v-once </li>
 </ol>
 
+
+<h2>004 过渡 & 动画</h2>
+https://v3.vuejs.org/guide/transitions-overview.html#class-based-animations-transitions
+<ol>
+	<li><a target="_blank" href="004/01.html">004/01.html</a> 概述 </li>
+	<li><a target="_blank" href="004/01-2.html">004/01-2.html</a> 过渡与 Style 绑定: Timing, Easing: 
+		<span class=red>//todo 
+			<a href="https://cubic-bezier.com/#0,.64,.83,.38">贝塞尔曲线</a> |
+			<a href="https://greensock.com/">GreenSock 现代动画效果: SVG, canvas, webGL,css</a> |
+			<a href="https://greensock.com/ease-visualizer">动画曲线示例</a> |
+			<a href="https://menudurable.ca/en/">碰撞检测怎么做的？</a> |
+			<a href="https://animate.style/">animate.css</a> |
+		</span>
+	</li>
+	<li><a target="_blank" href="004/02.html">004/02.html</a> Enter & Leave Transitions 进入过渡 & 离开过渡 </li>
+	<li><a target="_blank" href="004/02-2.html">004/02-2.html</a> GreenSock.com 动画示例 </li>
+	<li><a target="_blank" href="004/02-3.html">004/02-3.html</a> 纯css3动画: //todo 初始渲染的过渡 appear; 多个元素的过渡 v-if; </li>
+	<li><a target="_blank" href="004/02-4.html">004/02-4.html</a> </li>
+	<li><a target="_blank" href="004/02-5.html">004/02-5.html</a> 多个组件之间过渡： 元素之间的过渡： mode="out-in" 模式更好</li>
+	<li><a target="_blank" href="004/03.html">004/03.html</a> List Transitions 列表过渡: transition-group 组件: js 触发特效。</li>
+	<li><a target="_blank" href="004/03-2.html">004/03-2.html</a> 列表的移动过渡 (lodash.js)</li>
+	<li><a target="_blank" href="004/03-3.html">004/03-3.html</a> 列表的移动过渡 完整版 (lodash.js)</li>
+	<li><a target="_blank" href="004/03-4.html">004/03-4.html</a> 列表的交错过渡 ( <a href="https://greensock.com/gsap/">gsap.js</a> ) </li>
+	<li><a target="_blank" href="004/03-5.html">004/03-5.html</a> 可复用的过渡 //todo </li>
+	<li><a target="_blank" href="004/03-6.html">004/03-6.html</a> 动态过渡 (velocity.js) </li>
+
+	<li><a target="_blank" href="004/04.html">004/04.html</a> State Transitions 状态过渡 //todo bug </li>
+	<li><a target="_blank" href="004/04-2.html">004/04-2.html</a> 动态状态过渡 </li>
+	<li><a target="_blank" href="004/04-3.html">004/04-3.html</a> 把过渡放到组件里 </li>
+	<li><a target="_blank" href="004/04-4.html">004/04-4.html</a> 赋予设计以生命 </li>
+
+</ol>
 
 
 

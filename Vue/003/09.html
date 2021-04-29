@@ -1,0 +1,51 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：Handling Edge Cases 处理边界情况 </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+.green{color:green;}
+
+</style>
+
+<pre>
+没有内容。
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1.
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '09!',
+    }
+  },
+
+})
+
+
+var vm=app.mount('#app1')
+</script>
+

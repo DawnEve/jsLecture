@@ -1,0 +1,126 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：Provide / inject</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+.green{color:green;}
+</style>
+
+<pre>
+使用一对 provide 和 inject。无论组件层次结构有多深，父组件都可以作为其所有子组件的依赖提供者。
+这个特性有两个部分：
+    父组件有一个 provide 选项来提供数据，
+    子组件有一个 inject 选项来开始使用这些数据。
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>1. 适用于多层次结构的信息传递。此时使用props优点啰嗦。
+<pre>
+层次结构
+Root
+└─ TodoList
+    ├─ TodoItem
+    └─ TodoListFooter
+        ├─ ClearTodosButton
+        └─ TodoListStatistics
+</pre>
+    实例：
+    <todo-list></todo-list>
+
+
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 06!",
+        }
+    },
+})
+
+//组件 level1
+app.component('todo-list', {
+  data() {
+    return {
+        show:false,
+      todos: ['Feed a cat', 'Buy tickets']
+    }
+  },
+  //提供一个数据源
+  /*
+  provide: {
+    user: 'John Doe',
+    todoLength: this.todos.length, //发现无法访问todos
+  },*/
+
+  // 转为函数，才能访问到todos
+  provide(){
+      return{
+        user: 'John Doe',
+        todoLength: this.todos.length, //不能实时更新
+
+        todoLength2: Vue.computed(() => this.todos.length) //能实时更新
+      }
+  },
+
+  template: `
+  <div>todo-list: {{todos}}
+    <br> todos length=<b class=green>{{ todos.length }}</b>
+    <button @click="addTodos">Click me to add todo</button>
+    <!-- 模板的其余部分 -->
+
+    <p class=red v-show="show">改变todos，并不能引起子组件中 todos.length的变化; 需要使用计算属性 Vue.computed(() => this.todos.length) </p>
+    <todo-list-statistics></todo-list-statistics>
+    </div>
+  `,
+
+  methods:{
+    addTodos(e){ // 为todos 新增条目
+        this.todos.push("run 5km")
+        log(this.todos)
+        this.show="true";
+    }
+  }
+})
+
+
+
+
+
+
+//组件 level 2
+app.component('todo-list-statistics', {
+    //接收数据，
+  inject: ['user', 'todoLength', 'todoLength2'],
+
+  created() {
+    console.log(`Injected property: ${this.user}, 1=${this.todoLength}, 2=${this.todoLength2.value}`) // > 注入 property: John Doe
+  },
+
+  template:`
+    <p>|-- todo-list-statistics: user: {{user}}, todoLength: <b class=red>{{todoLength}}</b></p>
+    <p>|-- todo-list-statistics: user: {{user}}, todoLength2: <b class=green>{{todoLength2.value}}</b></p>
+  `
+})
+
+
+
+var vm=app.mount("#app1")
+</script>
+

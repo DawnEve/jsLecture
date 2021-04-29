@@ -1,0 +1,92 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 可复用的过渡 </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+</style>
+
+<pre>
+//todo 失败。
+</pre>
+
+
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>5. 将 transition 或者 transition-group 作为根组件，然后将任何子组件放置在其中就可以了
+    <my-special-transition>
+        <p v-if="on">some contents here.</p>
+    </my-special-transition>
+
+</div>
+
+
+
+
+
+<script src="/lib/animation/gsap.min-3.3.4.js"></script>
+
+<script>
+var log=console.log;
+
+const Demo = {
+  data() {
+    return {
+        msg:'03-5',
+        on:true,
+    }
+  },
+
+}
+
+const app = Vue.createApp(Demo)
+
+
+app.component('my-special-transition', {
+  template: `
+    <transition
+      name="very-special-transition"
+      mode="out-in"
+      @before-enter="beforeEnter"
+      @after-enter="afterEnter"
+    >
+      <slot></slot>
+    </transition>
+  `,
+  methods: {
+    beforeEnter(el) {
+        el.style.opacity = 0
+        el.style.height = 0
+        log("beforeEnter")
+    },
+
+    enter(el, done) {
+      gsap.to(el, {
+        opacity: 1,
+        height: '1.6em',
+        delay: el.dataset.index * 0.15,
+        onComplete: done
+      })
+      log("enter")
+    },
+
+    afterEnter(el) {
+      // ...
+    }
+  }
+})
+
+
+
+
+var vm=app.mount('#app1')
+
+</script>
+

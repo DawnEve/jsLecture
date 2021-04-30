@@ -20,6 +20,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.6-5@sustech Vue3 003/ 深入 自定义事件
 	dev0.2.6-6@sustech Vue3 003/ 深入 slot
 	dev0.2.6-7@sustech Vue3 004/ 动画(不太懂)
+	dev0.2.6-8@sustech Vue3 005/ .vue文件的使用入门
 
 #
 #->commit

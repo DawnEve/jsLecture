@@ -1,0 +1,77 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+<script src="/lib/axios/axios.min-0.18.0.js"></script>
+
+<h1>Ajax, axios.js </h1>
+<style>
+h1{color:#ddd;}
+</style>
+
+<div id="box">
+	<button v-on:click="fetchData2">get</button>
+    {{msg}}
+    
+    <hr>
+    > vm.items.push( { item:"pear", price:4} )
+    <ul>
+        <li v-for="item in items" :key=item.item>{{item.item}} : {{item.price}}</li>
+    </ul>
+</div>
+
+
+<script>
+var app = Vue.createApp({
+
+    data(){
+        return{ 
+            msg:'Hello World, Vue!',
+            items:[],
+        }
+    },
+
+    methods:{
+        obj2arr(obj){
+            //转换格式
+            var arr=[];
+            for(k in obj){
+                arr.push({item:k, price:obj[k]})
+            }
+            return arr;
+        },
+
+        fetchData: function(e) {
+            wjl=e
+            var xhr = new XMLHttpRequest();
+            var self = this;
+            xhr.open("GET", '/api/categories');
+
+            xhr.onload = function() {
+                var obj = JSON.parse(xhr.responseText);
+                console.log("obj=", obj);
+                self.items=self.obj2arr(obj);
+            };
+            xhr.send();
+        },
+
+
+        fetchData2(e){
+            wjl=e
+            var self=this;
+            axios.post('/api/categories', {
+                action:'fetchall',
+                usr:"admin",
+                pass:123
+            }).then(function(response){
+                var obj = response.data;
+                console.log(obj);
+
+                self.items=self.obj2arr(obj);
+            });
+        },
+
+    }
+});
+
+var vm=app.mount("#box")
+
+</script>

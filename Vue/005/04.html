@@ -1,0 +1,39 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>可复用 & 组合： Teleport </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1.
+</div>
+
+
+<script>
+var log=console.log;
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"04",
+        }
+    },
+
+})
+
+var vm=app.mount("#app1");
+</script>
+

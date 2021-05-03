@@ -42,6 +42,7 @@ http://vue.biomooc.com/
 	<b>ajax</b>
 	<li><a target="_blank" href="000/ajax1.html">000/ajax1.html</a> 原生ajax </li>
 	<li><a target="_blank" href="000/ajax2.html">000/ajax2.html</a> axios.js post </li>
+	<li><a target="_blank" href="000/import/index.html">000/import/index.html</a>  import 测试</li>
 </ol>
 
 
@@ -153,9 +154,41 @@ https://v3.vuejs.org/guide/transitions-overview.html#class-based-animations-tran
 
 <h2>005 可复用 & 组合 （前置知识：vue-cli 基本的 .vue文件的使用，webpack包的基本使用）</h2>
 https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api
+
+</p>如果你没有npm和ES6基础的话，这里<b class=red>学习曲线会很陡峭</b>。建议你花一天时间了解如下资源：</p>
+ - <b>node包管理器 npm</b>: <a href="https://docs.npmjs.com/packages-and-modules/getting-packages-from-the-registry" target="_blank">Getting Started guide</a><br>
+ - <b>现代 JavaScript 与 ES2015/16</b>: <a href="https://babeljs.io/docs/en/learn" target="_blank" rel="noopener noreferrer">Learn ES2015 guide</a><br>
+ - <a href="https://v3.cn.vuejs.org/guide/single-file-component.html" target="_blank">单文件组件简介</a> | <br>
+ - <a href="https://cli.vuejs.org/zh/guide/deployment.html" target="_blank">部署</a> | <br>
+然后建议你参考 <a href="https://cli.vuejs.org/" target="_blank" rel="noopener noreferrer">Vue CLI</a>。
+只要遵循指示，你就能很快地运行一个带有 .vue 组件、ES2015、webpack 和热重载 (hot-reloading) 的 Vue 项目！<br>
+
+<hr>
+
 <ol>
-	<li><a target="_blank" href="005/hello-vue/">005/hello-vue/</a> .vue文件的使用，需要在该文件夹下 $ npm run serve ,然后访问 http://localhost:8080/</li>
-	<li><a target="_blank" href="005/01.html">005/01.html</a> 什么是组合式 API？</li>
+	<li><a target="_blank" href="005/hello-vue/">005/hello-vue/</a> Single File Components 单文件组件: .vue文件模块化实例，一个组件一个文件。</li>
+<pre>
+.vue文件的运行
+(1). 直接预览
+在项目目录 hello-vue/ 文件夹下 $ npm run serve
+浏览器访问 http://localhost:8080/
+
+(2). 构建后预览
+在项目目录 hello-vue/ 文件夹下 $ npm run build
+然后进入新生成的 dist/ 目录下，【win10要使用cmd】 $ http-server -p 12345
+浏览器访问 http://localhost:12345/
+</pre>
+	<li><a target="_blank" href="005/todolist2/">005/todolist2/ </a>my-book.vue， my-blog.vue 中简介 组合式 API，响应性基础等。</li>
+	
+	
+	
+	<li><a target="_blank" href="005/01.html">005/01.html</a> 什么是组合式 API？： setup 返回的所有内容都将暴露给组件的其余部分</li>
+	<li><a target="_blank" href="005/02.html">005/02.html</a> mixin: 更灵活的是 组合式 API，以及插件。</li>
+	<li><a target="_blank" href="005/03.html">005/03.html</a> 自定义指令: v-focus 钩子函数，动态指令参数，函数简写，对象字面量，在组件中使用</li>
+	<li><a target="_blank" href="005/04.html">005/04.html</a> Teleport: </li>
+
+
+	<li><a target="_blank" href="005/todolist/">005/todolist/ </a> todolist 案例(https://www.imooc.com/video/23022) </li>
 </ol>
 
 

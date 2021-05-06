@@ -1,48 +1,47 @@
 <meta http-equiv=Content-Type content="text/html;charset=utf-8">
 <script src="/lib/Vue/vue.global-3.0.11.js"></script>
 
-<h1>过渡 & 动画：赋予设计以生命 </h1>
-<p style="color:red;">F12 </p>
+<body>
+<h1>可复用 & 组合：渲染机制与优化 </h1>
 
 <style>
 h1{color:#eee;}
 p,div{margin:0; padding:0;}
-.red{color:red;}
+
+p{border:1px solid #eee; padding-bottom:10px; color:orange;}
 
 </style>
 
+
 <pre>
-空白。
+    //本页面无vue代码
+
 </pre>
 
 
-<script src="/lib/animation/gsap.min-3.6.1.js"></script>
 <div id="app1">
     test: {{msg}}
     
-    <hr>4. https://v3.cn.vuejs.org/guide/transitions-state.html#赋予设计以生命
-
-
+    <hr>1. 虚拟 DOM
 
 
 </div>
 
 
-<script>
+</body>
+
+<script type=module>
 var log=console.log;
 
+
 var app=Vue.createApp({
-    data(){
+     data(){
         return {
-            msg:"04-4",
+            msg:"08",
         }
     },
-
 })
 
-
-
 var vm=app.mount("#app1");
-
 </script>
 

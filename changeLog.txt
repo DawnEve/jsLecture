@@ -22,6 +22,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.6-7@sustech Vue3 004/ 动画(不太懂)
 	dev0.2.6-8@sustech Vue3 005/ .vue文件的使用入门
 	dev0.2.6-9@sustech Vue3 005/ vue3高级概念: 组合式API, mixin, 自定义指令
+	dev0.2.7-0@sustech Vue3 005/ vue3高级概念: Teleport, 渲染函数, 插件，响应性计算和侦听
 
 #
 #->commit

@@ -1,12 +1,19 @@
 <meta http-equiv=Content-Type content="text/html;charset=utf-8">
 <script src="/lib/Vue/vue.global-3.0.11.js"></script>
 
+<body style="position: relative;">
 <h1>可复用 & 组合： Teleport </h1>
 
 <style>
 h1{color:#eee;}
 p,div{margin:0; padding:0;}
 
+.modal{
+    position:absolute;
+    background: orange;
+    border:2px solid #aaa;
+    padding:10px;
+}
 </style>
 
 
@@ -18,9 +25,32 @@ p,div{margin:0; padding:0;}
 <div id="app1">
     test: {{msg}}
     
-    <hr>1.
-</div>
+    <hr>1. 模态框组件
+    <div style="position: relative;">
+        <h3>Tooltips with Vue 3 Teleport</h3>
+        <div>
+          <modal-button></modal-button>
+        </div>
+    </div>
 
+
+
+
+    <hr>2. 我们修改 modal-button 以使用 teleport，并告诉 Vue “Teleport 这个 HTML 到该‘body’标签”
+    <br>一旦我们单击按钮打开模态框，Vue 将正确地将模态框内容渲染为 body 标签的子级。
+    <div style="position: relative;">
+        <h3>Tooltips with Vue 3 Teleport</h3>
+        <div>
+          <modal-button2></modal-button2>
+        </div>
+    </div>
+
+
+    <hr> 3. yyy
+
+
+</div>
+</body>
 
 <script>
 var log=console.log;
@@ -31,8 +61,61 @@ var app=Vue.createApp({
             msg:"04",
         }
     },
-
 })
+
+//1
+app.component('modal-button', {
+  template: `
+    <button @click="modalOpen = true">
+        Open full screen modal!
+    </button>
+
+    <div v-if="modalOpen" class="modal">
+      <div>
+        I'm a modal! 
+        <button @click="modalOpen = false">
+          Close
+        </button>
+      </div>
+    </div>
+  `,
+  data() {
+    return { 
+      modalOpen: false
+    }
+  }
+})
+
+
+
+//2
+app.component('modal-button2', {
+  template: `
+    <button @click="modalOpen = true">
+        Open full screen modal! (With teleport!)
+    </button>
+
+    <teleport to="body">
+      <div v-if="modalOpen" class="modal">
+        <div>
+          I'm a teleported modal! 
+          (My parent is "body")
+          <button @click="modalOpen = false">
+            Close
+          </button>
+        </div>
+      </div>
+    </teleport>
+  `,
+  data() {
+    return { 
+      modalOpen: false
+    }
+  }
+})
+
+
+
 
 var vm=app.mount("#app1");
 </script>

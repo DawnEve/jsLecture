@@ -1,0 +1,54 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body style="position: relative;">
+<h1>可复用 & 组合： 插件 </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.span1000{height:1000px;}
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. use() 方法将插件添加到你的应用程序
+    
+</div>
+
+
+</body>
+
+<script type="module">
+var log=console.log;
+import i18nPlugin from './06.js' //plugins
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"06",
+        }
+    },
+})
+
+const i18nStrings = {
+  greetings: {
+    hi: 'Hallo!'
+  }
+}
+
+app.use(i18nPlugin, i18nStrings)
+//所有的plugin都必须在调用 app.mount() 之前被 app.use 来初始化
+
+
+var vm=app.mount("#app1");
+</script>
+

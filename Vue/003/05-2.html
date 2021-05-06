@@ -1,0 +1,138 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：具名插槽</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+
+
+.container{color:#ddd;}
+header{background:#ccffff;}
+main{background:#ffffcc;}
+footer{background:#ffeeff;}
+</style>
+
+<pre>
+在向具名插槽提供内容的时候，我们可以在一个 template 元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称。
+
+注意，v-slot 只能添加在 template 上。只有一种例外：
+
+
+Dynamic Slot Names: &lt;template v-slot:[dynamicSlotName]&gt;&lt;/template&gt;
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+
+    <hr> 1具名插槽: 现在 template 元素中的所有内容都将会被传入相应的插槽。
+    <br> html中 v-slot:header， 组件模板中 slot name="header"
+    <base-layout>
+    <template v-slot:header>
+      <h1>a page title 1</h1>
+    </template>
+  
+    <template v-slot:default>
+      <p>2 A paragraph for the main content.</p>
+      <p>2 And another one.</p>
+    </template>
+  
+    <template v-slot:footer>
+      <p>3 Here's some contact info</p>
+    </template>
+  </base-layout>
+
+
+
+
+    <hr> 2. 动态名字的slot 
+    <br> > vm.dynamicslotname= "header"; //'default',"footer;"
+    <base-layout2>
+        <template v-slot:[dynamicSlotName] :part="dynamicSlotName">
+            I am content from html. 
+        </template>
+    </base-layout2>
+
+
+
+
+    <hr>3 具名slot的简写， html中 my-post #slotName, js组件模板中 slot name="slotName"
+    <br> 该缩写只在其有参数的时候才可用， 如果没有名字，则js组件中也要用完整写法 todo-list #default="{ item }"
+    <base-layout>
+        <template #header>
+            <h1>page title3</h1>
+        </template>
+
+        <template #default>
+            <p>A paragraph for the main content.</p>
+            <p>And another one.</p>
+        </template>
+
+        <template #footer>
+            <p>Here's some contact info</p>
+        </template>
+    </base-layout>
+
+
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 05-2!",
+            dynamicslotname:"footer", //在js中必须小写
+        }
+    },
+})
+
+app.component("base-layout", {
+    template:`
+        <div class="container">
+            <header>
+                <slot name="header"></slot>
+            </header>
+            <main>
+                <slot></slot>
+            </main>
+            <footer>
+                <slot name="footer"></slot>
+            </footer>
+        </div>
+    `
+})
+
+
+app.component("base-layout2", {
+
+    template:`
+        <div class="container">
+            <header>
+                header: <slot name="header"></slot>
+            </header>
+            <main>
+                main: <slot></slot>
+            </main>
+            <footer>
+                footer: <slot name="footer"></slot>
+            </footer>
+        </div>
+    `
+})
+
+
+
+var vm=app.mount("#app1")
+</script>
+

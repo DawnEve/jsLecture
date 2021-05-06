@@ -1,0 +1,167 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Prop类型
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。
+
+另外，每次父级组件发生变更时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。
+这么做会引发一个警告。
+
+</pre>
+
+
+
+<div id='app1'>
+    if the library is ok: {{msg}}
+    <hr>1. 传递静态或动态的 Prop
+    <blog-post title="My journey with Vue"></blog-post>
+    
+    <br>1.1 动态赋予一个变量的值 :title="post.title" //来自于实例的 post.title
+    <blog-post :title="post.title"></blog-post>
+
+    <br>1.2 动态赋予一个复杂表达式的值: :title="post.title + ' by ' + post.author.name"
+    <blog-post :title="post.title + ' by ' + post.author.name"></blog-post>
+
+
+
+    <hr>2 传递一个数字：即便 `42` 是静态的，我们仍然需要 `v-bind` 来告诉 Vue
+    <blog-post2 :likes="42"></blog-post2>
+    <br> 传递变量 :likes="post2.likes"
+    <blog-post2 :likes="post.likes"></blog-post2>
+
+
+
+    <hr>3 传递一个布尔值
+    <br>3.1 包含该 prop 没有值的情况在内，都意味着 `true`。//bug 我的测试显示 空 是 false 啊？
+    <blog-post3 is-published></blog-post3>
+    <br>3.2 使用 v-bind: 告诉vue这是一个js表达式，而不是字符串
+    <br> false
+    <blog-post3 :is-published="false"></blog-post3>
+    <br> true
+    <blog-post3 :is-published="true"></blog-post3>
+    <br>3.3 动态传入值 > vm.post.isPublished=true; false
+    <blog-post3 :is-published="post.isPublished"></blog-post3>
+
+
+    <hr>4 传入一个数组 :comment-ids="[234, 266, 273]"
+    <blog-post4 :comment-ids="[234, 266, 273]"></blog-post4>
+    <br>4.2 动态传入一个数组 :comment-ids="post.commentIds"
+    <blog-post4 :comment-ids="post.commentIds"></blog-post4>
+
+
+    <hr>5 传入一个对象 
+    <blog-post5
+    :author="{
+        name: 'Veronica',
+        company: 'Veridian Dynamics'
+    }"
+    ></blog-post5>
+    <br>5.2 动态传入对象
+    <blog-post5 :author="post.author"></blog-post5>
+
+
+    <hr>6 传入一个对象的所有property
+    <blog-post6 v-bind:title="post.title" v-bind:likes="post.likes"></blog-post6>
+    <br> 等价于下面的写法: v-bind="post"
+    <blog-post6 v-bind="post"></blog-post6>
+
+    
+</div>
+ 
+
+
+
+
+<script>
+//定义组件
+var blogPost={
+    props:["title"], //字符串
+    template:`
+        <h4>{{title}}</h4>
+    `
+}
+var blogPost2={
+    props:["likes"],//数字
+    template:`
+        <h4>(后台刷单 number+111)={{likes+111}}</h4>
+    `
+}
+
+var blogPost3={
+    props:["isPublished"], //布尔值
+    template:`
+        <h4 v-if="isPublished">isPublished = {{isPublished}}</h4>
+        <div v-else>v-else here: means not published.</div>
+    `
+}
+
+var blogPost4={
+    props:["commentIds"], //数组
+    template:`
+    <ul>
+        <li v-for="id in commentIds">commentId = {{id}}</li>
+    </ul>
+    `
+}
+
+
+var blogPost5={
+    props:["author"], //对象
+    template:`
+        <h4>作者是 {{author.name}}, 来自公司 {{author.company}}</h4>
+    `
+}
+
+var blogPost6={
+    props:["title", 'likes'], //对象，来自于实例 data post.title, post.likes
+    template:`
+        <p>标题 {{title}}, 喜欢人数 {{likes}}</p>
+    `
+}
+
+
+const app=Vue.createApp({
+    data(){
+        return{
+            msg:"hello, component!",
+            post:{ //1.1, 1.2,  6
+                title:"guide to vue compponents",
+                author:{
+                    name: "Tom",
+                    country:'cn',
+                    company:'xx tech',
+                },
+                likes: 100, //2
+                isPublished: true, //3.3
+                commentIds: [1,3,15,18], //4.2
+            },
+
+        }
+    },
+
+    //局部注册组件
+    components:{
+        "blog-post": blogPost,
+        "blog-post2": blogPost2,
+        "blog-post3": blogPost3,
+        "blog-post4": blogPost4,
+        "blog-post5": blogPost5,
+        "blog-post6": blogPost6,
+    }
+})
+
+var vm=app.mount("#app1")
+
+</script>
+

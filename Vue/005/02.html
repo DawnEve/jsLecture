@@ -1,0 +1,111 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>可复用 & 组合： minxin</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. 当组件和 mixin 对象含有同名选项时，这些选项将以恰当的方式进行“合并”。
+    比如，数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先。
+    <br><test-component>some words here</test-component>
+
+
+
+</div>
+
+
+<script>
+var log=console.log;
+
+// define a mixin object
+const myMixin = {
+    data(){
+        return{
+            msg: 'hello',
+            bar:"bar",
+        }
+    },
+  created() {
+    this.hello()
+  },
+  methods: {
+    hello() {
+      console.log('hello from mixin!')
+    },
+
+    conflicting() {
+      console.log('from mixin')
+    },
+  }
+}
+
+
+var app=Vue.createApp({
+    mixins: [myMixin],
+
+    data(){
+        return {
+            msg:"02",
+            foo:"foo",
+        }
+    },
+
+    created() {
+        console.log(this.$data) // => { message: "goodbye", foo: "abc", bar: "def" }
+    },
+
+    methods:{
+        conflicting() {
+            console.log('from self')
+        }
+    },
+
+    auther:"Tom Smith 003",
+    myOption:"my Option from self",
+})
+
+
+
+
+// 打印自定义选项
+app.mixin({
+  created() {
+    const options = this.$options
+    wjl=options
+    console.log('myOption=', options, '||', options.myOption)
+    
+    if(options.auther){ console.log(options.auther) }
+  }
+})
+
+
+
+
+// 将myOption也添加到子组件，也受到全局 mixin 的影响。
+app.component('test-component', {
+  myOption: 'hello from component!',
+  template:`
+    <b><slot></slot></b>
+  `
+})
+
+
+
+
+var vm=app.mount("#app1");
+vm.conflicting()
+</script>
+

@@ -1,0 +1,122 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 过渡与 Style 绑定</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+
+
+/*1*/
+.movearea {
+  transition: 0.2s background-color ease;
+}
+
+
+
+/*2*/
+.button {
+  background: #1b8f5a;
+  /* 应用于初始状态，因此此转换将应用于返回状态 */
+  transition: background 0.25s ease-in;
+}
+
+.button:hover {
+  background: #3eaf7c;
+  /* 应用于悬停状态，因此在触发悬停时将应用此过渡 */
+  transition: background 0.35s ease-out;
+}
+
+.button {
+  background: #1b8f5a;
+  transition: background 0.25s ease-in;
+  border-radius: 4px;
+  display: inline-block;
+  border: none;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+  transition: background 0.3s ease-out;
+  background: #3eaf7c;
+}
+
+button:focus {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+</style>
+
+<pre>
+Vue 提供了一些抽象概念，可以帮助处理过渡和动画，特别是在响应某些变化时。这些抽象的概念包括：
+
+在 CSS 和 JS 中，使用内置的 transition 组件来钩住组件中进入和离开 DOM。
+过渡模式，以便你在过渡期间编排顺序。
+在处理多个元素位置更新时，使用 transition-group 组件，通过 FLIP 技术来提高性能。
+使用 watchers 来处理应用中不同状态的过渡。
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1. 过渡与 Style 绑定
+
+    <div id="demo">
+        <div
+          @mousemove="xCoordinate"
+          :style="{ backgroundColor: `hsl(${x}, 80%, 50%)` }"
+          class="movearea"
+        >
+          <h3>Move your mouse across the screen...</h3>
+          <p>x: {{x}}</p>
+        </div>
+    </div>
+
+
+    <hr>2. 按钮， 开始部分动画更重要
+    <button class="button">
+        {{ message }}
+    </button>
+
+
+</div>
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '09!',
+      x: 0,
+      message:'Hover me!',
+    }
+  },
+
+  methods: {
+    xCoordinate(e) {
+      this.x = e.clientX
+    }
+  }
+
+})
+
+
+var vm=app.mount('#app1')
+</script>
+

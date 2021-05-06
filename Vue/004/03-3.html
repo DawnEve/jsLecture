@@ -1,0 +1,116 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画： 列表的移动过渡 完整版</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+.limited{max-height:200px; overflow-y: scroll; background: #eee; border:2px solid #555;}
+
+
+
+
+/*3*/
+.list-complete-item {
+  transition: all 0.8s ease;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.list-complete-enter-from,
+.list-complete-leave-to {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.list-complete-leave-active {
+  position: absolute;
+}
+
+</style>
+
+<pre>
+
+</pre>
+
+<script src="/lib/animation/lodash.min-4.17.15.js"></script>
+
+<div id="app1">
+    test: {{msg}}
+
+    <hr>3.
+
+    <div id="list-complete-demo" class="demo">
+        <button @click="shuffle">Shuffle</button>
+        <button @click="add">Add</button>
+        <button @click="remove">Remove</button>
+
+        <transition-group name="list-complete" tag="p">
+          <span v-for="item in items" :key="item" class="list-complete-item">
+            {{ item }}
+          </span>
+        </transition-group>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+var log=console.log
+
+const Demo = {
+  data() {
+    return {
+        msg:"03-3",
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      nextNum: 10,
+
+    }
+  },
+  methods: {
+    randomIndex() {
+      return Math.floor(Math.random() * this.items.length)
+    },
+    add() {
+      this.items.splice(this.randomIndex(), 0, this.nextNum++)
+    },
+    remove() {
+      this.items.splice(this.randomIndex(), 1)
+    },
+
+
+    shuffle() {
+        this.items = _.shuffle(this.items)
+    }
+
+  }
+}
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+
+
+
+
+// 自定义：按键精灵
+var arr=document.getElementById('list-complete-demo').getElementsByTagName('button');
+
+var fn=function(){
+    var x=Math.floor(Math.random()*3);
+    if(vm.items.length==0){
+        x=1;
+    }
+    console.log('-- > ',x);
+    arr[x].click();
+}
+
+//setInterval( fn, 200 )
+console.log("setInterval( fn, 800 )")
+</script>
+

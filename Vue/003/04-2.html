@@ -1,0 +1,103 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>组件中的v-model 参数</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+默认情况下，组件上的 v-model 使用 modelValue 作为 prop 和 update:modelValue 作为事件。
+我们可以通过向 v-model 传递参数来修改这些名称：
+
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>0 简写 v-model="bookTitle0"
+    <my-blog0 v-model="bookTitle0"></my-blog0>, title: {{bookTitle0}}
+
+    <hr>1. 修改传入的参数名  v-model:title="bookTitle"
+    <br> <my-blog v-model:title="bookTitle"></my-blog>, title: {{bookTitle}} 
+
+    <hr>2. 直接 v-bind 绑定，传入一个对象 > vm.obj2.title="changed title"
+    <br> 单向传入: 父 - > 子
+    <my-blog2 v-bind="obj2"></my-blog2>
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi!",
+            bookTitle0:"how to use xxx 0",
+            bookTitle:"how to use xxx",
+
+            obj2:{
+                title:"how to use xxx in obj",
+            },
+
+        }
+    },
+})
+
+
+//0 固定写法： 固定传入变量名 modelValue，固定事件名 'update:modelValue'
+app.component('my-blog0',{
+    props:['modelValue'],
+    emits: ['update:modelValue'],
+
+    template: `
+        <input 
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+        >
+    `
+})
+
+
+//1 在本例中，子组件将需要一个 title prop 并发出 update:title 要同步的事件：
+app.component('my-blog', {
+  props: {
+    title: String
+  },
+
+  emits: ['update:title'],
+  template: `
+    <input
+      type="input"
+      :value="title"
+      @input="$emit('update:title', $event.target.value)">
+  `
+})
+
+
+// 单向传入
+app.component('my-blog2', {
+    props: ['title'],
+
+    template: `
+        <input
+        type="text"
+        :value="title">
+
+        {{title}}
+    `
+})
+
+
+var vm=app.mount("#app1")
+</script>
+

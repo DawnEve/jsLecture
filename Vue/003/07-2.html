@@ -1,0 +1,64 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：Dynamic & Async Components 动态组件 & 异步组件</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+.green{color:green;}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1. 异步组件：由 defineAsyncComponent() 方法定义，返回的是 Promise。
+    <br> 此方法接受返回 Promise 的工厂函数。从服务器检索组件定义后，应调用 Promise 的 resolve 回调。你也可以调用 reject(reason)，来表示加载失败。
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+var log=console.log
+
+const { createApp, defineAsyncComponent } = Vue
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '07-2!',
+    }
+  },
+
+})
+
+// 异步组件：由 defineAsyncComponent() 方法定义，返回的是 Promise。
+const AsyncComp = defineAsyncComponent(
+  () =>
+    new Promise((resolve, reject) => {
+      resolve({
+        template: '<div>I am async!</div>'
+      })
+    })
+)
+app.component('async-example', AsyncComp)
+
+app.mount('#app1')
+</script>
+

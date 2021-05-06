@@ -1,0 +1,71 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件： 多个 v-model 绑定</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+每个 v-model 将同步到不同的 prop，而不需要在组件中添加额外的选项：
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>
+    {{firstName}} {{lastName}}
+    <br>
+    <user-name
+    v-model:first-name="firstName"
+    v-model:last-name="lastName"
+    ></user-name>
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 04-3!",
+            'firstName':'Tom',
+            'lastName':'Smith',
+
+        }
+    },
+})
+
+
+app.component('user-name', {
+  props: {
+    firstName: String,
+    lastName: String
+  },
+  emits: ['update:firstName', 'update:lastName'],
+  template: `
+    <input 
+      type="text"
+      :value="firstName"
+      @input="$emit('update:firstName', $event.target.value)">
+
+    <input
+      type="text"
+      :value="lastName"
+      @input="$emit('update:lastName', $event.target.value)">
+  `
+})
+
+
+var vm=app.mount("#app1")
+</script>
+

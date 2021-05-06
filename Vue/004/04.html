@@ -1,0 +1,66 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画：State Transitions 状态过渡 </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<script src="/lib/animation/gsap.min-3.6.1.js"></script>
+<div id="app1">
+    test: {{msg}}
+
+    <hr>1. 状态动画与侦听器。 bug: 为什么起点为3时，下一个不是23呢？
+
+    <div id="animated-number-demo">
+        <input v-model.number="number2" type="number" step="20" />
+        <p>{{ animatedNumber }}</p>
+    </div>
+
+
+</div>
+
+
+<script>
+var log=console.log;
+
+const Demo = {
+
+  data() {
+    return {
+        msg:"04",
+      number2: 3,
+      tweenedNumber: 3,
+    }
+  },
+
+  computed: {
+    animatedNumber() {
+      return this.tweenedNumber.toFixed(0)
+    }
+  },
+
+  watch: {
+    number2(newValue) {
+        log("newValue=",newValue, 'this.$data=', this.$data)
+      gsap.to(this.$data, { duration: 0.5, tweenedNumber: newValue })
+    }
+  }
+
+}
+
+
+const app = Vue.createApp(Demo)
+var vm=app.mount('#app1')
+</script>
+

@@ -1,11 +1,9 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
 <h1>Vue3 index</h1>
+https://www.jsdelivr.com/?query=vue
 <hr>
 <!--
-https://vuejs.org/
-https://v3.vuejs.org/guide/introduction.html
-
 https://cdn.jsdelivr.net/npm/vue@next/dist/
 vue@3.0.11/dist/
 vue.global.js is the "full" build that includes both the compiler and the runtime so it supports compiling templates on the fly.
@@ -17,15 +15,34 @@ vue.global.js is the "full" build that includes both the compiler and the runtim
 .red{color:red;}
 h1, h2,p{margin:0; padding:0;}
 ol{margin:0;}
+.box{border:1px dashed #ddd;}
 </style>
 
+<pre class=box>
+https://vuejs.org/
+https://v3.vuejs.org/guide/introduction.html
+https://github.com/vuejs/vue
+https://github.com/vuejs/docs-next-zh-cn
 
+Vue2
+https://github.com/miostudio/vue_learn
+http://vue.biomooc.com/
+</pre>
 
 
 <h2>ES5 ES6 简介</h2>
 <ol>
 	<li><a target="_blank" href="000/01.html">000/01.html</a> let作用域不同</li>
 	<li><a target="_blank" href="000/02.html">000/02.html</a> let 作用域外报错 Uncaught ReferenceError</li>
+
+	<b>vue 示例</b>>
+	<li><a target="_blank" href="000/e01.html">000/e01.html</a> 查看github提交: 原生ajax</li>
+	<li><a target="_blank" href="000/e02.html">000/e02.html</a> TodoMVC: todos： 使用本地存储 </li>
+
+	<b>ajax</b>
+	<li><a target="_blank" href="000/ajax1.html">000/ajax1.html</a> 原生ajax </li>
+	<li><a target="_blank" href="000/ajax2.html">000/ajax2.html</a> axios.js post </li>
+	<li><a target="_blank" href="000/import/index.html">000/import/index.html</a>  import 测试</li>
 </ol>
 
 
@@ -65,7 +82,7 @@ https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 	<li><a target="_blank" href="002/09.html">002/09.html</a> List Rendering 列表渲染 <span class=red>//todo 组件中的v-for</span></li>
 	<li><a target="_blank" href="002/10.html">002/10.html</a> Event Handling 事件处理</li>
 	<li><a target="_blank" href="002/11.html">002/11.html</a> Form Input Bindings 表单输入绑定 <span class=red>//todo 值绑定、修饰符、组件上使用v-model</span></li>
-	<li><a target="_blank" href="002/12.html">002/12.html</a> Components Basics 组件基础</li>
+	<li><a target="_blank" href="002/12.html">002/12.html</a> Components Basics 组件基础: 父子组件的通信：父->子 props, 子->父 $emit("eventName")</li>
 	<li><a target="_blank" href="002/13.html">002/13.html</a> 在组件上使用 v-model <span class=red>//todo: props, 自定义事件, slots, 动态组件 is, 解析 DOM 模板时的注意事项 v-is</span> </li>
 	
 </ol>
@@ -74,26 +91,138 @@ https://v3.vuejs.org/guide/instance.html#lifecycle-hooks
 
 
 
-<h2>003 Vue 深入组件</h2>
-https://v3.vuejs.org/guide/component-registration.html#component-names <br>
-https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D
+<h2>003 Vue 深入组件（前置知识: 组件基础）</h2>
+https://v3.vuejs.org/guide/component-registration.html#component-names 
+<a target="" href="https://v3.cn.vuejs.org/guide/component-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D">中文版</a><br>
 <ol>
+	<li><a target="_blank" href="003/src/index.html">003/src/index.html</a>模块示例</li>
 	<li><a target="_blank" href="003/01.html">003/01.html</a> 组件注册</li>
+	<li><a target="_blank" href="003/02.html">003/02.html</a> Prop类型: 父传子 一个数字/布尔值/数组/对象/ 传入一个对象的所有property</li>
+	<li><a target="_blank" href="003/02-2.html">003/02-2.html</a> Prop类型: 父传子 单向流动，怎么改变传入组件内的变量？ <span class=red>//todo Prop 类型验证</span></li>
+	<li><a target="_blank" href="003/03.html">003/03.html</a> 非 Prop 的 Attribute</li>
+	<li><a target="_blank" href="003/04.html">003/04.html</a> Custom Events 自定义事件 <span class=red>//todo 验证抛出的事件</span></li>
+	<li><a target="_blank" href="003/04-2.html">003/04-2.html</a> v-model 参数 </li>
+	<li><a target="_blank" href="003/04-3.html">003/04-3.html</a> 多个 v-model 绑定 </li>
+	<li><a target="_blank" href="003/04-4.html">003/04-4.html</a> Handling v-model modifiers (处理 v-model 修饰符) </li>
+
+	<li><a target="_blank" href="003/05.html">003/05.html</a> Slots 插槽 </li>
+	<li><a target="_blank" href="003/05-2.html">003/05-2.html</a> Slots 具名插槽, 动态名字， </li>
+	<li><a target="_blank" href="003/05-3.html">003/05-3.html</a> 作用域插槽: 子组件通过slot v-bind 传值给 父组件，父组件根据数据渲染模板后，返回给slot占位符。 </li>
+	<li><a target="_blank" href="003/05-4.html">003/05-4.html</a> 解构插槽 Prop: <a target="_blank" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring">源于ES2015新特性，结构数组和对象</a> </li>
 	
-	
-	
+	<li><a target="_blank" href="003/06.html">003/06.html</a> Provide / inject: 依赖注入看作是“long range props”， 但是父子互不知晓对方。 </li>
+	<li><a target="_blank" href="003/07.html">003/07.html</a> Dynamic Components 动态组件： keep-alive </li>
+	<li><a target="_blank" href="003/07-2.html">003/07-2.html</a> Async Components 异步组件： <span class=red>//toto 不懂怎么用； 与 Suspense 一起使用也不懂；</span></li>
+	<li><a target="_blank" href="003/08.html">003/08.html</a>Template refs 模板引用： 通过 ref 还可以引用页面上的元素或组件。</li>
+	<li><a target="_blank" href="003/09.html">003/09.html</a> Handling Edge Cases 处理边界情况: $forceUpdate, v-once </li>
 </ol>
 
 
-
-
-
-
-
-
-<h2>001 Vue ajax</h2>
+<h2>004 过渡 & 动画</h2>
+https://v3.vuejs.org/guide/transitions-overview.html#class-based-animations-transitions
 <ol>
-	<li><a target="_blank" href="001/a1.html">vue demo1</a> </li>
-	<li><a target="_blank" href="001/a2.html">vue demo2</a> </li>
+	<li><a target="_blank" href="004/01.html">004/01.html</a> 概述 </li>
+	<li><a target="_blank" href="004/01-2.html">004/01-2.html</a> 过渡与 Style 绑定: Timing, Easing: 
+		<span class=red>//todo 
+			<a href="https://cubic-bezier.com/#0,.64,.83,.38">贝塞尔曲线</a> |
+			<a href="https://greensock.com/">GreenSock 现代动画效果: SVG, canvas, webGL,css</a> |
+			<a href="https://greensock.com/ease-visualizer">动画曲线示例</a> |
+			<a href="https://menudurable.ca/en/">碰撞检测怎么做的？</a> |
+			<a href="https://animate.style/">animate.css</a> |
+		</span>
+	</li>
+	<li><a target="_blank" href="004/02.html">004/02.html</a> Enter & Leave Transitions 进入过渡 & 离开过渡 </li>
+	<li><a target="_blank" href="004/02-2.html">004/02-2.html</a> GreenSock.com 动画示例 </li>
+	<li><a target="_blank" href="004/02-3.html">004/02-3.html</a> 纯css3动画: //todo 初始渲染的过渡 appear; 多个元素的过渡 v-if; </li>
+	<li><a target="_blank" href="004/02-4.html">004/02-4.html</a> </li>
+	<li><a target="_blank" href="004/02-5.html">004/02-5.html</a> 多个组件之间过渡： 元素之间的过渡： mode="out-in" 模式更好</li>
+	<li><a target="_blank" href="004/03.html">004/03.html</a> List Transitions 列表过渡: transition-group 组件: js 触发特效。</li>
+	<li><a target="_blank" href="004/03-2.html">004/03-2.html</a> 列表的移动过渡 (lodash.js)</li>
+	<li><a target="_blank" href="004/03-3.html">004/03-3.html</a> 列表的移动过渡 完整版 (lodash.js)</li>
+	<li><a target="_blank" href="004/03-4.html">004/03-4.html</a> 列表的交错过渡 ( <a href="https://greensock.com/gsap/">gsap.js</a> ) </li>
+	<li><a target="_blank" href="004/03-5.html">004/03-5.html</a> 可复用的过渡 //todo </li>
+	<li><a target="_blank" href="004/03-6.html">004/03-6.html</a> 动态过渡 (velocity.js) </li>
+
+	<li><a target="_blank" href="004/04.html">004/04.html</a> State Transitions 状态过渡 //todo bug </li>
+	<li><a target="_blank" href="004/04-2.html">004/04-2.html</a> 动态状态过渡 </li>
+	<li><a target="_blank" href="004/04-3.html">004/04-3.html</a> 把过渡放到组件里 </li>
+	<li><a target="_blank" href="004/04-4.html">004/04-4.html</a> 赋予设计以生命 </li>
 
 </ol>
+
+
+
+
+
+
+<h2>005 可复用 & 组合 （前置知识：vue-cli 基本的 .vue文件的使用，webpack包的基本使用）</h2>
+https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api
+
+</p>如果你没有npm和ES6基础的话，这里<b class=red>学习曲线会很陡峭</b>。建议你花一天时间了解如下资源：</p>
+ - <b>node包管理器 npm</b>: <a href="https://docs.npmjs.com/packages-and-modules/getting-packages-from-the-registry" target="_blank">Getting Started guide</a><br>
+ - <b>现代 JavaScript 与 ES2015/16</b>: <a href="https://babeljs.io/docs/en/learn" target="_blank" rel="noopener noreferrer">Learn ES2015 guide</a><br>
+ - <a href="https://v3.cn.vuejs.org/guide/single-file-component.html" target="_blank">单文件组件简介</a> | <br>
+ - <a href="https://cli.vuejs.org/zh/guide/deployment.html" target="_blank">部署</a> | <br>
+然后建议你参考 <a href="https://cli.vuejs.org/" target="_blank" rel="noopener noreferrer">Vue CLI</a>。
+只要遵循指示，你就能很快地运行一个带有 .vue 组件、ES2015、webpack 和热重载 (hot-reloading) 的 Vue 项目！<br>
+
+<hr>
+
+<ol>
+	<li><a target="_blank" href="005/hello-vue/">005/hello-vue/</a> Single File Components 单文件组件: .vue文件模块化实例，一个组件一个文件。</li>
+<pre>
+.vue文件的运行
+(1). 直接预览
+在项目目录 hello-vue/ 文件夹下 $ npm run serve
+浏览器访问 http://localhost:8080/
+
+(2). 构建后预览
+在项目目录 hello-vue/ 文件夹下 $ npm run build
+然后进入新生成的 dist/ 目录下，【win10要使用cmd】 $ http-server -p 12345
+浏览器访问 http://localhost:12345/
+</pre>
+	<li><a target="_blank" href="005/todolist2/">005/todolist2/ </a>my-book.vue， my-blog.vue 中简介 组合式 API，响应性基础等。</li>
+	
+	
+	
+	<li><a target="_blank" href="005/01.html">005/01.html</a> 什么是组合式 API？： setup 返回的所有内容都将暴露给组件的其余部分</li>
+	<li><a target="_blank" href="005/02.html">005/02.html</a> mixin: 更灵活的是 组合式 API，以及插件。</li>
+	<li><a target="_blank" href="005/03.html">005/03.html</a> 自定义指令: v-focus 钩子函数，动态指令参数，函数简写，对象字面量，在组件中使用</li>
+	<li><a target="_blank" href="005/04.html">005/04.html</a> Teleport: </li>
+	<li><a target="_blank" href="005/04-2.html">005/04-2.html</a> Teleport: 与组件一起使用, 组件内容注入到app之外的dom元素内，实现modal框。</li>
+	
+	<li><a target="_blank" href="005/05.html">005/05.html</a> 渲染函数: render() 返回的h()函数接收3个参数: tagName, prpps, children; v-on，事件修饰符 </li>
+	<li><a target="_blank" href="005/06.html">005/06.html</a> 插件: use() 方法将插件添加到你的应用程序 </li>
+	<li><a target="_blank" href="005/07.html">005/07.html</a> 响应性计算和侦听：副作用watchEffect() 与清除 stop(); watch;  </li>
+	<li><a target="_blank" href="005/08.html">005/08.html</a> 渲染机制与优化: 虚拟 DOM，低层渲染逻辑。无代码。  </li>
+	<p>如果需要更新列表项，我们可以借助前面提到的响应性在 JavaScript 中进行。我们将更改应用至 JavaScript 副本、虚拟 DOM 中，然后在它们和实际 DOM 之间执行 diff。只有这样，我们才能对已更改的内容进行更新。虚拟 DOM 允许我们对 UI 进行高效的更新！</p>
+
+
+
+
+	<br>
+	<li><a target="_blank" href="005/todolist/">005/todolist/ </a> todolist 案例(https://www.imooc.com/video/23022) </li>
+</ol>
+
+
+
+
+
+
+
+
+<h2>006 工具</h2>
+https://v3.cn.vuejs.org/guide/single-file-component.html
+<ol>
+	<li><a target="_blank" href="006/01.html">006/01.html</a> 单文件组件 </li>
+
+</ol>
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+

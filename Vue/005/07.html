@@ -1,0 +1,242 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>可复用 & 组合：  响应性计算和侦听 </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+p{border:1px solid #eee; padding-bottom:10px; color:orange;}
+
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. computed(()
+    <my-blog>this is the title</my-blog>
+    
+    <hr>2. computed(() 的 getter 和 setter
+    <my-blog2>this is another title</my-blog2>
+
+    <hr>3. watchEffect
+    <my-blog3>this is the 3rd title</my-blog3>
+
+    <hr>4. watch: 侦听一个 getter
+    <my-blog4></my-blog4>
+
+    <hr>5. watch: 直接侦听ref
+    <my-blog5></my-blog5>
+
+
+    <hr>6. 侦听多个数据源: 侦听器还可以使用数组同时侦听多个源（逐个看数组的变化，返回数组前后的值）
+    <my-blog6></my-blog6>
+
+    
+    <hr>7. 侦听响应式对象 
+    <my-blog7></my-blog7>
+
+
+
+
+</div>
+
+
+</body>
+
+<script type=module>
+var log=console.log;
+
+//import { ref } from 'vue'
+var ref=Vue.ref;
+var computed=Vue.computed;
+var watchEffect=Vue.watchEffect;
+var reactive=Vue.reactive;
+var watch=Vue.watch;
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"07",
+        }
+    },
+})
+
+
+
+//1. 
+app.component('my-blog',{
+    template:`
+        <p>1. <slot></slot></p>
+    `,
+    setup(){
+        /* */
+        const count = ref(1)
+        const plusOne = computed(() => count.value + 1)
+        console.log('1->', plusOne.value) // 2
+        console.log('1->', plusOne.value++) // error
+    }
+})
+
+
+//2. 
+app.component('my-blog2',{
+    template:`
+        <p>2. <slot></slot></p>
+    `,
+    setup(){
+        /* */
+        const count = ref(1)
+        const plusOne = computed({
+            get: () => count.value + 1,
+            set: val => {
+                count.value = val - 1
+            }
+        })
+        console.log('2-->', plusOne.value) // 2
+        console.log('2-->', plusOne.value++) //
+        console.log('2-->', plusOne.value) //
+    },
+})
+
+//3.
+app.component('my-blog3',{
+    template:`
+        <p>3. <slot></slot>: 1.5s后这里会变化 -- > {{count}}</p>
+    `,
+
+    setup(){
+        const count = ref(30)
+
+        watchEffect(() => console.log(count.value))
+        // -> logs 30
+
+        setTimeout(() => {
+            count.value++
+            // -> logs 31
+        }, 1500)
+
+        return{
+            count
+        }
+    },
+});
+
+
+
+//4. watch
+app.component('my-blog4',{
+    template:`
+        <p>4. {{count}}</p>
+    `,
+
+    setup(){
+        // 侦听一个 getter
+        const state = reactive({ count: 40 })
+
+        watch(
+            () => state.count,
+            (count, prevCount) => {
+                /* ... */
+                console.log("--4 count有变化，现在是： ", count, "; 之前是: ", prevCount)
+            }
+        );
+
+        state.count++;
+        
+        return{
+            count: state.count,
+        }
+    },
+
+})
+
+
+//5
+app.component('my-blog5',{
+    template:`
+        <p>5. {{count}}</p>
+    `,
+
+    setup(){
+        // 侦听一个 getter
+        //const state = reactive({ count: 50 })
+        const count = ref(50)
+        watch(count, (count, prevCount) => {
+            /* ... */
+            console.log("--5 count有变化，现在是： ", count, "; 之前是: ", prevCount)
+        });
+
+        count.value += 5;
+        
+        return{
+            count,
+        }
+    },
+
+})
+
+
+
+//6.
+app.component('my-blog6',{
+    template:`
+        <p>6. {{firstName}} {{lastName}}</p>
+    `,
+
+    setup(){
+        const firstName = ref('1');
+        const lastName = ref('2');
+
+        watch([firstName, lastName], (newValues, prevValues) => {
+            console.log(newValues, prevValues);
+        })
+
+        firstName.value = "John"; // logs: ["John","2"] ["1", "2"]
+        lastName.value = "Smith"; // logs: ["John", "Smith"] ["John", "2"]
+
+        return{
+            firstName,
+            lastName,
+        }
+    },
+});
+
+
+
+//6.
+app.component('my-blog7',{
+    template:`
+        <p>7. </p>
+    `,
+
+    setup(){
+        const numbers = reactive([1, 2, 3, 4])
+        
+        watch(
+            () => [...numbers],
+            (numbers, prevNumbers) => {
+                console.log('7----->', numbers, prevNumbers);
+        })
+
+        numbers.push(5) // logs: [1,2,3,4,5] [1,2,3,4]
+        
+        window.wjl=numbers;
+        log('try > wjl.push(100)')
+    },
+});
+
+
+
+
+var vm=app.mount("#app1");
+</script>
+

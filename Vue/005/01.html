@@ -1,0 +1,49 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>可复用 & 组合： 什么是组合式 API？ </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+.red{color:red;}
+
+</style>
+
+<pre>
+1. 通过创建 Vue 组件，我们可以将界面中重复的部分连同其功能一起提取为可重用的代码段。仅此一项就可以使我们的应用在可维护性和灵活性方面走得更远。
+2.然而，我们的经验已经证明，光靠这一点可能是不够的，尤其是当你的应用变得非常大的时候——想想几百个组件。当处理这样的大型应用时，共享和重用代码变得尤为重要。
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. 由于在执行 setup 时，组件实例尚未被创建，因此在 setup 选项中没有 this。
+    这意味着，除了 props 之外，你将无法访问组件中声明的任何属性——本地状态、计算属性或方法。
+
+
+
+
+</div>
+
+
+<script>
+var log=console.log;
+
+var app=Vue.createApp({
+    data(){
+        return {
+            msg:"01",
+        }
+    },
+
+})
+
+
+
+var vm=app.mount("#app1");
+
+</script>
+

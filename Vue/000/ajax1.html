@@ -1,0 +1,56 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>Ajax, raw </h1>
+<style>
+h1{color:#ddd;}
+</style>
+
+<div id="box">
+	<button v-on:click="fetchData">get</button>
+    {{msg}}
+    
+    <hr>
+    > vm.items.push( { item:"pear", price:4} )
+    <ul>
+        <li v-for="item in items" :key=item.item>{{item.item}} : {{item.price}}</li>
+    </ul>
+</div>
+
+
+<script>
+var app = Vue.createApp({
+
+    data(){
+        return{ 
+            msg:'Hello World, Vue!',
+            items:[],
+        }
+    },
+
+    methods:{
+
+        fetchData: function() {
+            var xhr = new XMLHttpRequest();
+            var self = this;
+            xhr.open("GET", '/api/categories');
+            xhr.onload = function() {
+                var obj = JSON.parse(xhr.responseText);
+                console.log("obj=", obj);
+
+                //转换格式
+                var arr=[];
+                for(k in obj){
+                    arr.push({item:k, price:obj[k]})
+                }
+                self.items=arr;
+            };
+            xhr.send();
+        },
+
+    }
+});
+
+var vm=app.mount("#box")
+
+</script>

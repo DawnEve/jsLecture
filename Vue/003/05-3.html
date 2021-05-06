@@ -1,0 +1,181 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：作用域插槽</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+.green{color:green;}
+</style>
+
+<pre>
+绑定在 slot 元素上的 attribute 被称为插槽 prop。
+现在在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字。
+
+
+We can add named slots to our component and access data from the child in the parent with slot props.
+从 父组件 访问 子组件slot提供的prop数据，渲染后交给子组件slot占位符。
+https://thewebdev.info/2020/07/26/vue-3%E2%80%8A-%E2%80%8Anamed-slots-and-slot-props/
+
+注意默认插槽的缩写语法不能和具名插槽混用，因为它会导致作用域不明确。使用 具名slot的完整写法。
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>1 basic
+    <todo-list></todo-list>
+
+    <hr>2 我们可能会想把  item  替换为 slot，以便在父组件上 接收 子组件binding的 数据 并自定义格式，最后传给 子组件slot。
+    <br>我们选择将包含所有插槽 prop 的对象命名为 slotProps，但你也可以使用任意你喜欢的名字。
+    <todo-list2>
+        <template v-slot:default="slotProps2"> <!-- 这个是接收的 子组件 传出来的值，然后父组件 显示，然后子组件模板再 替换掉slot占位符。-->
+            <i class="fas fa-check">in html</i> |
+            <span class="green">name: {{ slotProps2.item.name }}</span>
+            <i class="fas"> | </i>
+            <span class="red">slotProps2: {{ slotProps2 }}</span>
+        </template>
+    </todo-list2>
+
+
+
+    <hr>3 测试 修改名字
+    <todo-list3>
+        <template v-slot:default="slotProps3">
+            <span class="red">index: {{ slotProps3.index3 }}</span> |
+            <span class="green">name: {{ slotProps3.item3 }}</span> |
+        </template>
+    </todo-list3>
+
+
+    <hr>4 简写形式 v-slot="slotProps4"
+    <todo-list3 v-slot="slotProps4">
+        <span class="green">{{ slotProps4.item3 }}</span>
+    </todo-list3>
+
+
+    
+    <hr>5 多个 slot 时，要指定名字： html中 template 使用 v-lot:name2, 组件中使用 slot name=name2
+    <todo-list5>
+        <template v-slot:default="slotProps">
+            <span class="green">1: {{ slotProps.item5 }}</span>
+        </template>
+        
+        <template v-slot:other="otherSlotProps">
+            <span class="red">2: {{ otherSlotProps.index5 }}</span>
+        </template>
+    </todo-list5>
+
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 05-3!",
+            slotProps:{
+                item:["0- by milk", '0- clean the house'],
+            }
+        }
+    },
+
+})
+
+//1
+app.component("todo-list",{
+    data(){
+        return{
+            todos:["by milk", 'clean the house'],
+        }
+    },
+
+    // 能否把item换成 slot呢？方便在 父组件 中自定义。
+    template:`
+        <ul>
+            <li v-for="(item, index) in todos">{{item}}</li>
+        </ul>
+    `
+})
+
+//2 数据还是来自 子组件内置数据
+app.component("todo-list2",{
+    data(){
+        return{
+            todos:["by milk", 'clean the house'],
+            items: [{ name: "apple" }, { name: "orange" }, { name: "grape" }],
+        }
+    },
+
+    // 渲染组件之前，先把 slot 上 bind的属性传递给 父组件，
+    // v-bind 的变量 就是 父组件slotProps变量 的属性名。
+    template:`
+        <ul>
+            <li v-for="( item, index ) in items">
+                
+                |
+                <slot :item="item" :index="index" :another-attribute="items"></slot>
+
+            </li>
+        </ul>
+    `
+    // {{index}} - {{item}}: <slot :item="item"></slot>
+})
+
+
+
+//3 替换slot 上 v-bind的= 左侧名字，在父组件也要这么接收。
+app.component("todo-list3",{
+    data(){
+        return{
+            todos:["by milk", 'clean the house', 'run 5km', 'coding 4hrs'],
+        }
+    },
+
+    // 渲染组件之前，先把 slot 上 bind的属性传递给 父组件，
+    // v-bind 的变量 就是 父组件slotProps变量 的属性名。
+    template:`
+        <ul>
+            <li v-for="( item, index ) in todos">
+                <slot :item3="item" :index3="index"></slot>
+            </li>
+        </ul>
+    `
+})
+
+
+
+//5 多个slot
+app.component("todo-list5",{
+    data(){
+        return{
+            todos:["5-by milk", 'clean the house', 'run 5km', 'coding 4hrs'],
+        }
+    },
+
+    template:`
+        <ul>
+            <li v-for="( item, index ) in todos">
+                <slot :item5="item"></slot> | 
+                <slot :index5="index" name="other"></slot>
+            </li>
+        </ul>
+    `
+    //
+})
+
+
+
+
+var vm=app.mount("#app1")
+</script>
+

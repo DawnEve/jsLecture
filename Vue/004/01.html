@@ -1,0 +1,98 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>过渡 & 动画：  </h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+
+
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+
+
+</style>
+
+<pre>
+Vue 提供了一些抽象概念，可以帮助处理过渡和动画，特别是在响应某些变化时。这些抽象的概念包括：
+
+在 CSS 和 JS 中，使用内置的 transition 组件来钩住组件中进入和离开 DOM。
+过渡模式，以便你在过渡期间编排顺序。
+在处理多个元素位置更新时，使用 transition-group 组件，通过 FLIP 技术来提高性能。
+使用 watchers 来处理应用中不同状态的过渡。
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1. shake 动画
+
+    <div id="demo">
+        Push this button to do something you shouldn't be doing:<br />
+      
+        <div :class="{ shake: noActivated }">
+          <button @click="noActivated = !noActivated">Click me</button>
+          <span v-if="noActivated">Oh no!</span>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '09!',
+      noActivated: false,
+    }
+  },
+
+})
+
+
+var vm=app.mount('#app1')
+</script>
+

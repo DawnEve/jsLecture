@@ -1,0 +1,101 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件： Handling v-model modifiers (处理 v-model 修饰符)</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+
+</pre>
+
+
+
+<div id='app1'>
+    check: {{msg}}
+    <hr>1. 自定义修饰符 大写 .capitalize
+    <br>{{ myText }} 
+    <br> <my-blog v-model.capitalize="myText"></my-blog>
+
+    <hr>2. 对于带参数的 v-model 绑定，生成的 prop 名称将为 arg + "Modifiers"：看F12 > wjl.descriptionModifiers
+    <br> <my-blog2 v-model:description.capitalize="myText"></my-blog2>
+
+
+
+
+</div>
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:"hi 04-4!",
+            myText:'',
+        }
+    },
+})
+
+
+app.component('my-blog', {
+  props: {
+    modelValue: String,
+    modelModifiers: {
+      default: () => ({})
+    }
+  },
+  emits: ['update:modelValue'],
+  template: `
+    <input type="text"
+      :value="modelValue"
+      @input="emitValue"> // 这里是处理函数
+  `,
+  created() {
+    console.log('the modelModifiers: ', this.modelModifiers) // { capitalize: true }
+  },
+  
+  
+  methods: {
+      // 事件处理函数
+      emitValue(e){
+            let value=e.target.value;
+            //$emit('update:modelValue', $event.target.value)
+            if (this.modelModifiers.capitalize) {
+                value = value.charAt(0).toUpperCase() + value.slice(1)
+            }
+            this.$emit('update:modelValue', value)
+      }
+  },
+
+})
+
+
+// 带参数的 v-model 绑定，生成的 prop 名称将为 arg + "Modifiers"
+app.component('my-blog2', {
+  props: ['description', 'descriptionModifiers'],
+  emits: ['update:description'],
+  template: `
+    <input type="text"
+      :value="description"
+      @input="$emit('update:description', $event.target.value)">
+  `,
+  created() {
+      wjl=this;
+    console.log("my-blog2: ", this.descriptionModifiers) // { capitalize: true }
+  }
+})
+
+
+
+var vm=app.mount("#app1")
+</script>
+

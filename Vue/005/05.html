@@ -1,0 +1,235 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body style="position: relative;">
+<h1>可复用 & 组合： 渲染函数 </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.span1000{height:1000px;}
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. 一般用html模板，但也可以直接用 js。例: 生成一些带锚点的标题
+    <h1>
+        <a name="hello-world" href="#hello-world">
+          Hello world!
+        </a>
+    </h1>
+
+    锚点标题的使用非常频繁，我们应该创建一个组件：<br>
+    <anchored-heading :level="1">h1 Hello world!</anchored-heading>
+    <anchored-heading :level="2">h2 Hello world!</anchored-heading>
+    <anchored-heading :level="6">h6 Hello world!</anchored-heading>
+
+
+
+
+    <hr>2. render() 返回的h()函数接收3个参数: tagName, prpps, children
+
+    <br> 虽然模板在大多数组件中都非常好用，但是显然在这里它就不合适了。那么，我们来尝试使用 render 函数重写上面的例子：
+    <anchored-heading2 :level="1">h1 header</anchored-heading2>
+
+
+
+    <hr>3. h()如果只传入2个参数，则默认是 tagName, children
+    <ul-list :items="[{name:'orange', price:5,}, {name:'apple', price:8}]"></ul-list>
+    <ul-list :items="fruits"></ul-list>
+    
+
+    <hr>4. v-on in render(): 我们必须为事件处理程序提供一个正确的 prop 名称，例如，要处理 click 事件，prop 名称应该是 onClick。
+    <br>
+    <my-click4></my-click4>
+
+
+
+
+
+    <hr>5. h()访问 插槽 slot: this.$slots.default()
+    <my-slot5>contents in my-slot5</my-slot5>
+
+    <br>5.2 //todo 不懂？？ https://v3.cn.vuejs.org/guide/render-function.html#插槽
+    <my-slot52 msg5="hi, this is msg5!">contents in my-slot52</my-slot52>
+    <my-slot52 text="msg">contents in my-slot52</my-slot52>
+
+
+
+    <hr>6. 使用渲染函数将插槽传递给子组件
+    <br> Vue 的模板实际上被编译成了渲染函数。
+    <my-parent6></my-parent6>
+    <div class=span1000></div>
+
+    
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+const { /*createApp,*/ h } = Vue
+
+
+const { /*h,*/ resolveComponent } = Vue
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"05",
+            fruits:[
+                    {name:'orange', price:5,}, 
+                    {name:'apple', price:8},
+                    {name:'pear', price:3}
+                ],
+        }
+    },
+
+})
+
+
+//1.
+app.component('anchored-heading', {
+    props: {
+        level: {
+        type: Number,
+        required: true
+        }
+    },
+
+  template: `
+    <h1 v-if="level === 1">
+      <slot></slot>
+    </h1>
+    <h2 v-else-if="level === 2">
+      <slot></slot>
+    </h2>
+    <h3 v-else-if="level === 3">
+      <slot></slot>
+    </h3>
+    <h4 v-else-if="level === 4">
+      <slot></slot>
+    </h4>
+    <h5 v-else-if="level === 5">
+      <slot></slot>
+    </h5>
+    <h6 v-else-if="level === 6">
+      <slot></slot>
+    </h6>
+  `
+})
+
+
+
+//2. 
+app.component('anchored-heading2', {
+  render() {
+    return h(
+      'h' + this.level, // tag name
+      {}, // props/attributes
+      this.$slots.default() // array of children
+    )
+  },
+
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+
+})
+
+
+//3.
+app.component('ul-list', {
+    props:[ 'items' ],
+  render() {
+      if(this.items.length){
+          return h('ul', this.items.map( (item)=>{
+              return h('li', item.name + ": $"+ item.price)
+          }))
+      } else {
+          return h('p', "No items found.")
+      }
+  },
+
+})
+
+
+//4. v-on
+app.component('my-click4', {
+    props:[ 'onClick' ],
+    render() {
+        return h('button', {
+            onClick: $event => console.log('clicked', $event.target, $event)
+        }, "click me")
+    }
+
+})
+
+
+
+//5. slot
+app.component('my-slot5', {
+    render() {
+        return h('div', {}, this.$slots.default())
+    }
+})
+
+
+//5.2 slot
+app.component('my-slot52', {
+    props: ['msg5'],
+    render() {
+        // `<div><slot :text="message"></slot></div>`
+        return h('div', {}, this.$slots.default({
+            text: this.msg5
+        }))
+    }
+})
+
+
+
+//6.
+app.component('my-parent6', {
+    render() {
+        // `<div><my-child v-slot="props"><span>{{ props.text }}</span></my-child></div>`
+        return h('div', { style:"color: navy; font-size:35px;"}, 
+        [   
+            h('p', 'from my-parent6: '),
+
+            h(
+                resolveComponent('my-child'),
+                { style:'color: blue; font-size:20px;' },
+                // pass `slots` as the children object
+                // in the form of { name: props => VNode | Array<VNode> }
+                {
+                    default: (props) => Vue.h('span', props.text)
+                }
+            )
+        ])
+    }
+})
+//6.2
+app.component('my-child', {
+    template:`
+        <div>|| from my-child: <slot></slot></div>
+    `
+})
+
+
+var vm=app.mount("#app1");
+
+</script>
+

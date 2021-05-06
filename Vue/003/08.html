@@ -1,0 +1,142 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<h1>深入组件：Template refs 模板引用</h1>
+<p style="color:red;">F12 </p>
+
+<style>
+h1{color:#eee;}
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+.green{color:green;}
+
+</style>
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>1. 如果想挂载时，focus到这个组件：<br>
+    <base-input></base-input>
+
+
+    <hr>2. 还可以向组件本身添加另一个 ref，并使用它从父组件触发 focusInput 事件<br>
+    <base-input2 ref="usernameInput2"></base-input2>
+    <hr> 
+    <button @click="fatherClick">click me 父组件上点击获取input焦点</button>
+<pre>
+在父组件上调用事件：
+vm.$refs.usernameInput2.onClick() // 从父组件直接访问调用事件
+vm.$refs.usernameInput2.focusInput2() // 从父组件直接访问调用事件
+</pre>
+
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+var log=console.log
+
+const app = Vue.createApp({
+  data() {
+    return {
+      msg: '08!',
+    }
+  },
+
+  methods:{
+    fatherClick(){ //父组件上调用
+        log('双击事件: ',this.$refs )
+        this.$refs.usernameInput2.focusInput2();
+    },
+  }
+
+})
+
+//1
+app.component('base-input', {
+    data(){
+        return{
+            text:"text here",
+        }
+    },
+    template: `
+        <input ref="input2" v-model="text" />
+        <br>{{text}}
+    `,
+
+    methods: {
+        focusInput() {
+            log(this.$refs, this.$refs.input2) //该方法内部通过 this.$refs.input2 引用控件
+            this.$refs.input2.focus();
+        },
+
+    },
+
+    mounted() { //挂载组件时，触发方法 focusInput
+        this.focusInput(); //获取焦点
+
+        this.$refs.input2.style.color = 'red'; //字体红色
+    }
+})
+
+
+
+
+//2
+app.component('base-input2', {
+    data(){
+        return{
+            text:"text2 here",
+        }
+    },
+    template: `
+        <input ref="ip2" v-model="text" />
+        <br>{{text}}
+        <br>  <button @click="onClick">click me 子组件 单击获取input焦点 + 样式优化</button>
+    `,
+
+    methods:{
+        focusInput2() {
+            log(this.$refs, this.$refs.input2) //该方法内部通过 this.$refs.input2 引用控件
+            this.$refs.ip2.focus();
+
+        },
+        
+        onClick(){
+            log('You clicked me! 获取控件: ', this.$refs); //.usernameInput.focusInput()
+            //log('反正还是获取不到input控件')
+            this.focusInput2()
+            // 样式优化
+            var style=this.$refs.ip2.style;
+            style.color = 'purple'; //字体紫色
+            style.height = '30px'; //字体变大
+            style.fontSize = '30'; //字体变大
+        }
+    },
+
+    mounted(){
+        log('2-->',this.$refs)
+
+        
+    }
+
+})
+
+
+
+var vm=app.mount('#app1')
+</script>
+

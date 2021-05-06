@@ -1,0 +1,126 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+Prop类型：在子组件中试图改变props传入的值
+<p style="color:red;">F12 </p>
+
+<style>
+div,hr,p{margin:0; padding:0;}
+ul{margin:0;}
+h4{border-left:5px solid purple; margin:3px 0px; padding-left:5px;}
+hr{margin-top:30px;}
+.red{color:red;}
+</style>
+
+<pre>
+父到子的数据流动是单向的。 有两种常见的试图变更一个 prop 的情形:
+    - 7.1
+    - 7.2
+
+注意在 JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变变更这个对象或数组本身将会影响到父组件的状态。
+</pre>
+
+
+
+<div id='app1'>
+    if library is ok: {{msg}}
+
+    <hr>7 
+
+    <br>7.1 prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。
+    <br>解决方法: 在这种情况下，最好定义一个本地的 data property 并将这个 prop 作为其初始值
+    <blog-post7 :initial-counter="23"></blog-post7>
+    <blog-post7 :initial-counter="100"></blog-post7>
+    <blog-post7 :initial-counter="-8"></blog-post7>
+
+    <br>7.2 这个 prop 以一种原始的值传入且需要进行转换
+    <br> 解决方法：在这种情况下，最好使用这个 prop 的值来定义一个计算属性
+    <blog-post8 :size="'Big'"></blog-post8>
+    <blog-post8 size="SMALL"></blog-post8>
+    <blog-post8 size="Very-Large"></blog-post8>
+
+    <br>9. 尝试在子组件内改变传入的obj 
+    <blog-post9 :comment-ids="post.commentIds"></blog-post9>
+    check > vm.post.commentIds<br>
+    check > vm.post.commentIds=[1,2,3]
+    
+</div>
+ 
+
+
+
+
+<script>
+// 子组件改变值，可以当成本地变量的初始值
+var blogPost7={
+    props: ['initialCounter'], //计数器初始值
+    data() {
+        return {
+            counter: this.initialCounter
+        }
+    },
+
+
+    template:`
+        <p @click="this.counter++">初始值:{{initialCounter}}, 计数器: {{counter}} <span class=red>//点击递增</span></p>
+    `
+}
+
+
+// 子组件内做 数据类型转换，使用 computed 计算属性
+var blogPost8={
+    props: ['size'],
+    computed: {
+        normalizedSize: function () {
+            return this.size.trim().toLowerCase()
+            //return this.size //.trim().toLowerCase()
+        }
+    },
+
+    template:`
+        <p>toLowerCase:  转换前: {{size}}, \t 转换后: {{normalizedSize}}</p>
+    `
+}
+
+
+
+var blogPost9={
+    props: ['commentIds'], //传递的是数组，是按引用传递的，所以改变会改变原始值。
+    computed: {
+        increasement () {
+            var arr=this.commentIds;
+            for(var i=0; i<arr.length; i++){
+                arr[i]++
+            }
+            return arr;
+        }
+    },
+
+    template:`
+        <p>子组件改变数组，父组件的数组也被改变了：  raw:{{commentIds}}, after:{{increasement}}</p>
+    `
+}
+
+const app=Vue.createApp({
+    data(){
+        return{
+            msg:"hello, component!",
+            post:{ 
+                commentIds: [1,3,15,18],
+            },
+
+        }
+    },
+
+    //局部注册组件
+    components:{
+        "blog-post7": blogPost7,
+        "blog-post8": blogPost8,
+        "blog-post9": blogPost9,
+    }
+})
+
+var vm=app.mount("#app1")
+
+</script>
+

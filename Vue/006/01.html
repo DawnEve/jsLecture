@@ -1,0 +1,43 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>工具：单文件组件 </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. 
+
+
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"01",
+        }
+    },
+})
+
+var vm=app.mount("#app1");
+</script>
+

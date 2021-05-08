@@ -1,0 +1,120 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>规模化： 简单路由 2</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.home{color:red;}
+</style>
+
+
+<pre>
+    <hr>2. vue3 路由实例， xx.com/about 模式。使用 window.history.pushState() 更新url显示。
+    <br>改写自: https://github.com/phanan/vue-3.0-simple-routing-example
+</pre>
+
+
+
+<div id="app1">
+    test: {{msg}}
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+const { /*createApp,*/ h } = Vue
+
+//组件1: 锚点
+const VLink={
+    props:['href'],
+    template:`
+        <a :href="href" @click.prevent="go">
+            <slot></slot>
+        </a>
+    `,
+
+    methods:{
+        go(){
+            this.$root.currentRoute = this.href // 主动触发Vue内部更新
+            window.history.pushState(null, routes[this.href], this.href) //更改地址栏显示的 url
+        }
+    }
+}
+
+
+
+//2.组件：页面布局，依赖 v-link
+const MainLayout={
+    template:`
+        <ul>
+            <li><v-link href="/">Home</v-link></li>
+            <li><v-link href="/about">About</v-link></li>
+            <li><v-link href="/my/email">我的email</v-link></li>
+            <li><v-link href="/foo">Under Construction</v-link></li>
+        </ul>
+        <slot></slot>
+    `,
+    components:{ VLink }
+}
+
+
+//3.组件: 页面，依赖 main-layout
+const NotFoundComponent = {
+    data(){
+        return{ msg:'...^^^^.!!'}
+    },
+    components:{MainLayout},
+    template: '<main-layout><p>Page not found {{msg}}</p></main-layout>',
+}
+const HomeComponent = { template: '<main-layout><p class=home>Home page</p></main-layout>', components:{MainLayout}, }
+const AboutComponent = { template: '<main-layout><p>About page</p></main-layout>', components:{MainLayout}, }
+
+//页面组件: 尝试从文件引用。 失败: 不能引用js之外的文件。需要编译后引用纯js文件。
+// import MyEmail from './MyEmail.vue'
+
+
+//4.字典: 定义路由指向，就是 把 url 和 组件对应起来
+const routes = {
+  '/': HomeComponent,
+  '/about': AboutComponent,
+}
+
+
+//5. 路由组件
+const SimpleRouter = {
+  data: () => ({
+      msg:'r02',
+    currentRoute: window.location.pathname
+    //currentRoute: window.location.hash.substring(1)
+  }),
+
+  computed: { //计算变量，监视着 当前url的变动，查字典，返回对应的 页面组件
+    CurrentComponent() {
+        log(this.currentRoute)
+        return routes[this.currentRoute] || NotFoundComponent
+    }
+  },
+
+  // render函数就代替了 template
+  render() {
+    return h(this.CurrentComponent )
+  },
+
+  created () { //创建时起作用, 更新当前路由
+    window.addEventListener('popstate', () => {
+      this.currentRoute = window.location.pathname
+    })
+  }
+
+}
+
+var app=Vue.createApp(SimpleRouter)
+var vm=app.mount("#app1");
+</script>
+

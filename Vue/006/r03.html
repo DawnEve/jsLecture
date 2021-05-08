@@ -1,0 +1,108 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+<script src="/lib/Vue/vue-router.global-4.0.6.js"></script>
+
+<body>
+<h1>规模化： 官方 路由 模块: vue-router</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+可以在任意组件中以 this.$router 获取路由；
+this.$route 获取当前路由
+</pre>
+
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>
+    <h1>Hello App! using Vue router</h1>
+    <p>
+        <!-- use the router-link component for navigation. -->
+        <!-- specify the link by passing the `to` prop. -->
+        <!-- `<router-link>` will render an `<a>` tag with the correct `href` attribute -->
+        <router-link to="/">Go to Home</router-link> | 
+        <router-link to="/about">Go to About</router-link> | 
+    </p>
+
+    <br>
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+// 1. Define route components. 页面 组件
+// These can be imported from other files
+const Home = {template: '<div>Home</div>',}
+
+
+const About = { 
+    data(){
+        return{
+            email: "xx@y.com",
+            counter:2,
+        }
+    },
+    methods:{
+        increaseCounter(){
+            this.counter++
+        },
+    }, 
+    template: `
+        <div>About Page ( View counter={{counter}})</div>
+        My Emal: {{email}}
+        <button @click="increaseCounter">increase counter</button>
+    ` 
+}
+
+// 2. Define some routes 路由表 （字典），对应路径 和 上文定义的 页面组件
+// Each route should map to a component.
+// We'll talk about nested routes later.
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About },
+]
+
+// 路由 实例，使用上文的 路由字典
+// 3. Create the router instance and pass the `routes` option 
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = VueRouter.createRouter({
+  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+  history: VueRouter.createWebHashHistory(), // 路由模式
+  routes, // short for `routes: routes` //路由表
+})
+// <<============ 插件建立好了
+
+
+
+// 5. Create and mount the root instance. 根实例
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:'r03', 
+        }
+    },
+})
+
+// Make sure to _use_ the router instance to make the
+// whole app router-aware.
+app.use(router) // 挂载插件
+
+
+var vm=app.mount('#app1')
+// Now the app has started!
+</script>
+

@@ -1,0 +1,95 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+<script src="/lib/animation/lodash.min-4.17.15.js"></script>
+<script src="/lib/marked-2.0.3.js"></script>
+
+
+
+<style>
+h1{color:#eee;}
+
+html,
+body,
+#editor {
+  margin: 2px;
+  height: 100%;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+}
+
+textarea,
+#editor div {
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+textarea {
+  border: none;
+  border-right: 1px solid #ccc;
+  resize: none;
+  outline: none;
+  background-color: #f6f6f6;
+  font-size: 14px;
+  font-family: "Monaco", courier, monospace;
+  padding: 20px;
+}
+
+code {
+  color: #f66;
+}
+
+</style>
+
+<h1>Simple Markdown Editor</h1>
+
+<pre>
+js lib: 
+marked-2.0.3.js markdown to html  https://www.bootcdn.cn/marked/
+lodash.min-4.17.15.js 
+</pre>
+
+
+
+
+<div id="editor">
+    {{msg}}
+    <hr>
+
+
+    <textarea :value="input" @input="update"></textarea>
+    <div v-html="compiledMarkdown"></div>
+
+</div>
+  
+
+
+<script>
+    var app=Vue.createApp({
+        data(){
+            return{
+                msg:'e03',
+                input:'# header1',
+            }
+        },
+    
+        computed: {
+            compiledMarkdown() {
+                return marked(this.input, {});
+            }
+        },
+
+        methods: {
+            update: _.debounce(function(e) {
+                this.input = e.target.value;
+            }, 300)
+        },
+    
+    })
+    
+    // mount
+    const vm = app.mount("#editor");
+    </script>

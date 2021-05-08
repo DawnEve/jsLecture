@@ -1,0 +1,97 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>规模化： 简单路由1</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+    <hr>1. vue3 路由实例， xx.com/Home 模式。我的为什么单击没有响应？刷新才有响应。
+    https://github.com/phanan/vue-3.0-simple-routing-example
+    最后，依赖自定义的js，更新 vm.$data 才实现了路由响应。
+
+    结合 HTML5 History API，你可以建立一个麻雀虽小但是五脏俱全的客户端路由器。
+
+</pre>
+
+<div id="nav">
+    <a href="#Home">Home</a> | 
+    <a href="#About">About</a> | 
+    <a href="#User">User</a> | 
+</div>
+
+<script>
+var aA=nav.getElementsByTagName('a')
+for(var i=0; i<aA.length; i++){
+    var oA=aA[i];
+    oA.onclick=function(e){
+        vm.currentRoute=this.innerText
+    }
+}
+</script>
+
+
+
+
+<div id="app1">
+    test: {{msg}}
+ 
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+const { createApp, h } = Vue
+
+//页面模板 组件
+const NotFoundComponent = {
+    data(){
+        return{ msg:'...123789'}
+    },
+    template: '<p>Page not found {{msg}}</p>' }
+const HomeComponent = { template: '<p>Home page</p>' }
+const AboutComponent = { template: '<p>About page</p>' }
+
+
+// 定义路由指向
+const routes = {
+    /*
+  '/': HomeComponent,
+  '/about': AboutComponent
+  */
+  'Home': HomeComponent,
+  'About': AboutComponent
+}
+
+// 路由组件
+const SimpleRouter = {
+  data: () => ({
+      msg:'r01',
+    currentRoute: window.location.hash.substring(1) //window.location.pathname
+  }),
+
+  computed: {
+    CurrentComponent() {
+      return routes[this.currentRoute] || NotFoundComponent
+    }
+  },
+
+  render() {
+    return h(this.CurrentComponent )
+  }
+}
+
+
+var app=Vue.createApp(SimpleRouter)
+var vm=app.mount("#app1");
+</script>
+

@@ -1,0 +1,49 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>工具：TypeScript 支持 </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+// 无代码。
+
+1.随着应用的增长，静态类型系统可以帮助防止许多潜在的运行时错误。
+Vue 3 是用 TypeScript 编写的。
+
+
+
+</pre>
+
+
+<div id="app1">
+    test: {{msg}}
+    
+    <hr>1. 
+
+
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+var app=Vue.createApp({
+     data(){
+        return {
+            msg:"02",
+        }
+    },
+})
+
+var vm=app.mount("#app1");
+</script>
+

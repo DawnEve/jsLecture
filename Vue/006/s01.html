@@ -1,0 +1,72 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>状态管理: 类 Flux 状态管理的官方实现</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.box{border:1px solid #aaa; padding:10px; margin:10px; background: #efefef;}
+</style>
+
+
+<pre>
+由于状态零散地分布在许多组件和组件之间的交互中，大型应用复杂度也经常逐渐增长。为了解决这个问题，Vue 提供 Vuex: 我们有受到 Elm 启发的状态管理库。
+https://next.vuex.vuejs.org/
+</pre>
+
+
+<div id="app1" class=box>
+    test: {{msg}}
+    <hr>1. 什么是状态管理？
+    <br>message={{message}}
+</div>
+
+
+<div id="app2" class=box>
+    test: {{msg}}
+    <hr>2. 测试
+    <br>message={{message}}
+</div>
+
+<hr>
+F12 > sourceOfTruth.message="hi!"
+
+
+</body>
+
+<script>
+var log=console.log;
+
+
+const { createApp, reactive } = Vue
+
+const sourceOfTruth = reactive({
+  message: 'Hello',
+  msg:'s01',
+})
+
+//1
+var appA=Vue.createApp({
+    data(){
+        return sourceOfTruth;
+    }
+})
+var vmA=appA.mount("#app1");
+
+
+//2 在这里被修改了，你可能都找不到。
+var appB=Vue.createApp({
+    data(){
+        return sourceOfTruth;
+    },
+    mounted() {
+        sourceOfTruth.message = 'Goodbye' // both apps will render 'Goodbye' message now
+    }
+})
+var vmB=appB.mount("#app2")
+
+</script>
+

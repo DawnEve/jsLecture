@@ -34,6 +34,8 @@ https://next.vuex.vuejs.org/
 <hr>
 F12 > sourceOfTruth.message="hi!"
 
+<hr>
+本例子通过 原生ajax更新数据源 > sourceOfTruth.update();
 
 </body>
 
@@ -46,7 +48,28 @@ const { createApp, reactive } = Vue
 const sourceOfTruth = reactive({
   message: 'Hello',
   msg:'s01',
+
+  update:function(){
+    // 通过ajax更新数据
+    var xhr = new XMLHttpRequest();
+    var self = this;
+    xhr.open("GET", '/api/categories');
+    xhr.onload = function() {
+        log('1-> 字符串', xhr.responseText)
+        var obj = JSON.parse(xhr.responseText);
+
+        log('2--> 对象', obj)
+
+        self.message = obj;
+
+    };
+    xhr.send();
+  }
 })
+
+sourceOfTruth.update() //通过ajax更新数据源
+
+
 
 //1
 var appA=Vue.createApp({

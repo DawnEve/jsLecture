@@ -1,0 +1,124 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<script src="/lib/Vue/vuex.global-4.0.0.js"></script>
+
+<body>
+<h1>状态管理: Vuex getter</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.red{color:red;}
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1" class=box>
+    <hr>1. {{msg}}
+    <br>doneTodosCount={{doneTodosCount}}
+    
+    <hr>2. 直接在store中定义 getters，相当于计算属性。
+    Getter 会暴露为 store.getters 对象，你可以以属性的形式访问这些值。
+    <br> doneTodos=<span class=red>{{doneTodos}}</span>
+    <ul>
+        <li v-for="item in doneTodos">{{item.item}} // {{item.done}}</li>
+    </ul>
+
+    <br> 测试 F12 > store.state.todos[0].done=true
+
+    <hr>3. Getter 也可以接受其他 getter 作为第二个参数
+    <br> doneTodosCount ={{doneTodosCount}}
+
+    <hr>4. 在组件中使用
+    <br>doneTodosCount2={{doneTodosCount2}}
+
+    <hr>5. 通过方法访问 //好复杂，没看懂
+    <br>你也可以通过让 getter 返回一个函数，来实现给 getter 传参。在你对 store 里的数组进行查询时非常有用。
+    <br>getTodoById2={{getTodoById2}}
+    <br>F12 > vm.current_id=1
+    <br> 注意，getter 在通过方法访问时，每次都会去进行调用，而不会缓存结果。
+
+
+</div>
+
+
+
+</body>
+
+<script>
+var log=console.log;
+
+var store=Vuex.createStore({
+    state(){
+        return{
+            count:0,
+            todos:[
+                {'id':0, 'item':"feed the dog", done:false},
+                {'id':1, 'item':"run 5km", done:true},
+                {'id':2, 'item':"coding 2h", done:true},
+            ],
+        }
+    },
+
+
+    getters: {
+        doneTodos: (state) => { //2
+            return state.todos.filter(todo => todo.done)
+        },
+
+        doneTodosCount (state, getters) { //3
+            return getters.doneTodos.length
+        },
+
+        //5 参数是id: store.getters.getTodoById(2)
+        getTodoById: (state) => (id) => {
+            return state.todos.find(todo => todo.id === id)
+        },
+    }
+
+
+})
+
+
+var app=Vue.createApp({
+    data(){
+        return{
+            msg:'s04',
+            current_id:1,
+        }
+    },
+
+    computed: {
+        doneTodosCount () {
+            return this.$store.state.todos.filter(todo => todo.done).length
+        },
+
+        doneTodos(){ 
+            return store.getters.doneTodos //获取 store 的getters 值
+        },
+
+        //4 在组件中使用 getters
+        doneTodosCount2 () {
+            return this.$store.getters.doneTodosCount
+        },
+
+        //5
+        getTodoById2(){
+            return store.getters.getTodoById(this.current_id);
+        }
+
+    },
+
+});
+
+
+app.use(store);
+
+var vm=app.mount("#app1");
+</script>

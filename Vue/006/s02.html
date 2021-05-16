@@ -47,7 +47,7 @@ https://next.vuex.vuejs.org/
 <hr>
 F12 > store.state.message="hi!"
 <br>  store.setMessageAction('How are you!')
-
+<br> vmA.sharedState.message="xxx"  //修改一个，则全都改动了
 
 </body>
 
@@ -108,7 +108,7 @@ var appB=Vue.createApp({
     },
     mounted() {
         //sourceOfTruth.message = 'Goodbye' // both apps will render 'Goodbye' message now
-        store.setMessageAction('Goodbye!')
+        store.setMessageAction('I am mounted(appB)')
     }
 })
 var vmB=appB.mount("#app2")

@@ -24,7 +24,8 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.6-9@sustech Vue3 005/ vue3高级概念: 组合式API, mixin, 自定义指令
 	dev0.2.7-0@sustech Vue3 005/ vue3高级概念: Teleport, 渲染函数, 插件，响应性计算和侦听
 ======> merge to master [2021.5.6]
-	dev0.2.7-1@sustech Vue3 006/ Vue router 
+	dev0.2.7-1@sustech Vue3 006/ Vue router
+	dev0.2.7-2@sustech Vue3 006/ Vuex getters
 
 #
 #->commit

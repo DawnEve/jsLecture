@@ -1,0 +1,115 @@
+选择文本并复制到剪切板:<br />
+<textarea style="width:80%; height: 150px;" id="textarea">
+method1: 
+如果是输入框，可以通过 select() 方法，选中输入框的文本，然后调用 copy 命令，将文本复制到剪切板
+
+method2: 
+但是 select() 方法只对 input 和 textarea 有效，对disabled属性的的input没有效果，可以在在页面中添加一个表单，把它隐藏掉，不能display:none，不然也拿不到复制的内容
+</textarea>
+<br />
+
+<a href="http://www.baidu.com" id="oA">点击复制链接1</a> | 
+<a href="http://pan.baidu.com" onclick="copyMe(this)">点击复制链接2</a>
+<br />
+<br />
+然后尝试 ctrl+V 粘贴到记事本，查看效果。
+
+
+
+<script>
+
+// 目标: 文本复制到剪切板
+// https://blog.csdn.net/weixin_46558787/article/details/126020300
+// https://blog.csdn.net/IICOOM/article/details/124183673
+function copy2clipboard(text){
+	//1. 新的拷贝到剪切板方法，很简练；只是可能不支持。
+	if( navigator.clipboard) {
+		navigator.clipboard.writeText(text).then(function(){
+			console.log("Async: copy to clipboard: Success")
+		}, function(err){
+			console.log("Async: could not copy text:", err)
+		})
+	}else{
+	//2. 之前的拷贝到剪切板方法，很繁琐: 
+	// input 或 textarea 控制才支持，需要先 select(), 再执行 Copy 命令
+		//1. 临时控件
+		var input=document.createElement("input");
+		document.body.appendChild(input);
+		//2. 拷贝到临时控件
+		input.setAttribute('value', text);
+		//input.value=text; 
+		//3. 执行拷贝到剪切板
+		input.select(); 
+		document.execCommand("Copy");
+		//4. 移除控件
+		document.body.removeChild(input);
+	}
+}
+
+
+// 获取对象
+function $(id){
+	return document.getElementById(id);
+}
+
+//阻止浏览器的默认行为 
+function stopDefault( e ) { 
+    //阻止默认浏览器动作(W3C) 
+    if ( e && e.preventDefault ) 
+        e.preventDefault(); 
+    //IE中阻止函数器默认动作的方式 
+    else 
+        window.event.returnValue = false; 
+    return false; 
+}
+
+function stopBubble(e) { 
+	//如果提供了事件对象，则这是一个非IE浏览器 
+	if ( e && e.stopPropagation ) 
+		//因此它支持W3C的stopPropagation()方法 
+		e.stopPropagation(); 
+	else 
+		//否则，我们需要使用IE的方式来取消事件冒泡 
+		window.event.cancelBubble = true; 
+}
+
+//阻止默认事件
+$("textarea").onclick=function(){
+	var e = e || window.event;
+	stopBubble(e);
+}
+$("textarea").onselect=function(){
+	document.execCommand("Copy");
+	var selection=this.textContent.substring(this.selectionStart, this.selectionEnd);
+	console.log("copy to clipboard now: " + selection)
+}
+
+
+
+
+// 绑定方法1: 需要嵌套到匿名函数，才能拿到调用对象，进而拿到其href
+var oA = document.getElementById("oA");
+oA.onclick = function(){
+	copyMe(this);
+};
+
+// body 上的事件
+document.body.onclick=function(){
+	console.log("body-click")
+}
+
+//绑定方法2: 直接出入this参数，进而拿到其href
+function copyMe(obj){
+	//var e = (e) ? e : ((window.event) ? window.event : null); 
+	var e = e || window.event; // firefox下window.event为null, IE下event为null
+	stopDefault(e); //阻止默认行为: 比如a标签的 跳转
+	stopBubble(e); //阻止冒泡，比如：默认把点击传递给外部对象 body，阻止后body事件就不会触发
+	
+	console.log(e, obj.href); //输出 e 和 调用对象的href属性
+	
+	// 开始复制到剪切板
+	copy2clipboard(obj.href);	
+	
+	return false;
+}
+</script>

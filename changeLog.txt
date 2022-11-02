@@ -26,6 +26,7 @@ v0.2.6 canvas 3D棉布效果
 ======> merge to master [2021.5.6]
 	dev0.2.7-1@sustech Vue3 006/ Vue router
 	dev0.2.7-2@sustech Vue3 006/ Vuex getters
+	dev0.2.7-3@sustech example/ 002 文本复制到剪切板
 
 #
 #->commit

@@ -1,0 +1,140 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+<script src="/lib/Vue/vue-router.global-4.0.6.js"></script>
+
+<body>
+<h1>规模化： 官方 路由 模块: vue-router 路由的参数</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+</style>
+
+
+<pre>
+可以在任意组件中以 this.$router 获取路由；
+this.$route 获取当前路由
+
+F12
+> vm.$route
+> vm.$route.params
+> vm.$router.push('/users/wjl')  //编程式导航
+
+正则表达式匹配:
+Vue Router 使用自己的路径匹配语法，其灵感来自于 express，因此它支持许多高级匹配模式，如可选的参数，零或多个 / 一个或多个，甚至自定义的正则匹配规则。
+</pre>
+
+
+
+<div id="app1">
+    test: {{msg}}
+    <hr>
+    <h1>Hello App! using Vue router</h1>
+    <p>
+        <!-- use the router-link component for navigation. -->
+        <!-- specify the link by passing the `to` prop. -->
+        <!-- `<router-link>` will render an `<a>` tag with the correct `href` attribute -->
+        <router-link to="/">Go to Home</router-link> | 
+        <router-link to="/about">Go to About</router-link> | 
+        <router-link to="/user">Go to User</router-link> | 
+        <router-link to="/users/tom">Go to Users/tom</router-link> | 
+        <router-link to="/users/Smith">Go to Users/Smith</router-link> | 
+        <br>
+        <router-link to="/o/125">Go to /o/125</router-link> | 
+
+    </p>
+
+    <br>
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
+</div>
+
+
+</body>
+
+<script>
+var log=console.log;
+
+// 1. 页面 组件
+const Home = {template: '<div>Home</div>',}
+
+const Order = {
+  template: `
+    <div>Order</div>
+    <div v-if="$route.params.orderId">Order id: {{ $route.params.orderId }}</div>
+  `,
+}
+const User = {
+  template: `
+    <div>User</div>
+    <div v-if="$route.params.id">User id: {{ $route.params.id }}</div>
+  `,
+
+  //要对参数变化做出响应，就要使用 watch。因为同一个路由不会销毁，参数变化时，生命周期钩子将会失效。
+  created() {
+    this.$watch(
+      () => this.$route.params,
+
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...
+        log("the paras of User changed to: ", toParams, "\n old: ", previousParams)
+      }
+
+    )
+  },
+
+}
+
+const About = { 
+    data(){
+        return{
+            email: "xx@y.com",
+            counter:2,
+        }
+    },
+    methods:{
+        increaseCounter(){
+            this.counter++
+        },
+    }, 
+    template: `
+        <div>About Page ( View counter={{counter}})</div>
+        My Emal: {{email}}
+        <button @click="increaseCounter">increase counter</button>
+    ` 
+}
+
+// 2. 路由表 （字典），对应路径 和 上文定义的 页面组件
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About },
+  
+  { path: '/user', component: User },
+  { path: '/users/:id', component: User }, //<<<============================== 动态路由
+  { path: '/o/:orderId', component: Order },
+]
+
+//3. 路由 实例，使用上文的 路由字典
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(), // 4.路由模式: history or hash
+  routes, // short for `routes: routes` //路由表
+})
+
+
+
+// 5. Create and mount the root instance. 根实例
+const app = Vue.createApp({
+    data(){
+        return{
+            msg:'r04', 
+        }
+    },
+})
+
+app.use(router) // 6. 挂载路由插件
+
+var vm=app.mount('#app1')
+</script>
+

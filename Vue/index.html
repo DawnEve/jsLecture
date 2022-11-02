@@ -13,9 +13,11 @@ vue.global.js is the "full" build that includes both the compiler and the runtim
 -->
 <style>
 .red{color:red;}
-h1, h2,p{margin:0; padding:0;}
+h1, h2, h3, p{margin:0; padding:0;}
 ol{margin:0;}
 .box{border:1px dashed #ddd;}
+
+pre{border:2px dashed #ddd; padding:10px; background: #efefef;}
 </style>
 
 <pre class=box>
@@ -35,9 +37,11 @@ http://vue.biomooc.com/
 	<li><a target="_blank" href="000/01.html">000/01.html</a> let作用域不同</li>
 	<li><a target="_blank" href="000/02.html">000/02.html</a> let 作用域外报错 Uncaught ReferenceError</li>
 
-	<b>vue 示例</b>>
+	<b>vue 示例</b>
+	https://v3.vuejs.org/examples/markdown.html
 	<li><a target="_blank" href="000/e01.html">000/e01.html</a> 查看github提交: 原生ajax</li>
 	<li><a target="_blank" href="000/e02.html">000/e02.html</a> TodoMVC: todos： 使用本地存储 </li>
+	<li><a target="_blank" href="000/e03.html">000/e03.html</a> markdown editor</li>
 
 	<b>ajax</b>
 	<li><a target="_blank" href="000/ajax1.html">000/ajax1.html</a> 原生ajax </li>
@@ -196,12 +200,6 @@ https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api
 	<li><a target="_blank" href="005/07.html">005/07.html</a> 响应性计算和侦听：副作用watchEffect() 与清除 stop(); watch;  </li>
 	<li><a target="_blank" href="005/08.html">005/08.html</a> 渲染机制与优化: 虚拟 DOM，低层渲染逻辑。无代码。  </li>
 	<p>如果需要更新列表项，我们可以借助前面提到的响应性在 JavaScript 中进行。我们将更改应用至 JavaScript 副本、虚拟 DOM 中，然后在它们和实际 DOM 之间执行 diff。只有这样，我们才能对已更改的内容进行更新。虚拟 DOM 允许我们对 UI 进行高效的更新！</p>
-
-
-
-
-	<br>
-	<li><a target="_blank" href="005/todolist/">005/todolist/ </a> todolist 案例(https://www.imooc.com/video/23022) </li>
 </ol>
 
 
@@ -214,10 +212,82 @@ https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api
 <h2>006 工具</h2>
 https://v3.cn.vuejs.org/guide/single-file-component.html
 <ol>
-	<li><a target="_blank" href="006/01.html">006/01.html</a> 单文件组件 </li>
+	<li><a target="_blank" href="006/01.html">006/01.html</a> 单文件组件, 测试 </li>
+	<li><a target="_blank" href="006/02.html">006/02.html</a> TypeScript 支持 </li>
+</ol>
+
+<hr>
+<ol>
+	<h3>规模化: 路由 vue-router </h3>
+	<li><a target="_blank" href="006/r01.html">006/r01.html</a> 简单路由1: 我的理解，有些问题 //todo</li>
+	<li><a target="_blank" href="006/r02.html">006/r02.html</a> 简单路由2: 改编官网例子，单网页可运行。</li>
+	<li><a target="_blank" href="006/r03.html">006/r03.html</a> 官方 路由 模块 vue-router: router-link, router-view,  </li>
+	<li><a target="_blank" href="006/r04.html">006/r04.html</a> 官方 路由 模块 vue-router: 带参数的路由，路由name  </li>
+	<li><a target="_blank" href="006/r05.html">006/r05.html</a> 官方 路由 模块 vue-router: 命名视图 </li>
+<pre>
+https://next.router.vuejs.org/zh/guide/essentials/named-views.html //todo
+https://next.router.vuejs.org/guide/essentials/named-views.html
+</pre>
+
+
+	<li><a target="_blank" href="006/simple_router">006/simple_router</a> using vue-router 插件: </li>
+<pre>
+官方路由
+https://next.router.vuejs.org/
+https://github.com/vuejs/vue-router
+https://next.router.vuejs.org/zh/introduction.html
+
+$ npm install vue-router@4
+
+$ vue create simple_router //选择第三项，手工配置；
+1) 空格是选择，选择 Router, 回车;
+2) 版本选择3.0；
+3) Use history mode for router? No.(选yes则server需要做配置)
+	Yes,则使用正常的url: xx.com/user/id/3 需要服务器做好配置。
+	No, 则使用 hash模式: xx.com#user/id/3 不需要服务器配置就可以使用。
+4) 格式: ESLint with error prevention only
+5) 什么时候执行 Lint? on save.
+6) 配置文件放哪？单独放。
+7) 保存该设置吗？是
+然后经过1min，项目 simple_router框架就好了。
+$ cd simple_router
+$ npm run serve
+浏览器查看新页面 http://localhost:8080/
+多了一个about页面。
+</pre>
+
+	<li><a target="_blank" href="006/my-blog/">006/my-blog/</a>  Vue router 小项目，测试官方的路由 </li>
+<pre>
+</pre>
+</ol>
+
+<hr>
+<ol>
+	<h3>规模化: 状态管理 Vuex </h3>
+	https://next.vuex.vuejs.org/zh/guide/state.html
+
+	<li><a target="_blank" href="006/s01.html">006/s01.html</a> 状态管理: 类 Flux 状态管理的官方实现</li>
+	<li><a target="_blank" href="006/s02.html">006/s02.html</a> 状态管理: 使用 store 概念( https://facebook.github.io/flux/ )</li>
+	
+	接下来要用，抓紧学习<a href="https://babeljs.io/docs/learn-es2015/" target="_blank" rel="noopener noreferrer">ES2015语法</a>。
+	<br>
+	<li><a target="_blank" href="006/s03.html">006/s03.html</a> 状态管理 Vuex: 改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。</li>
+	<li><a target="_blank" href="006/s04.html">006/s04.html</a> 状态管理 Vuex: getter, 可以认为是 store 的计算属性, Getter 接受 state 作为其第一个参数</li>
+	<p>Getter 会暴露为 store.getters 对象。<span class=red>//todo 通过方法访问，没看懂</span></p>
+	<li><a target="_blank" href="006/s05.html">006/s05.html</a> 状态管理 Vuex: getter 辅助函数 mapGetters </li>
+
+	https://next.vuex.vuejs.org/zh/guide/mutations.html
+	<br>
+
+	<li><a target="_blank" href="006/a01.html">006/a01.html</a>服务器端渲染: Nuxt.js </li>
 
 </ol>
 
+
+
+<!--
+	<li><a target="_blank" href="005/todolist/">005/todolist/ </a> todolist 案例(https://www.imooc.com/video/23022) </li>
+-->
 
 
 <br>

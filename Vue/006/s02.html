@@ -1,0 +1,117 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<body>
+<h1>状态管理: 类 Flux 状态管理的官方实现  使用store 概念</h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.box{border:1px solid #aaa; padding:10px; margin:10px; background: #efefef;}
+</style>
+
+
+<pre>
+由于状态零散地分布在许多组件和组件之间的交互中，大型应用复杂度也经常逐渐增长。为了解决这个问题，Vue 提供 Vuex: 我们有受到 Elm 启发的状态管理库。
+https://next.vuex.vuejs.org/
+
+
+所有 store 中 state 的变更，都放置在 store 自身的 action 中去管理。
+这种集中式状态管理能够被更容易地理解哪种类型的变更将会发生，以及它们是如何被触发。
+当错误出现时，现在也会有一个 log 记录 bug 之前发生了什么。
+
+
+随着我们进一步扩展约定，即组件不允许直接变更属于 store 实例的 state，
+而应执行 action 来分发 (dispatch) 事件通知 store 去改变，最终达成了 Flux 架构。
+https://facebook.github.io/flux/
+
+这样约定的好处是，能够记录所有 store 中发生的 state 变更，同时实现能做到记录变更、保存状态快照、历史回滚/时光旅行的先进的调试工具。
+
+https://next.vuex.vuejs.org/
+</pre>
+
+
+<div id="app1" class=box>
+    <hr>1. 什么是状态管理？
+    <br>message={{sharedState.message}}
+</div>
+
+
+<div id="app2" class=box>
+    <hr>2. 测试
+    <br>message={{sharedState.message}}
+</div>
+
+
+<hr>
+F12 > store.state.message="hi!"
+<br>  store.setMessageAction('How are you!')
+<br> vmA.sharedState.message="xxx"  //修改一个，则全都改动了
+
+</body>
+
+<script>
+var log=console.log;
+
+
+const { createApp, reactive } = Vue
+
+
+// 新概念，是一个对象，带方法的。
+const store = {
+  debug: true,
+
+  state: reactive({
+    message: 'Hello!'
+  }),
+
+  setMessageAction(newValue) {
+    if (this.debug) {
+        //debugger
+      console.log('setMessageAction triggered with', newValue)
+    }
+
+    this.state.message = newValue
+  },
+
+  clearMessageAction() {
+    if (this.debug) {
+      console.log('clearMessageAction triggered')
+    }
+
+    this.state.message = ''
+  }
+}
+
+
+
+//1
+var appA=Vue.createApp({
+    data(){
+        return{
+            privateState: {},
+            sharedState: store.state
+        }
+    },
+})
+var vmA=appA.mount("#app1");
+
+
+//2 在这里被修改了，你可能都找不到。
+var appB=Vue.createApp({
+    data(){
+        return{
+            privateState: {},
+            sharedState: store.state
+        }
+    },
+    mounted() {
+        //sourceOfTruth.message = 'Goodbye' // both apps will render 'Goodbye' message now
+        store.setMessageAction('I am mounted(appB)')
+    }
+})
+var vmB=appB.mount("#app2")
+
+</script>
+

@@ -1,0 +1,110 @@
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<script src="/lib/Vue/vue.global-3.0.11.js"></script>
+
+<script src="/lib/Vue/vuex.global-4.0.0.js"></script>
+
+<body>
+<h1>状态管理 Vuex: getter 辅助函数 mapGetters </h1>
+
+<style>
+h1{color:#eee;}
+p,div{margin:0; padding:0;}
+
+.red{color:red;}
+</style>
+
+
+<pre>
+
+</pre>
+
+
+<div id="app1" class=box>
+    <hr>1. {{msg}}
+    <br>doneTodosCount={{doneTodosCount}}
+    
+    <hr>2.
+    <br>getGetters= {{getGetters}}
+    <br>doneTodos={{doneTodos}}
+    <br>getTodoById={{getTodoById(0)}} //改变这个值，显示也会变
+
+</div>
+
+
+
+</body>
+
+<script>
+var log=console.log;
+
+//import { mapGetters } from 'vuex'
+const mapGetters=Vuex.mapGetters
+
+var store=Vuex.createStore({
+    state(){
+        return{
+            count:0,
+            todos:[
+                {'id':0, 'item':"feed the dog", done:false},
+                {'id':1, 'item':"run 5km", done:true},
+                {'id':2, 'item':"coding 2h", done:true},
+            ],
+        }
+    },
+
+
+    getters: {
+        doneTodos: (state) => { //2
+            return state.todos.filter(todo => todo.done)
+        },
+
+        doneTodosCount (state, getters) { //3
+            return getters.doneTodos.length
+        },
+
+        //5 参数是id: store.getters.getTodoById(2)
+        getTodoById: (state) => (id) => {
+            return state.todos.find(todo => todo.id === id)
+        },
+    }
+
+
+})
+
+
+var app=Vue.createApp({
+    data(){
+        return{
+            msg:'s04',
+            current_id:1,
+        }
+    },
+
+    computed: {
+        doneTodosCount () {
+            return this.$store.state.todos.filter(todo => todo.done).length
+        },
+
+        getGetters(){
+            return this.$store.getters;
+        },
+
+
+        // 使用对象展开运算符将 getter 混入 computed 对象中
+        ...mapGetters([ //2
+            'doneTodosCount',
+            'doneTodos', //这一行注释掉，2就不显示了
+            'getTodoById',
+            //{getTodoById2: 'getTodoById'} // 重命名，则使用对象方式
+            // ...
+        ])
+
+    },
+
+});
+
+
+app.use(store);
+
+var vm=app.mount("#app1");
+</script>

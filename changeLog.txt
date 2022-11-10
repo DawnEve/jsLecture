@@ -27,6 +27,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.7-1@sustech Vue3 006/ Vue router
 	dev0.2.7-2@sustech Vue3 006/ Vuex getters
 	dev0.2.7-3@sustech example/ 002 文本复制到剪切板
+	dev0.2.7-4@sustech rename dir: mv Vue Vue3
 
 #
 #->commit
@@ -35,5 +36,6 @@ v0.2.6 canvas 3D棉布效果
 
 
 ###########	
+# path: G:\xampp\htdocs\jsLecture
 # local: jsLecture.dawneve.cc
 # url: jsLecture.biomooc.com

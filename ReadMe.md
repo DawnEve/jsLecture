@@ -33,7 +33,7 @@ version log: changeLog.txt
 ## 详细内容
 
 
-> /ReadMe.txt 案例详细目录
+> /index.html 案例详细目录
 
 
 

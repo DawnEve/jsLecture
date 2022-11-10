@@ -1,14 +1,322 @@
-<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<html>
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+	<link rel="stylesheet" href="static/css/garden_2.css" media="all">
 
-<style>
-.grey a,.grey{color:#eee;}
-.grey a:hover{color:red;}
-</style>
+	<style>
+	pre.short{
+		max-height:200px;
+		overflow: scroll; 
+		padding: 8px 0 12px 20px;
+		border-left: 4px solid #566D82;
+		margin-bottom: 1.25em;
+		background: #0F192A;
+		color:#566D82;
+	}
+	</style>
+</head>
 
-<h1>js Lecture</h1>
+
+
+
+<body>
+<div id="intro">
+<h1>JavaScript 从入门到精通</h1>
+
+	<p>By: BioMooc.com / At: 2022.11</p>
+	<p>js包括 语言核心、DOM、BOM共3部分。</p>
+
+	<p class=grey>Repo: github.com/jsLecture</p>
+	<p class=grey>为了方便调整目录结构，根文件夹都不加数字序号。根文件夹内的文件名命名: <b>"数字开头+字母_关键词.html"</b></p>
+</div>
 <hr />
 
-<h2>visualization</h2>
+
+
+
+<h2>0. debug/ <span class=grey> 运行方式、调试、输出</span></h2>
+<p>js有三种运行方式: 行内，script标签内，单独的文件。倾向于使用最后一种，尽量不使用第一种。</p>
+<ul>
+	<li><a target="_blank" href="debug/01_alert.html">alert()</a>: 调试方法1 </li>
+	<li><a target="_blank" href="debug/02_console.html">console.log()</a>: 调试方法2 [推荐] </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>1. base/ <span class=grey>Core: js核心语法</span></h2>
+<p>引用对象:Array、Object、Function</p>
+
+<pre class=short>
+2. 控制结构
+
+3. 字符串 String
+
+4. 数组 Array
+	arr=[];//初始化
+	arr[0]=0;//赋值
+	arr.length;//数组长度
+
+5. 对象 Object
+
+var obj={};
+new 和 this
+
+
+
+6. Map 和 Set 
+
+7. iterable
+
+
+标准对象
+
+8. 日期 Date
+9. 正则表达式 RegExp
+10. JSON 对象
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">数据类型与变量、运算符</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>2. Function/ <span class=grey>函数对象</span></h2>
+<p>函数是JS的一级对象，函数可以是嵌套、作为参数、作为返回值。</p>
+
+<pre class=short>
+2. 变量作用域与结构赋值
+
+只有全局变量和函数体局部变量；
+	只要首次出现不加var的都是全局变量：按照原型链上溯，最后添加到window对象上，就成全局变量了。
+
+3. 方法
+
+4. this 与 链式调用
+
+5. arguments对象
+
+6. 高阶函数
+map/reduce
+filter
+sort
+Array
+
+
+7. 闭包 与 立即执行函数
+
+
+8. 箭头函数
+
+9. generator
+</pre>
+
+<ul>
+	<li><a target="_blank" href="Function/1a_define.html">1. 函数的定义和调用</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>3. OOP/ <span class=grey>面向对象编程</span></h2>
+<p>xx</p>
+
+<pre class=short>
+很难！原型链、闭包；模拟类
+
+1. 创建对象
+
+2. 原型继承
+
+作用域scope、闭包closure、原型、继承、类的实现、
+模块模式、沙箱模式、
+单例模式、
+
+- this的意义：当前对象本身，但是有很多意外解释//todo
+- with(document){write('some text');}
+- new: 创建新对象，new的时候发生了什么？
+
+
+3. class 继承
+</pre>
+
+<ul>
+	<li><a target="_blank" href="OOP/1a.html">创建对象</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<h2>4. DOM/ <span class=grey>文档对象模型</span></h2>
+<p>xx</p>
+
+<pre class=short>
+dom获取、dom创建、dom属性添加、dom插入、dom删除、dom克隆、
+兼容性的处理、
+
+css属性获取与设定、
+</pre>
+
+<ul>
+	<li><a target="_blank" href="DOM/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>5. BOM/ <span class=grey>浏览器对象模型</span></h2>
+<p>xx</p>
+
+<pre class=short>
+1. 原生交互
+alert:弹出警告等信息；
+prompt:输入框,第一个参数是提示语句，第二个是默认值；
+confirm:确认框,很有用：你确认要删除吗？
+
+
+2.window
+	- 当前窗口
+	- 新开窗口
+	- 通过本地窗口控制新开的窗口
+	不过现在不常用了，因为被流氓网站用烂了。
+
+3.location 重定向:当前地址栏的url
+4.history 后退与前进: 历史记录。用例：history.goback();
+
+5.cookie的增删改查。
+6.本地存储 localStorage
+
+</pre>
+
+<ul>
+	<li><a target="_blank" href="BOM/1a_prompt.html">prompt(hint, default)</a> </li>
+	<li><a target="_blank" href="BOM/1b_confirm.html">confirm</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>6. Event/ <span class=grey>事件处理</span></h2>
+<p>xx</p>
+
+<pre class=short>
+4.表单事件
+	onsubmit:表单提交之前，可做数据验证
+	js表单验证
+	1) 常规的是判断并弹出提示；
+	2) 毕向东Html、CSS、JavaScript视频教程
+		[1]保留 java怎么接收form的消息
+		[2] 给form加label的好处：【不大实用】
+			1.accessKey指定快捷键，需要配合alt键使用；
+			2.label的for属性指向input的id属性，可以使input快速获取焦点
+
+	操作文件
+	File API
+
+
+
+5.自定义事件
+
+
+6.主动触发事件
+</pre>
+
+<ul>
+	<li><a target="_blank" href="Event/1a_onload.html">1a.事件绑定</a>: onload  <b class=red> //todo </b> </li>
+	<li><a target="_blank" href="Event/2a_onmouseover.html">2a.鼠标绑定</a>: onmouseover </li>
+	<li><a target="_blank" href="Event/3a_alertAfterSpace.html">3a.键盘事件</a>: onkeydown, e.keyCode </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>7. AJAX/ <span class=grey>js数据交互-ajax/json/Promise</span></h2>
+<p>xx</p>
+
+<pre class=short>
+1.更有好的方式是避免弹窗，在末尾显示<span>红色提示文字</span>；
+		获得obj，在innerHTML中加入文字提示；
+2.ajax
+
+XHR、json、
+</pre>
+
+<ul>
+	<li><a target="_blank" href="AJAX/index.html">ajax 目录: 拖拽上传文件</a> </li>
+	<li><a target="_blank" href="AJAX/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>8. canvas_SVG/ <span class=grey>可视化 Canvas 与 SVG</span></h2>
+<p>网页画图主要靠 canvas 和 SVG。</p>
+
 <ul>
 	<li><a target="_blank" href="canvas_SVG/index.html">canvas 目录</a> </li>
 	<li><a target="_blank" href="canvas_SVG/indexSVG.html">SVG 目录</a> </li>
@@ -16,12 +324,259 @@
 
 
 
-<h2>library</h2>
+
+
+
+
+
+
+
+<h2>9. Animation/ <span class=grey>定时器与动画</span></h2>
+<p>xx</p>
+
+<pre class=short>
+
+定时器、动画（链式运动、跳跃运动、）
+
+1.产生动画的2个函数
+setTimeOut('', 1000)
+setInterval('', 2000)
+
+
+
+
+2.时间
+	var today=new Date();
+	//Tue Nov 24 2015 16:41:42 GMT+0800 (中国标准时间)
+	//获取小时
+	var h=today.getHours();//16
+
+
+
+3.学习方法：看API、看书、做练习
+
+趣味代码：
+	- 黑客帝国
+	- 鼠标跟随
+	- 找相同图片
+	- 漂浮的云
+	- 打字效果
+	- 石头剪刀布
+	- 星球大战
+
+读书进步快：读英文书
+	- 看目录
+	- 看例子代码
+
+推荐的书
+	- javascript programmer's reference
+	- professional javascript for web developers
+</pre>
+
 <ul>
-	<li><a target="_blank" href="ajax/index.html">ajax 目录: 拖拽上传文件</a> </li>
+	<li><a target="_blank" href="Animation/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>10. Library <span class=grey>类库的学习: jQuery/, Vue3/, underscore/</span></h2>
+<p>xx</p>
+
+<pre class=short>
+jQuery
+	- 选择器
+	- 操作DOM
+		事件
+		动画
+		AJAX
+		扩展
+
+underscore
+	Collection
+	Arrays
+	Functions
+	Objects
+	Chaining
+</pre>
+
+<ul>
 	<li><a target="_blank" href="jQuery/index.html">jQuery 目录</a> </li>
 	<li><a target="_blank" href="Vue3/index.html">Vue3 目录</a> </li>
 </ul>
+
+
+
+
+
+
+
+
+
+
+<h2>11. err/ <span class=grey>错误处理</span></h2>
+<p>xx</p>
+
+<pre class=short>
+错误传播
+异步错误处理
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>12. nodeJS/ <span class=grey>后端运行的js</span></h2>
+<p>xx</p>
+
+<pre class=short>
+xx
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>13. ES6/ <span class=grey>xx</span></h2>
+<p>xx</p>
+
+<pre class=short>
+xx
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2>14. design/  <span class=grey>设计模式</span></h2>
+<p>xx</p>
+
+<pre class=short>
+xx
+</pre>
+
+<ul>
+	<li><a target="_blank" href="design/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>n. usefull/ <span class=grey>综合练习</span></h2>
+<p>xx</p>
+
+<pre class=short>
+要做成简单的效果，满足要求并简练是最好的效果。
+
+-[1]ok 下拉换头像usefull->userPic.html
+-[2] 2/3级联动列表：onchange事件
+-[3] 侧边滑动式菜单:onouseover滑动出来
+-[4] 抽屉式菜单
+-[5]ok 日历效果。插件式，点击获取oop_part->calender->calender.html
+	5.1梅花雨日历控件：demo失败，不能用。
+-[6] 模拟alert的弹出层：httphttp://www.cnblogs.com/NNUF/archive/2012/04/26/2471120.html
+
+延迟加载的原理：
+http://www.daxueit.com/article/3777.html
+http://www.cnblogs.com/NNUF/archive/2012/06/25/2561570.html
+
+-[7] 判断：是否为数字，是否为字符，是否为邮箱
+-[8] 树结构 treeview.js，接口简单，写着困难。
+
+
+
+0.问题：
+	-[1] 怎么处理空格不能弹出alert？alertAfterSpace.html
+		贴吧：http://tieba.baidu.com/p/4178119582
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">xx</a> </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<h2>2. / <span class=grey>xx</span></h2>
+<p>xx</p>
+
+<pre class=short>
+xx
+</pre>
+
+<ul>
+	<li><a target="_blank" href="base/1a.html">xx</a> </li>
+
+</ul>
+-->
+
+
+
+
+
+
+
+
 
 
 
@@ -33,3 +588,6 @@
 <div class="grey footer">
 	Repo at <a target="_blank" href="https://github.com/DawnEve/jsLecture">github</a>
 </div>
+
+</body>
+</html>

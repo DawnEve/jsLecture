@@ -1,0 +1,30 @@
+﻿<pre>
+<h1>输入太长则报错</h1>
+1.请按F12打开控制台。
+2.输入文字，回车或空格时检查，如果长度超过5，则弹出提示 报错。
+
+</pre>
+<input id="search" type="text" value=""/>
+<script type="text/javascript">
+var oSearch = document.getElementById("search");
+oSearch.onkeydown=function(event){
+	var e = event || window.event || arguments.callee.caller.arguments[0];
+	// enter键 或 空格
+	if(e && (e.keyCode==13 || e.keyCode==32) ){
+		//判断是否输入五个了
+		if(tooLong(this)){
+			//证明代码执行到这里了
+			console.log("最多只能输入5个！--console");
+			//按下空格的时候alert
+			alert("最多只能输入5个！--alert");
+		}
+	}
+}
+
+//判断逻辑，长度超过5则 true
+function tooLong(obj){
+	if(obj.value.length>5)
+		return true;
+	return false;
+}
+</script>

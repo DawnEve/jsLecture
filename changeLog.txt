@@ -29,6 +29,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.7-3@sustech example/ 002 文本复制到剪切板
 	dev0.2.7-4@sustech rename dir: mv Vue Vue3
 	dev0.2.7-5@sustech update index.html
+	dev0.2.7-6@sustech add BOM/ Event/
 
 #
 #->commit

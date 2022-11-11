@@ -30,7 +30,8 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.7-4@sustech rename dir: mv Vue Vue3
 	dev0.2.7-5@sustech update index.html
 	dev0.2.7-6@sustech add BOM/ Event/
-	dev0.2.7-7@sustech add left menu on /index.html
+	dev0.2.7-7@sustech add right menu on /index.html
+	dev0.2.7-8@sustech 右菜单高亮当前标题
 
 #
 #->commit

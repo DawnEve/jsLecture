@@ -71,13 +71,14 @@ li {
 
 
 
-.titleList::-webkit-scrollbar {display:none}
-.titleList{
+#rightMenu::-webkit-scrollbar {display:none}
+#rightMenu{
 	position:fixed;
 	right:0;
-	top:20px;
+	bottom:0px;
 	border:5px solid #666;
-	background:black;
+	border-right-width: 0;
+	background:#0D2E4C;
 	color:#ccc;
     opacity: 0.8;
 	border-bottom-left-radius: 20px;
@@ -86,8 +87,17 @@ li {
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
-.titleList ul{
+#rightMenu ul{
 	opacity: 1;
 	padding:10px;
 	list-style: none;
+}
+
+#rightMenu ul li a{
+	color:#bbb;
+}
+
+#rightMenu ul li a:hover,
+#rightMenu ul li a.cur{
+	color:orange;
 }

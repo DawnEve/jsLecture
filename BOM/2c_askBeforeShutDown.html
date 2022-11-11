@@ -1,0 +1,94 @@
+﻿<html xmlns=" http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.red{color:red;}
+</style>
+<title>onbeforeunload测试</title>
+<script>
+	/*页面离开：刷新 或 关闭*/
+	//blnCheckUnload = false;
+	blnCheckUnload = true;
+	window.onbeforeunload = function(e) {
+		//貌似没用
+		// 定义提示框标题
+		e = e || window.event;			 
+		if (e) {
+			e.returnValue = '关闭提示001';
+		}
+
+		//貌似没用
+		var j = "001本页面要求您确认您要离开 - 您输入的数据可能不会被保存？" ; 
+
+		if (blnCheckUnload) {
+			//在这里处理数据吗？
+			console.log('正在自动保存数据...');
+			return j;
+		}
+	}
+
+	/**
+	$( ":input" ).change(function(){
+		blnCheckUnload = true;//离开提示失效
+	})
+	$("xxForm").submit(function(){
+	   blnCheckUnload = false;
+	   $("xxForm").submit();
+	})
+
+	*/
+	/*页面离开*/
+
+
+// 推荐事件绑定的写法
+window.addEventListener("beforeunload", function(event) {
+  console.log("addEventListener: beforeunload  --UNLOAD:1");
+  //event.preventDefault();
+  event.returnValue = null; //"Any text"; //true; //false;
+  //return null; //"Any text"; //true; //false;
+});
+
+</script>
+</head>
+
+<body >
+<h1>如何在离开页面时弹出确认对话框 </h1>
+
+<pre>
+onbeforeunload测试
+
+它（根据MDN）应该由“addEventListener”（MDN）注册
+
+<b>测试1: chrome 只在刷新时有作用，关闭窗口不触发该事件。(也要有操作，比如按下F12键)</b>
+
+<b>测试2: 用户<span class=red>有操作(比如单击、选择文字、按键等)</span>才会触发chrome关闭窗口时提示！</b>
+https://blog.csdn.net/xj932956499/article/details/103181022
+1、在IE中这个事件你只要去关闭窗口就触发。
+2、谷歌、火狐等在F12调试模式中也会起效
+3、谷歌、火狐、QQ等浏览器中被优化了，需要用户在页面有过任何操作才会出现提示！（坑）
+
+<b>测试3: 在刷新期间 是否 窗口提示？</b>
+https://qa.1r1g.com/sf/ask/1685718961/
+
+此示例卸载站点（写入控制台文本“UNLOAD:1”）在刷新期间没有窗口提示。
+
+window.addEventListener("beforeunload", function(event) {
+  console.log("UNLOAD:1");
+  //event.preventDefault();
+  //event.returnValue = null; //"Any text"; //true; //false;
+  //return null; //"Any text"; //true; //false;
+});
+此示例卸载站点（写入控制台文本“UNLOAD:1”）在刷新期间带有窗口提示。
+
+window.addEventListener("beforeunload", function(event) {
+  console.log("UNLOAD:1");
+  //event.preventDefault();
+  event.returnValue = null; //"Any text"; //true; //false;
+  //return null; //"Any text"; //true; //false;
+});
+</pre>
+
+
+
+</body>
+</html>

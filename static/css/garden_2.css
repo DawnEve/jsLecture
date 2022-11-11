@@ -68,3 +68,26 @@ li {
 }
 
 .red{color:red;}
+
+
+
+.titleList::-webkit-scrollbar {display:none}
+.titleList{
+	position:fixed;
+	right:0;
+	top:20px;
+	border:5px solid #666;
+	background:black;
+	color:#ccc;
+    opacity: 0.8;
+	border-bottom-left-radius: 20px;
+	border-top-left-radius: 20px;
+	/*max-width:300px;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.titleList ul{
+	opacity: 1;
+	padding:10px;
+	list-style: none;
+}

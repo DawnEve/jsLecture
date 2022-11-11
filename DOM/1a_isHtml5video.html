@@ -1,0 +1,36 @@
+<h1>test canPlayType: mp4</h1>
+
+<pre>
+canPlayType() 方法可返回下列值之一
+
+"probably" - 浏览器最可能支持该音频/视频类型
+"maybe" - 浏览器也许支持该音频/视频类型
+"" - （空字符串）浏览器不支持该音频/视频类型
+
+
+https://www.twle.cn/l/yufei/javascriptref/javascript-ref-met-video-canplaytype.html
+</pre>
+
+
+<script>
+/**
+* 检测是否支持html5的video标签
+*/
+function videoCheck() {
+	var video = document.createElement("video");
+	if(video.canPlayType){
+	
+		if (video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')) {
+			return 1;//支持video标签，支持H.264   chrome,ff
+		}else{
+			return 2;//支持video标签，不支持H.264
+		}
+	}else{
+		return 0;//不支持video标签  ie
+	}
+}
+  
+
+aa=videoCheck();
+alert(aa);
+</script>

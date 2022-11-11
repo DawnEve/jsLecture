@@ -23,10 +23,14 @@
 <div id="intro">
 <h1>JavaScript 从入门到精通</h1>
 
-	<p>By: BioMooc.com / At: 2022.11</p>
+	<p class=grey>By: BioMooc.com 
+		/ At: 2022.11 
+		/ Version: dev0.2.7
+	</p>
 	<p>js包括 语言核心、DOM、BOM共3部分。</p>
 
-	<p class=grey>Repo: github.com/jsLecture</p>
+	<p class=grey>Repo: github.com/dawnEve/jsLecture</p>
+	<p class=grey>js/php熟手交流QQ群: 369578518</p>
 	<p class=grey>为了方便调整目录结构，根文件夹都不加数字序号。根文件夹内的文件名命名: <b>"数字开头+字母_关键词.html"</b></p>
 </div>
 <hr />
@@ -185,17 +189,19 @@ Array
 
 
 <h2>4. DOM/ <span class=grey>文档对象模型</span></h2>
-<p>xx</p>
+<p>DOM 标签，是最复杂的部分。通过控制DOM及其属性，控制css，理论上能动态创建任何网页效果。</p>
 
 <pre class=short>
-dom获取、dom创建、dom属性添加、dom插入、dom删除、dom克隆、
-兼容性的处理、
+1.dom获取、dom创建、dom属性添加、dom插入、dom删除、dom克隆
+2.兼容性的处理
+3.css属性获取与设定
 
-css属性获取与设定、
+4.其他标签
+https://www.twle.cn/l/yufei/javascriptref/javascript-ref-met-video-canplaytype.html
 </pre>
 
 <ul>
-
+	<li><a target="_blank" href="DOM/1a_isHtml5video.html">1a. isHtml5video</a>: 是否可以播放mp4？</li>
 </ul>
 
 
@@ -207,8 +213,10 @@ css属性获取与设定、
 
 
 
+
+
 <h2>5. BOM/ <span class=grey>浏览器对象模型</span></h2>
-<p>xx</p>
+<p>浏览器的操作主要是：新窗口，location，history等。是基本不兼容性的，好在现在主流是chrome内核。</p>
 
 <pre class=short>
 1. 原生交互
@@ -231,14 +239,18 @@ confirm:确认框,很有用：你确认要删除吗？
 	<li><a target="_blank" href="BOM/1a_prompt.html">1a. prompt(hint, default)</a> </li>
 	<li><a target="_blank" href="BOM/1b_confirm.html">1b. confirm</a> </li>
 
-	<li>[Good] <a target="_blank" href="BOM/2a_new_window1.html">2a window.open()</a> 打开新窗口：设置新窗口的宽高，设定2秒后关闭 </li>
-	<li>[Good] <a target="_blank" href="BOM/2b_float_image.html">2a 浮动的图片</a> 碰到浏览器四个边界自动反弹: window.body 的宽高 </li>
+	<li>[Good] <a target="_blank" href="BOM/2a_new_window1.html">2a. window.open()</a> 打开新窗口：设置新窗口的宽高，设定2秒后关闭 </li>
+	<li>[Good] <a target="_blank" href="BOM/2b_float_image.html">2b. 浮动的图片</a> 碰到浏览器四个边界自动反弹: window.body 的宽高 </li>
+	<li><a target="_blank" href="BOM/2c_askBeforeShutDown.html">2c. askBeforeShutDown window</a> window.onbeforeunload 用户有操作(鼠标、键盘事件)才能触发</li>
+	<li><a target="_blank" href="BOM/2d_gotoTop.html">2d. gotoTop</a> 回到顶部，缓动 window.scrollTo(x, y)</li>
 
 	<li><a target="_blank" href="BOM/3a_location.html">3a. location</a> 获取当前地址栏的URL并解析; 重定向</li>
+	<li>[bad] <a target="_blank" href="BOM/3b_location_redirect_URL.html">3b. location</a> (重新载入页面 location.reload() ) 刷页面浏览量</li>
 
-	<li><a  href="BOM/4a_history.html">4a.history</a> 后退与前进: 历史记录。用例：history.goback(); (故意没有使用 target="_blank")</li>
+	<li><a  href="BOM/4a_history.html">4a. history</a> 后退与前进: 历史记录。用例：history.goback(); (故意没有使用 target="_blank")</li>
 
 	<li><a target="_blank" href="BOM/5a_cookie.html">5a. cookie</a> 的增删改查</li>
+	<li><a target="_blank" href="BOM/7a_browserInfo.html">7a. browserInfo</a> 获取浏览器信息，有待改进 <b class=red>//todo</b></li>
 	
 
 </ul>
@@ -595,6 +607,6 @@ xx
 <div class="grey footer">
 	Repo at <a target="_blank" href="https://github.com/DawnEve/jsLecture">github</a>
 </div>
-
+<script src="static/js/main.js"></script>
 </body>
 </html>

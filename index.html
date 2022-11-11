@@ -154,7 +154,7 @@ Array
 
 
 <h2>3. OOP/ <span class=grey>面向对象编程</span></h2>
-<p>xx</p>
+<p>JS实现了基于原型的继承。</p>
 
 <pre class=short>
 很难！原型链、闭包；模拟类
@@ -176,7 +176,7 @@ Array
 </pre>
 
 <ul>
-	<li><a target="_blank" href="OOP/1a.html">创建对象</a> </li>
+	<li><a target="_blank" href="OOP/2a_prototype.html">prototype 的使用</a>: 老式OOP的基石。</li>
 
 </ul>
 
@@ -204,6 +204,7 @@ https://www.twle.cn/l/yufei/javascriptref/javascript-ref-met-video-canplaytype.h
 
 <ul>
 	<li><a target="_blank" href="DOM/1a_isHtml5video.html">1a. isHtml5video</a>: 是否可以播放mp4？</li>
+
 </ul>
 
 
@@ -270,6 +271,25 @@ confirm:确认框,很有用：你确认要删除吗？
 <p>xx</p>
 
 <pre class=short>
+1.阻止冒泡 阻止默认事件
+
+js事件之event.preventDefault()与event.stopPropagation()用法区别
+http://www.111cn.net/wy/js-ajax/47345.htm
+
+js中的preventDefault与stopPropagation详解
+http://www.jb51.net/article/46379.htm
+
+
+2.鼠标事件
+
+js中鼠标滚轮事件详解
+http://www.cnblogs.com/walkingp/archive/2010/02/03/1662872.html
+
+js鼠标滑轮滚动事件绑定（兼容主流浏览器）
+http://qiaolevip.iteye.com/blog/1673396
+
+
+
 4.表单事件
 	onsubmit:表单提交之前，可做数据验证
 	js表单验证
@@ -529,7 +549,7 @@ xx
 
 
 
-<h2>n. usefull/ <span class=grey>综合练习</span></h2>
+<h2>n. example/ <span class=grey>综合练习</span></h2>
 <p>xx</p>
 
 <pre class=short>
@@ -549,17 +569,36 @@ http://www.cnblogs.com/NNUF/archive/2012/06/25/2561570.html
 
 -[7] 判断：是否为数字，是否为字符，是否为邮箱
 -[8] 树结构 treeview.js，接口简单，写着困难。
-
-
-
-0.问题：
-	-[1] 怎么处理空格不能弹出alert？alertAfterSpace.html
-		贴吧：http://tieba.baidu.com/p/4178119582
 </pre>
 
 <ul>
-	<li><a target="_blank" href="base/1a.html">xx</a> </li>
-
+<!--
+	<li><a target="_blank" href="example/1a.html">xx</a> </li>
+-->
+	<li><a target="_blank" href="example/s001_popUpMsg_toast.html">toast 消息</a>: 顶部显示片刻的短消息。知识点: 添加dom，控制css样式。<span class=red>资源: js获取网页屏幕可见区域高度</span></li>
+	<li><a target="_blank" href="example/s002-JsPrinter.html">屏幕打字效果</a>: 黑屏绿字。知识点: 正则，定时器。</li>
+	<li><a target="_blank" href="example/s002-JsPrinterOOP.html">屏幕打字效果 OOP 版</a>：效果同上。</li>
+	<li><a target="_blank" href="example/s003-scrollBar.html">垂直滚动条</a>：阅读大段文字。知识点: 盒模型嵌套时的长宽计算。<span class=red>//todo: 自动滚动的阅读器、记录阅读速度等。</span></li>
+	
+	<li>
+		基于 <a href="example/startMove/">完美运动框架 </a> 实现的案例: <a href="example/startMove/startMove.js">startMove.js</a> /<a href="example/startMove/startMove_OOP.js">startMove_OOP.js</a>:
+		<ul>
+			<li><a target="_blank" href="example/s004-cornerMenu.html">右角落的菜单</a>：不随着页面滚动。知识点: </li>
+			<li><a target="_blank" href="example/s004-cornerMenu_OOP.html">右角落的菜单 OOP 版</a> </li>
+			<li><a target="_blank" href="example/startMove/ex1_leftBottomMenu.html">左侧角落的菜单</a></li>
+			<li><a target="_blank" href="example/startMove/ex2_Motto_Plugin.html">会变色的浏览器底部名言名句框(插件形式)</a></li>
+		</ul>
+	</li>
+	<li><a target="_blank" href="example/s005-keyboardEvent.html">键盘事件</a>：F12打开。尝试上下所有箭头。</li>
+	<li><a target="_blank" href="example/s006-dragBox.html">拖拽事件</a>：js 原生拖拽。</li>
+	<li>
+		基于 <a href="example/move_drag/">拖拽框架</a> 实现的案例:
+		<ul>
+			<li><a target="_blank" href="example/move_drag/move.html">拖拽事件</a>：js 原生拖拽。</li>
+		</ul>
+	</li>
+	
+	
 </ul>
 
 
@@ -598,8 +637,12 @@ xx
 
 
 
+<h2>js 资料</h2>
+<pre>
+http://bonsaiden.github.io/JavaScript-Garden/zh/
 
 
+</pre>
 
 
 

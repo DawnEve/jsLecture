@@ -35,6 +35,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.7-9@sustech 添加 运动，拖拽等
 	dev0.2.8-0@sustech 添加 右下角菜单 最大化最小化
 	dev0.2.8-1@sustech fix 右下角菜单 单击时 调用高亮当前菜单
+	dev0.2.8-2@sustech add 很多，来不及细看: OOP/, RegExp/
 #
 #->commit
 #------>push to dawneve /jsLecture

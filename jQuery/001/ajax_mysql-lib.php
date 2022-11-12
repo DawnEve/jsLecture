@@ -4,7 +4,7 @@ header('Content-Type: text/html; charset=UTF-8');
 date_default_timezone_set('PRC');
 /*
 version:v0.0.1
-auther:jimmyMall@live.com 
+auther:jimmyMall at live dot com 
 */
 
 function debug($str){

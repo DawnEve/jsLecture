@@ -1,0 +1,28 @@
+<meta charset='utf8'>
+<h1>递归recursion</h1>
+
+<pre>
+hanoi 汉诺塔游戏
+
+<hr>
+F12: 
+</pre>
+
+<script>
+function move(x, y){
+	console.log('Move disc from '+ x +' to '+ y);
+}
+
+//递归
+var hanoi=function(disc, a,b,c){
+	if(disc>0){
+		hanoi(disc-1, a,c,b);
+		move(a, b);
+		hanoi(disc-1, b,a,c);
+	}
+}
+
+hanoi(3,'a','b','c');
+//hanoi(4,'a','b','c');
+
+</script>

@@ -207,11 +207,10 @@ test: /lib/JStest/
 
 ## (1) Vue3/
 
-Vue2 repo: https://github.com/miostudio/vue_learn
+- Vue2 repo: https://github.com/miostudio/vue_learn
 
 
 ## (2) jQuery/
-
 
 
 ## (3) 自己的类库 dawnJS
@@ -246,12 +245,115 @@ Vue2 repo: https://github.com/miostudio/vue_learn
 
 常见组件：焦点图、tab图、下拉菜单、提示框、
 
-- 001-slider 焦点图
+## (1) MarkDown 解析器 //todo
+
+[MarkDown语法](http://sspai.com/25137)
+
+![baidu](http://www.baidu.com/img/bdlogo.gif "百度logo")  
+
+
+```JavaScript
+$('div_id').innerHTML="456";
+
+var a=123;
+```
+
+
+
+
+## (2) 经典案例
+
+### 描述：仿网易邮箱顶部**消息框**  
+
+- example/s001_popUpMsg_toast.html  
+
+需求：  
+
+1. 写一个类似163邮箱顶部出现一会就消失的提示框; 
+2. 便于使用;
+3. 多个对象调用消息框`互不影响`，且不占用过多资源;
+4. 更美观的`渐隐`、`渐显`、`向上收缩`等效果;
+
+效果图：
+
+![example](images/DOM001.png "悬浮提示框")  
 
 
 
 
 
+### 描述：JS字幕**打字效果**  
+
+- example/s002-JsPrinter.html
+- example/s002-JsPrinterOOP.html
+
+需求：  
+
+1. 结合css和js实现打字效果;  
+2. 最好使用OOP实现；
+
+效果图:
+
+![Printer](images/JsPrinter.png "JsPrinter") 
+
+js prototype
+
+![Printer](images/javascript_object_layout.jpg "js prototypes") 
+
+
+
+
+
+### 描述：js可拖动竖直滚动条
+
+- example/s003-scrollBar.html
+
+需求：
+
+1. 可拖动事件
+
+
+
+
+
+
+
+### 描述： 角落的菜单，可伸缩，伸缩三种效果
+
+- example/s004-cornerMenu.html
+- example/s004-cornerMenu_OOP.html
+
+需求：
+
+1. 完美运动框架 startMove.js 和其OOP版本 startMove_OOP.js 
+2. 可以实现物体的运动：px像素的改变、透明度的变化。
+3. 详细过程看 example/startMove/ 文件夹中的html。
+
+
+
+
+
+
+### 描述： 响应键盘上下左右键
+
+- example/s005-keyboardEvent.html
+
+需求： 
+
+1. 鼠标实现小说翻页、图片切换；
+
+
+
+
+
+### 描述： 鼠标自由拖动的盒子，有拖动区和非拖动区
+
+- example/s006-dragBox.html
+
+需求： 
+
+1. 认识浏览器内各种width的差异；
+2. 详细看 example/move_drag/ 文件夹中的html。
 
 
 

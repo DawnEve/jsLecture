@@ -89,6 +89,7 @@ var createRightMenu=function(){
 	
 	var oUl=document.createElement("ul");
 	for(var i=1; i<arrHead.length; i++){
+		//(1) 菜单链接
 		var oH=arrHead[i];
 		var text=oH.textContent;
 		var oLi=document.createElement("li");
@@ -98,11 +99,13 @@ var createRightMenu=function(){
 		oSpan.innerHTML=text.length>40? text.substr(0,38)+"...":text;
 		oA.appendChild( oSpan ); 
 		oA.setAttribute("href", "#"+i);
+		//(1.2)添加事件：单击则刷新当前高亮
+		oA.onclick=highlight_curent_munu;
 		
 		oLi.appendChild(oA);
 		oUl.appendChild( oLi );
 		
-		//在原文h2等标题后插入a锚点，使用 my-data="anchor" 进行区分
+		//(2)在原文h2等标题后插入a锚点，使用 my-data="anchor" 进行区分
 		var oA2=document.createElement("a");
 		oA2.setAttribute("name", i)
 		oA2.setAttribute("my-data", "anchor");
@@ -137,7 +140,8 @@ function highlight_curent_munu(){
 	for(; i<aA.length; i++){
 		if(aA[i].offsetTop>=scrollTop){
 			//6.当前A 标签加样式:当前应该是 浏览器顶端所在的head编号
-			aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			//aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			aSpan[i].parentElement.setAttribute("class", "cur");
 			break;
 		}
 	}

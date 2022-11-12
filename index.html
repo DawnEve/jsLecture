@@ -271,13 +271,23 @@ confirm:确认框,很有用：你确认要删除吗？
 <p>xx</p>
 
 <pre class=short>
-1.阻止冒泡 阻止默认事件
+1.事件基础
+(1)事件监听与绑定、取消绑定
+https://zhuanlan.zhihu.com/p/29443137
+
+
+(2)阻止冒泡 阻止默认事件
 
 js事件之event.preventDefault()与event.stopPropagation()用法区别
 http://www.111cn.net/wy/js-ajax/47345.htm
 
 js中的preventDefault与stopPropagation详解
 http://www.jb51.net/article/46379.htm
+
+(3)事件委托 delegate
+
+
+
 
 
 2.鼠标事件
@@ -288,6 +298,7 @@ http://www.cnblogs.com/walkingp/archive/2010/02/03/1662872.html
 js鼠标滑轮滚动事件绑定（兼容主流浏览器）
 http://qiaolevip.iteye.com/blog/1673396
 
+3.键盘事件
 
 
 4.表单事件
@@ -303,22 +314,20 @@ http://qiaolevip.iteye.com/blog/1673396
 	操作文件
 	File API
 
-5.事件委托 delegate
 
 
 
-6.自定义事件与主动触发事件 trigger or fire
-
-
+5.自定义事件与主动触发事件 trigger or fire
 </pre>
 
 <ul>
 	<li><a target="_blank" href="Event/1a_onload.html">1a.事件绑定</a>: onload  <b class=red> //todo </b> </li>
+	
+	<li><a target="_blank" href="Event/1c_delegate.html">1c. 事件委托</a>: 可以保证动态添加的元素也自动绑定事件</li>
 	<li><a target="_blank" href="Event/2a_onmouseover.html">2a.鼠标绑定</a>: onmouseover </li>
 	<li><a target="_blank" href="Event/3a_alertAfterSpace.html">3a.键盘事件</a>: onkeydown, e.keyCode </li>
 	<li><a target="_blank" href="Event/4a_onsubmit.html">4a.表单 提交事件</a>: onsubmit </li>
 	<li><a target="_blank" href="Event/4b_formValidate.html">4b.表单 验证</a>: 在输入框后写 错误提示 </li>
-	<li><a target="_blank" href="Event/6a_delegate.html">6a. 事件委托</a>: 可以保证动态添加的元素也自动绑定事件</li>
 
 </ul>
 

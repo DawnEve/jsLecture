@@ -36,6 +36,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.8-0@sustech 添加 右下角菜单 最大化最小化
 	dev0.2.8-1@sustech fix 右下角菜单 单击时 调用高亮当前菜单
 	dev0.2.8-2@sustech add 很多，来不及细看: OOP/, RegExp/
+	dev0.2.8-3@sustech add WebGL
 #
 #->commit
 #------>push to dawneve /jsLecture
@@ -46,3 +47,10 @@ v0.2.6 canvas 3D棉布效果
 # path: G:\xampp\htdocs\jsLecture
 # local: jsLecture.dawneve.cc
 # url: jsLecture.biomooc.com
+
+
+todo:
+	TODO.txt
+	new_words.txt 
+/lib/ 仅仅用来引用，具体的js库才是学习笔记
+/lib/js/ 是自己的js函数库

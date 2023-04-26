@@ -1,0 +1,42 @@
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<h1>刷访问次数</h1>
+<pre>
+bad 效果没有实现，可能还需要传 cookie?
+<p>只需要修改url为自己的网址，然后等待若干分钟即可。比较慢，但是比手动快。</p>
+
+
+</pre>
+URL: <input id="url" style="width:90%" value="https://stuff.mit.edu/cgi/counter/biomooc"/>
+
+<script>
+//测试用代码
+window.onload=function(){
+	var visit=(function(){
+		
+		//调整这个URL即可
+		var url = document.getElementById("url").value;
+		
+		var s=[];
+		return function(){
+			var img=new Image();
+			img.src=url;
+			s.push( img );
+		};
+	})();
+	
+	//刷新的几个时间参数，根据需要调整，不行就用默认值
+	var para={a:2000, b:100, c:8000} //默认值
+	//var para={a:1000, b:200, c:8000} //调整后
+	
+	var time=para.a;
+	setInterval(function(){
+		visit();
+		time += para.b;
+		if(time>para.c){
+			location.reload()
+		}
+		console.log(time);
+	}, time);
+}
+</script>

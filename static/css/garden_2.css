@@ -1,0 +1,125 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, em, img, ins, kbd, strong, sub, sup, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+body{
+    width: 960px;
+    margin: 0 auto;
+    font-family: Georgia, 'Nimbus Roman No9 L', 'Liberation Serif', serif;
+    font-size: 18px;
+    background: #0D2E4C;
+    color: #E6EAED;
+}
+
+
+h1 {
+	padding: 40px 0 30px;
+	margin: 0;
+	font-size: 75px;
+	line-height: 1.2em;
+	font-weight: normal;
+	text-shadow: 0 2px 2px #000;
+	font-family: Georgia, serif;
+}
+
+.footer{margin:30px 10px;}
+
+ul, p {
+    /*line-height: 1.6em;*/
+    margin-bottom: 1.25em;
+}
+
+a {
+	color: #FFA500;
+	text-decoration: none;
+}
+
+a:hover, a.active {
+	color: #FFC76D;
+}
+
+
+.grey a,.grey{color:#566D82;}
+.grey a:hover{color:#eee;}
+h2{
+	font-size: 1.5em;
+    margin: 0 0 0.7em;
+    padding-top: 1.5em;
+
+	padding-bottom: 20px;
+    border-bottom: 1px solid #8696a5;
+}
+
+
+ul {
+    list-style: square;
+	padding-inline-start: 40px;
+}
+li {
+    font-size: 0.9375em;
+    margin-top: 6px;
+    line-height: 1.3em;
+}
+
+.red{color:red;}
+
+
+
+
+/* 右下角菜单 */
+#rightMenu::-webkit-scrollbar {display:none}
+#rightMenu{
+	position:fixed;
+	right:0;
+	bottom:0px;
+	border:2px solid #ccc;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	background:#0D2E4C;
+	color:#ccc;
+    opacity: 0.7;
+	border-top-left-radius: 10px;
+	/*
+	border-bottom-left-radius: 20px;
+	max-width:300px;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
+	
+	font-size: 14px;
+}
+#rightMenu ul{
+	opacity: 1;
+	padding:10px;
+	list-style: none;
+}
+
+#rightMenu ul li a{
+	color:#bbb;
+}
+
+#rightMenu ul li a:hover,
+#rightMenu ul li a.cur{
+	color:orange;
+}
+
+
+#cli_title{
+	width:300px;
+	height:30px;
+	line-height:30px;
+	float:left;
+	background:#E3E3E3; /*ac8932*/
+	text-align:left;
+	color:#6a737d;
+	/*border-radius:5px;*/
+	margin-bottom:10px;
+}
+#cli_title b{padding: 8px 10px; 
+	cursor:pointer;
+}

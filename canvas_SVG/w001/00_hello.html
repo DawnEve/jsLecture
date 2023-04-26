@@ -1,0 +1,17 @@
+<style>
+#my_canvas{border:1px solid red;}
+</style>
+
+<canvas id = "my_canvas" width = "100" height = "100"></canvas>
+
+<script>
+	var canvas = document.getElementById("my_canvas");
+	//var gl = canvas.getContext("experimental-webgl");
+	var gl = canvas.getContext("webgl"); //而之前是传入 "2d"
+	
+	// Set clear color to (r,g,b, 1), fully opaque
+	gl.clearColor(0.9,0.9,0.8,1);
+	
+	// Clear the color buffer with specified clear color
+	gl.clear(gl.COLOR_BUFFER_BIT);
+</script>

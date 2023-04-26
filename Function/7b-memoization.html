@@ -1,0 +1,118 @@
+<meta charset='utf8'>
+<h1>memoization 函数记忆</h1>
+
+<pre>
+对于频繁调用的函数，通过记忆常用结果避免重复计算，从而加速程序运行速度。
+
+<hr>
+F12: 
+</pre>
+
+<script>
+//tools
+function print(s){console.log(s)}
+
+//------------------------------------------
+//Fibonacci数列v1
+var fibonacci=function(num){
+	return num < 2 ? num : fibonacci(num-1) + fibonacci(num-2);
+}
+
+for(var i=0; i<=10; i++){
+	// print('f(' + i + ') = '+fibonacci(i) );
+}
+
+//我们调用了11次，但是fibonacci函数被调用了453次。如果加入记忆功能，则能显著减少运算次数。
+//加入记忆功能的函数
+
+//------------------------------------------
+//Fibonacci数列v2 (我的写法)
+var fibonacci2=(function(){
+	//私有变量，保存计算过的结果
+	var results={}; 
+	
+	return function(num){
+		if(results[num]){
+			return results[num];
+		}
+		
+		//	print(results); //证明走计算路径的确实不多
+		return results[num] = num < 2 ? num : fibonacci(num-1) + fibonacci(num-2);
+	}
+}()); // 立即执行函数，返回的是一个函数
+
+
+// 测试
+for(var i=0; i<=10; i++){
+	 //print('f(' + i + ') = '+fibonacci2(i) );
+}
+
+
+
+
+//------------------------------------------
+// js语言精粹 中的示例，和我的不同的是用了数组。
+var fibonacci3=(function(){
+	var memo=[0,1];
+
+	var fib = function(num){
+		if(typeof memo[num] !== 'number'){
+			memo[num] = fib(num-1)+fib(num-2);
+		}
+		return memo[num];
+	}
+
+	return fib;
+}());// 还是一个立即函数
+
+// 测试
+for(var i=0; i<=10; i++){
+	//print('f(' + i + ') = '+fibonacci3(i) );
+}
+
+
+
+
+
+//------------------------------------------
+// 怎么写更具有用一般化意义呢？
+
+// 高中数组题，给出初始值，给出怎么计算后一项的递归公式即可。
+var memoizer=function(memo, formula){
+	// 怎么处理递归？
+	var recur = function(num){
+		if(typeof memo[num] !== 'number'){
+			memo[num] = formula(recur, num);
+		}
+		return memo[num];
+	}
+	return recur;
+}
+
+
+
+//=================================
+//测试1: 斐波那契数列前100项
+// 定义fibonacci函数：参数分别是初始值，递归公式
+var fibonacci4=memoizer([0,1], function(fn, num){
+	return fn(num-1) + fn(num-2);
+});
+//输出
+for(var i=0; i<=100; i++){
+	print('fibonacci4(' + i + ') = '+fibonacci4(i) );
+}
+
+
+
+//=================================
+//测试2: 阶乘
+print("\n");
+var factorial=memoizer([1,1], function(fn, num){
+	return num * fn(num-1);
+});
+//输出前20项 
+for(var i=0; i<=20; i++){
+	print('factorial(' + i + ') = '+factorial(i) );
+}
+
+</script>

@@ -1,0 +1,51 @@
+<meta charset="utf8">
+<h2>事件委托</h2>
+<pre>
+可以保证动态添加的元素也自动绑定事件
+原理是：根据事件冒泡顺序，子对象的事件父对象也会被通知到，父对象知道是哪个子对象call的自己，就可以做具体操作了。
+
+难点：父对象怎么知道哪个子对象call的自己？
+	在老的IE下，事件源是 window.event.srcElement，
+	其他浏览器是 event.target
+
+
+https://blog.csdn.net/weixin_30667301/article/details/97642326
+
+示例: 
+单击数字，会弹框；
+添加新数字，再单击，也会弹窗。
+</pre>
+
+<ul id="ul">
+	<li>0</li>
+	<li>1</li>
+	<li>2</li>
+	<li>3</li>
+	<li>4</li>
+	<li>5</li>
+</ul>
+<button id="btn">点我添加一个li</button>
+
+
+<script>
+// 事件委托具体实现
+var ul = document.getElementById("ul");
+
+ul.onclick = function (event) {
+	event = event || window.event;
+	var target = event.target;
+	// 获取目标元素
+	if (target.nodeName == 'LI') {
+		alert(target.innerHTML);
+	}
+}
+
+// 为按钮绑定点击事件
+var btn = document.getElementById('btn');
+btn.onclick = function () {
+	var li = document.createElement('li');
+	// 新增li的内容为ul当前子元素的个数
+	li.textContent = ul.children.length;
+	ul.appendChild(li);
+}
+</script>

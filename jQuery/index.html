@@ -1,16 +1,55 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-<h1>jQuery index</h1>
+<h1>jQuery 示例</h1>
+<p>一般需要在服务器环境打开(apache，nginx等)，而不能是文件环境。</p>
 <hr>
 <!--
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+<script type="text/javascript" src="http://127.0.0.1/js/jquery-1.10.2.min.js"></script> 
+
+<meta charset="utf8">
+<script src="/lib/jQuery/jquery-1.8.0.js"></script>
 -->
 
 <h2>001 ajax: (backend: php)</h2>
 <ol>
-	<li><a target="_blank" href="001/ajax_1.html">ajax $.ajax() txt</a> </li>
-	<li><a target="_blank" href="001/ajax_2.html">ajax $.get() php</a> </li>
-	<li><a target="_blank" href="001/ajax_3.html">ajax $.post() php</a> </li>
-	<li><a target="_blank" href="001/ajax_mysql.html">ajax backend: php+mysql</a> </li>
+	<li><a target="_blank" href="001/ajax_1.html">001/ajax_1.html</a> ajax $.ajax() txt</li>
+	<li><a target="_blank" href="001/ajax_2.html">001/ajax_2.html</a> ajax $.get() php</li>
+	<li><a target="_blank" href="001/ajax_3.html">001/ajax_3.html</a> ajax $.post() php</li>
+	<li><a target="_blank" href="001/ajax_mysql.html">001/ajax_mysql.html</a> ajax backend: php+mysql</li>
 </ol>
+
+
+
+<h2>002 选择器</h2>
+控制台触发百度首页提交的jQ：$("#su").parents('form').submit()
+<ol>
+	<li><a target="_blank" href="002/index.html">002/index.html</a> $().each()</li>
+	<li><a target="_blank" href="002/index2.html">002/index2.html</a> 属性选择器，操作属性</li>
+	<li><a target="_blank" href="002/index3.html">002/index3.html</a> 更复杂的dom操作，显示与隐藏</li>
+</ol>
+
+
+
+<h2>004 动画</h2>
+<ol>
+	<li><a target="_blank" href="004/index.html">004/index.html</a> 文本框高度 增减</li>
+	<li><a target="_blank" href="004/index2.html">004/index2.html</a> 文本框高度 增减，缓动</li>
+	<li><a target="_blank" href="004/index3.html">004/index3.html</a> 同上，缓动.解决连续单击放大，紧接着单击缩小界面不缩小的问题。</li>
+	<li>[Good] <a target="_blank" href="004/index4.html">004/index4.html</a> 控制文本框高度、移动文本框进度条</li>
+</ol>
+
+
+
+
+<h2>005 表单</h2>
+网页换肤 需要cookie// todo
+<ol>
+	<li><a target="_blank" href="005/index.html">005/index.html</a> 全选-全不选-反选。哪些属性用attr()，哪些用prop()呢？ 只要有true/false的用prop()，否则用attr();</li>
+	<li><a target="_blank" href="005/index2.html">005/index2.html</a> 筛选、过滤 表格</li>
+	<li><a target="_blank" href="005/index3.html">005/index3.html</a> 文字放大、缩小</li>
+	<li>[Good] <a target="_blank" href="005/index4.html">005/index4.html</a> 选项卡，自动切换</li>
+</ol>
+
+
 

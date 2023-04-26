@@ -2,6 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <script src="/lib/jQuery/jquery-1.8.0.js"></script>
+<style>
+#myDiv{border:1px dashed red;}
+</style>
 </head>
 
 <body>
@@ -9,6 +12,17 @@
 <button id="b01" type="button">Change Content</button>
 
 <script>
+//obj 序列化
+function serialize(obj){
+	var str="";
+	for(var key in obj){
+		str += key +": '"+obj[key]+"', "
+	}
+	//去掉最后2个字符: 逗号和空格
+	str=str.substr(0, str.length-2)
+	return str;
+}
+
 $(document).ready(function(){
 	$("#b01").click(function(){
 		$.post("post3.php?key=123", 
@@ -20,7 +34,8 @@ $(document).ready(function(){
 			console.log("Data: " + data + "\nStatus: " + status);
 			if(status=="success"){
 				console.log(data)
-				$("#myDiv").html(data)
+				var str=serialize(data);
+				$("#myDiv").html(str)
 			}else{
 				$("#myDiv").html(status)
 			}

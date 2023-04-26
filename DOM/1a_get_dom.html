@@ -1,0 +1,20 @@
+<meta charset='utf8'>
+<h1>获取对象</h1>
+
+<pre>
+
+<hr>
+F12:
+</pre>
+
+<div id="box1">box1 sth</div>
+
+<script>
+//获取目标
+function $(s){
+	return (typeof s=='object')?s:document.getElementById(s);
+}
+
+var oDiv=$("box1");
+console.log(oDiv)
+</script>

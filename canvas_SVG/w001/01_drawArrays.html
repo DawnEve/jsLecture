@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+   <body>
+      <canvas width = "300" height = "300" id = "my_Canvas"></canvas>
+		
+      <script>
+	  
+         /* Step1: Prepare the canvas and get WebGL context */
+		 //1.获取画布，及上下文环境
+         var canvas = document.getElementById("my_Canvas");
+         var gl = canvas.getContext("webgl");
+
+
+
+
+		 //2. 定义几何形状，并存储在缓冲区对象中
+		 //定义几何的属性，例如顶点、索引、颜色等，并将它们存储在 JavaScript 数组中。
+		 //然后创建一个或多个缓冲区对象，并将包含数据的数组传递给相应的缓冲区对象。
+
+		 //在示例中，将三角形的顶点存储在 JavaScript 数组中，并将该数组传递给顶点缓冲区对象。
+         /* Step2: Define the geometry and store it in buffer objects */
+         var vertices = [
+			-0.5, 0.5, //顶点1
+			-0.5, -0.5, //顶点2
+			0.5, -0.5,]; //顶点3
+
+         // Create a new buffer object //a.创建缓冲区
+         var vertex_buffer = gl.createBuffer(); 
+         // Bind an empty array buffer to it //b.绑定缓冲区
+         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+         // Pass the vertices data to the buffer //c.将数据（顶点/索引）传递给缓冲区
+         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+         // Unbind the buffer //d.解除缓冲区的绑定
+         gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+
+
+
+
+
+		 //3. 创建和编译着色器程序
+		 //编写顶点着色器和片段着色器程序，编译它们，并通过链接这两个程序来创建一个组合程序。
+
+         /* Step3: Create and compile Shader programs */
+         //a.Vertex shader source code // 顶点 着色器语言源码，类C语言
+         var vertCode =
+            "attribute vec2 coordinates;" + 
+            "void main(void) {" + 
+				" gl_Position = vec4(coordinates, 0.0, 1.0);" + 
+			"}";
+         //b.Create a vertex shader object //创建着色器
+         var vertShader = gl.createShader(gl.VERTEX_SHADER);
+         //c.Attach vertex shader source code //着色器 结合 源码
+         gl.shaderSource(vertShader, vertCode);
+         //d.Compile the vertex shader //编译 着色器
+         gl.compileShader(vertShader);
+
+
+
+         //a2.Fragment shader source code //片段着色器 源码
+         var fragCode = "void main(void) {" + 
+			"gl_FragColor = vec4(0.0, 0.0, 0.5, 0.1);" + 
+			//"gl_PointSize  = 0.50;" +
+		"}";
+         //b2. Create fragment shader object //创建着色器
+         var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+         //c2. Attach fragment shader source code //结合 源码
+         gl.shaderSource(fragShader, fragCode);
+         //d2. Compile the fragment shader // 编译 着色器
+         gl.compileShader(fragShader);
+
+
+
+         //a3. Create a shader program object to store combined shader program //创建程序
+         var shaderProgram = gl.createProgram();
+         //b3. Attach a vertex shader //连接 顶点着色器
+         gl.attachShader(shaderProgram, vertShader); 
+         //c3. Attach a fragment shader //连接 片段着色器
+         gl.attachShader(shaderProgram, fragShader);
+         //d3. Link both programs //链接2个程序
+         gl.linkProgram(shaderProgram);
+         //e3. Use the combined shader program object //使用该程序
+         gl.useProgram(shaderProgram);
+
+
+
+
+
+
+
+		 //4. 将着色器程序与缓冲区对象相关联
+         /* Step 4: Associate the shader programs to buffer objects */
+         //a.Bind vertex buffer object //绑定缓冲区
+         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+
+         //b. Get the attribute location //获取属性的坐标
+         var coord = gl.getAttribLocation(shaderProgram, "coordinates");
+
+         //c. point an attribute to the currently bound VBO //指向当前坐标
+         gl.vertexAttribPointer(coord, 2, gl.FLOAT, false, 0, 0);
+
+         //d. Enable the attribute // 属性可用
+         gl.enableVertexAttribArray(coord);
+
+
+
+
+
+		 //5. 绘制所需对象（三角形）
+		 //此步骤包括清除颜色、清除缓冲区位、启用深度测试、设置视口等操作。
+
+         /* Step5: Drawing the required object (triangle) */
+         //a. Clear the canvas 清除画布
+         gl.clearColor(0.5, 0.5, 0.5, 0.9);
+
+         //b. Enable the depth test 启用深度测试
+         gl.enable(gl.DEPTH_TEST); 
+         
+         //c. Clear the color buffer bit 清除色彩缓冲位
+         gl.clear(gl.COLOR_BUFFER_BIT);
+
+         //d. Set the view port 设置视图端口
+         gl.viewport(0,0,canvas.width,canvas.height);
+
+         //e. Draw the triangle
+		 // 最后，您需要使用drawArrays（）或drawElements（）之一绘制所需的图元。
+         gl.drawArrays(gl.TRIANGLES, 0, 3);
+      </script>
+   </body>
+</html>

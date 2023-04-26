@@ -5,6 +5,7 @@
 # 文件夹区分
 - 0开头的是canvas [目录](index.html)
 - s开头的是SVG [目录](indexSVG.html)
+- w开头的是 WebGL [目录](indexWebGL.html)
 
 
 # url

@@ -1,0 +1,108 @@
+<meta charset="utf8">
+<style>
+body,html, div,iframe{margin:0; padding:0;}
+body{background: antiquewhite;}
+
+#popupLayer{
+	background:white;
+	display:none; 
+	position:fixed; z-index:999;
+	/*
+	top:20px;left:20px;
+	*/
+	border:2px solid #ccc;
+	border-radius:10px;
+}
+#popupLayer .close{position:absolute; right:10px; border:1px solid grey; cursor:pointer;}
+#popupLayer .close:hover{background:#aaa;}
+#popupLayer h2{background:#eee; color:#999; margin:0; padding:2px 5px;}
+
+
+#popupLayer iframe{
+	position: relative;
+	background:white;
+	border:red dashed 1px;
+}
+</style>
+
+
+<h1>框架层 内嵌 iframe: 弹出层</h1>
+<pre>
+this is index4.html
+
+F12 - console: 改变页面内容 
+> frame = $("popupLayer").getElementsByTagName("iframe")[0];
+> frame.src="main2.html"
+
+
+默认是 main.html，按show2后会修改为 main2.html
+</pre>
+
+<button id=show>show</button>
+<button id=show2>show2</button>
+
+
+
+<pre>
+滕王阁序 
+王勃
+
+落霞与孤鹜齐飞，秋水共长天一色。
+渔舟唱晚，响穷彭蠡之滨，雁阵惊寒，声断衡阳之浦。
+
+
+关山难越,谁悲失路之人;萍水相逢,尽是他乡之客。
+
+
+豫章故郡，洪都新府。
+
+星分翼轸，地接衡庐。
+
+襟三江而带五湖，控蛮荆而引瓯越。
+</pre>
+
+
+<div id=popupLayer>
+	<h2>弹出层 <button class=close>X</button></h2>
+	<iframe class=test name="box" src="main.html" frameborder="0px" scrolling="auto" marginwidth="0" marginheight="0">
+	</iframe>
+</div>
+
+
+
+<script>
+function $(s){return document.getElementById(s)}
+
+function showPopup(){
+	//左右各留下 10%，居中
+	var layer = $("popupLayer");
+	layer.style.display="block";
+	
+	//计算弹出层的宽度，左侧，高度
+	layer.style.width="80%"
+	layer.style.left="10%"
+	layer.style.top="20px"
+	layer.style.height= window.innerHeight - 40 + "px"
+	//计算 iframe 的宽 高
+	var frame = $("popupLayer").getElementsByTagName("iframe")[0];
+	frame.style.width = (layer.offsetWidth - 10) + "px"
+	frame.style.height = (layer.offsetHeight - 45) + "px"
+}
+
+//显示位置
+$("show").onclick = showPopup;
+$("show2").onclick = function(){
+	var frame=$("popupLayer").getElementsByTagName("iframe")[0];
+	frame.src="main2.html";
+	showPopup();
+}
+
+// close button
+$("popupLayer").getElementsByClassName("close")[0].onclick=function(){
+	this.parentNode.parentNode.style.display="none";
+}
+
+</script>
+
+
+

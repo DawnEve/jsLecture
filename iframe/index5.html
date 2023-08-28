@@ -1,0 +1,158 @@
+<meta charset="utf8">
+<style>
+body,html, div,iframe{margin:0; padding:0;}
+body{background: antiquewhite;}
+
+.content{
+	width:100%; 
+	/*
+	border:1px solid purple;
+	*/
+	box-sizing: border-box; /* 边界占用盒子内部 */
+}
+.content::after{
+	content: " ";
+	clear:both;
+	display:block;
+}
+
+#left, #right{
+	box-shadow: -1px -1px 2px white, 3px 3px 4px #aaa;
+	border-radius: 5px;
+}
+#left:hover, #right:hover{
+	box-shadow: 4px 4px 6px #999;
+}
+
+#left{
+	/*
+	border:1px dashed red; 
+	*/
+	float:left; 
+	width:120px; margin:5px;
+	background:#364575;
+	padding:10px 5px;
+}
+#left a{display: block; color:#ccc; text-decoration:none; padding:5px 0;}
+#left a:hover{ color:white; background:#293656;}
+
+
+#right{float:right; 
+	/*
+	border:5px dashed blue;
+	*/
+	overflow:hidden;
+	background:white;
+	padding:10px 5px;
+	margin-right:10px;
+}
+#right iframe{  }
+#right .path{
+	border-bottom:1px dashed grey;
+	margin: 0;
+    padding: 0 5px;
+}
+
+.clear{clear:both;}
+.footer{background:#eee; padding:20px; margin-top:15px;}
+</style>
+
+<div class=content>
+
+<h1>框架层 内嵌 iframe: 按钮控制跳转，后台系统原型</h1>
+<pre>
+this is index5.html
+</pre>
+
+
+<div id=left>
+	<a href="main.html">main</a>
+	<a href="main2.html">main2</a>
+	<a href="main3.html">main3</a>
+	<a href="iframe_note.html">iframe_note</a>
+</div>
+
+
+<div id=right>
+	<p class="path">this is path</p>
+	<iframe class=test id="mainFrame" name="box" src="main2.html" frameborder="0px" scrolling="auto" marginwidth="0" marginheight="0">
+	</iframe>
+</div>
+
+
+</div>
+
+<div class="clear"></div>
+
+
+<div class="footer">
+	this is footer
+</div>
+
+<script>
+function $(s){return document.getElementById(s)}
+
+//右边iframe
+var frame = $("mainFrame");
+var iwin=frame.contentWindow;
+var pathEle = $("right").firstElementChild;
+
+//单击菜单
+var aBtn=$("left").getElementsByTagName("a");
+for(var i=0; i<aBtn.length; i++){
+	var oBtn=aBtn[i]
+	oBtn.onclick=function(e){
+		e.preventDefault(); //阻止默认事件
+		var hash = this.getAttribute("href");
+		
+		frame.src = hash; //iframe 的内容
+		pathEle.innerHTML = hash; // 导航信息
+		
+		// 不刷新更新浏览器 url
+		var url = window.location.href;
+		var url_full = url.split('#')[0] + "#" + hash;
+		window.history.pushState({}, 0, url_full);
+		
+		return false;
+	}
+}
+
+
+function resizeWindow(){
+	var rightLayer = $("right");
+	
+	// right 的宽度 = 窗口宽度 - 左侧宽度
+	var left_width = $("left").offsetWidth;
+	rightLayer.style.width = window.innerWidth - left_width -40 -20 + "px"; // 40是啥?, 20是padding 
+	
+	// right 的高度 = 窗口的高度 - 头尾高度
+	rightLayer.style.height = window.outerHeight -30 + "px";
+	
+	// iframe 的宽高: 和右侧同大小
+	frame.style.width = (rightLayer.offsetWidth - 20) + "px"; //宽度减去阴影
+	frame.style.height = (rightLayer.offsetHeight - 30) + "px"; //高度减去 面包屑导航
+}
+
+
+
+window.onload=function(){
+
+	var url = window.location.href;
+	var path = url.split('#')
+	if( path.length > 1 && path[1] != ""){
+		var hash = path[1];
+		pathEle.innerHTML = hash; // 导航信息
+		frame.src = hash;
+	}
+	
+	resizeWindow();
+}
+
+
+
+window.onresize=resizeWindow;
+
+</script>
+
+
+

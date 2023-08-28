@@ -1,0 +1,52 @@
+<h2>main.html</h2>
+<input id="number" value=20 /> <button id="sendout">sendOut</button>
+<pre id="msg">
+another file named main.html
+1
+2
+</pre>
+
+<script>
+//console.log(">> loading inner ~~")
+window.onload=function(){
+    var $ = function(s){return document.getElementById(s);}
+    var msg=$("msg");
+
+    function msgHandler(e){
+        //console.log("in msgHandler: ", e)
+        console.log("> e.origin: ", e.origin)
+        //if(e.origin == "http://jslecture.dawneve.net"){
+            if(e.data.status==0){
+                // 更新网页
+                msg.innerHTML = e.data.msg
+
+                // 反馈给主函数
+                e.source.postMessage({"received":"inner iframe", status:1}, e.origin); //向原网页返回消息
+                // 日志
+                console.log("> inner 接到消息: ", e.data, ", e.origin:", e.origin)
+            }else{
+                console.log(e.data)
+                alert(e.data.msg)
+            }
+        //}
+    }
+    //接收消息
+    window.addEventListener("message", msgHandler, false)
+    
+    
+    //发送消息
+    var send=$("sendout");
+    send.onclick=function(){
+        console.log("\n")
+        var val = $("number").value;
+        pData={
+            "status":0,
+            "from": "inner iFrame",
+            "number": val,
+            "token": 12345,
+        }
+        window.parent.postMessage(pData, '*');
+    }
+    
+}
+</script>

@@ -1,0 +1,38 @@
+<meta charset="utf8">
+<style>
+body,html,
+iframe{margin:0; padding:0;}
+.test{color:red; padding:0px; border: dashed red 1px; width:80%; height:200px; margin:20px;}
+</style>
+
+
+<h1>框架层 内嵌 iframe: 去掉边框</h1>
+this is index1.html
+<br>
+
+<iframe class=test id="main" src="main.html" frameborder="0" scrolling="no" marginwidth="0">
+</iframe>
+
+
+<script>
+var $=function(x){return document.getElementById(x);}
+var p=function(x){console.log(x)}
+
+window.onload=function(){
+	// 对 iframe 的装饰
+	// 1.去掉滚动条 scrolling=no
+
+	//获取 iframe 的内容
+	var iframe=$("main");
+	var iWindow = iframe.contentWindow;
+	var iDocument = iframe.contentDocument;
+
+	//p(iframe.clientHeight )
+	//p(iDocument.body)
+	//p(iDocument.body.clientHeight)
+	
+	// 2. 设置iframe的高为body的高
+	iframe.clientHeight = iDocument.body.clientHeight;
+}
+</script>
+

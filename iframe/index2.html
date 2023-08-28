@@ -1,0 +1,86 @@
+<meta charset="utf8">
+<style>
+body,html,
+iframe{margin:0; padding:0;}
+.test{display:none;}
+#show{border:1px solid blue;}
+</style>
+
+
+<h1>框架层 内嵌 iframe: 长轮询 基于 iframe location.reload()</h1>
+this is index2.html
+<br>
+
+1
+
+<iframe class=test id="main" src="main.html" frameborder="0" scrolling="no" marginwidth="0">
+</iframe>
+
+2
+<h3>修改 main.html 内容，这里也立刻更新</h3>
+<pre>
+<div id=show></div>
+</pre>
+
+
+<button id="stop">stop</button>
+<button id="start">start</button>
+
+
+
+<script>
+var $=function(x){return document.getElementById(x);}
+var p=function(x){console.log(x)}
+
+//获取 iframe 的内容
+var iframe=$("main");
+
+window.onload=function(){
+	// 对 iframe 的装饰
+	// 1.去掉滚动条 scrolling=no
+
+	var iWindow = iframe.contentWindow;
+	var iDocument = iframe.contentDocument;
+	
+	// 2. 设置iframe的高为body的高
+	iframe.clientHeight = iDocument.body.clientHeight;
+}
+
+// 长轮询 
+iframe.onload=function(){
+	var iloc = iframe.contentWindow.location;
+	var idoc = iframe.contentDocument;
+	this.timer = setTimeout(function(){
+		var text= idoc.body.textContent;
+		console.log("text: ", text)
+		//写入网页
+		$("show").innerHTML=text;
+		iloc.reload(); //刷新页面，再次获取信息，而且会触发 onload 函数
+	}, 2000)
+}
+
+$("stop").onclick=function(){
+	if(iframe.timer){
+		console.log("clearTimeout ... " + iframe.timer)
+		clearTimeout(iframe.timer);
+	}
+}
+
+$("start").onclick=function(){
+	console.log("setTimeout ... " + iframe.timer)
+	clearTimeout(iframe.timer);
+	
+	iframe.timer = setTimeout(function(){
+		var iloc = iframe.contentWindow.location;
+		var idoc = iframe.contentDocument;
+	
+		var text= idoc.body.textContent;
+		console.log("text: ", text)
+		//写入网页
+		$("show").innerHTML=text;
+		iloc.reload(); //刷新页面，再次获取信息，而且会触发 onload 函数
+	}, 2000)
+}
+
+</script>
+

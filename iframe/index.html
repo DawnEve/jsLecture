@@ -1,0 +1,123 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<pre>
+不跳转提交表单的方法
+websocket,SSE,ajax等
+
+index1.html  去掉边框
+index2.html  长轮询 基于 iframe location.reload()
+index2b.html  基于定时器的 局部更新
+index3.html  通信 postMessage，支持跨域通信
+    https://blog.csdn.net/cmhahaha/article/details/124495507
+	或直接修改 iframe.src 属性，加载新页面
+index4.html  弹出层，查看后台运行效果
+	嵌套层怎么弹出？https://blog.csdn.net/shiaijuan1/article/details/70160714
+index5.html  按钮控制跳转，后台系统原型
+	问题: 无刷新 更新 url 后，用户刷新页面怎么办？使用 hash 模式编写
+
+
+
+
+
+1. 属性
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>
+主页，编码为utf-8，明确指定了编码类型。
+<iframe src="main.html" mce_src="main.html" width="100%" height="100%"> xx note</iframe>
+</body></html>
+
+
+
+
+2. 方法
+(1) postMessage 方法
+postmessage 方法挂载到window对象上，即，使用window.postmessage()调用.
+该方法接受两个参数:postMessage(message, targetOrigin):
+
+message: 就是传递给iframe的内容, 通常是string,如果你想传object对象也可以。不过使用前请参考这一句话:
+Objects listed in transfer are transferred, not just cloned, meaning that they are no longer usable on the sending side.
+
+意思就是，希望亲爱的不要直接传Object。 如果有条件，可以使用是JSON.stringify进行转化。这样能保证不会出bug.
+targetOrigin: 接受你传递消息的域名，可以设置绝对路径，也可以设置"“或者”/“。 表示任意域名都行，”/"表示只能传递给同域域名。
+
+
+<iframe src="https://www.biomooc.com" name="sendMessage"></iframe>
+//当前脚本
+let ifr = window.frames['sendMessage'];
+
+//使用iframe的window向iframe发送message。
+ifr.postMessage('give u a message', "http://tuhao.com");
+
+//tuhao.com的脚本
+window.addEventListener('message', receiver, false);
+
+function receiver(e) {
+    if (e.origin == 'http://tuhao.com') {
+        if (e.data == 'give u a message') {
+            e.source.postMessage('received', e.origin);  //向原网页返回信息
+        } else {
+            alert(e.data);
+        }
+    }
+}
+
+
+
+
+2) 接收方，
+window.addEventListener('message', handleMessage, false);
+// 或者
+window.onmessage = handleMessage
+
+
+当targetOrigin接受到message消息之后,会触发message事件。 message提供的event对象上有3个重要的属性，data,origin,source.
+
+data：postMessage传递进来的值
+origin：发送消息的文档所在的域
+source：发送消息文档的window对象的代理，如果是来自同一个域，则该对象就是window，可以使用其所有方法，如果是不同的域，则window只能调用postMessage()方法返回信息
+
+
+
+3) 子页面向父页面发送消息同理：
+// 在 iframe 中发送消息
+window.parent.postMessage('Hello to parent from iframe!', 'http://www.example.com');
+
+
+
+
+(2) 长轮询
+
+如果写过ajax的同学，应该知道，长轮询就是在ajax的readyState = 4的时，再次执行原函数即可。 
+这里使用iframe也是一样，异步创建iframe，然后reload, 和后台协商好, 看后台将返回的信息放在哪里，
+然后获取里面信息即可. 这里是直接放在body里.
+
+var iframeCon = docuemnt.querySelector('#container'),
+    text; //传递的信息
+
+var iframe = document.createElement('iframe'),
+   iframe.id = "frame",
+   iframe.style = "display:none;",
+   iframe.name="polling",
+   iframe.src="target.html";
+iframeCon.appendChild(iframe);
+
+iframe.onload = function(){
+   var iloc = iframe.contentWindow.location,
+	   idoc  = iframe.contentDocument;
+   setTimeout(function(){
+	   text = idoc.getElementsByTagName('body')[0].textContent;
+	   console.log(text);
+	   iloc.reload(); //刷新页面,再次获取信息，并且会触发onload函数
+   },2000);
+}
+
+不过，iframe和主页是共享连接池的，所以还是很蛋疼的，现在基本上都被XHR和hard calllback取缔了
+
+
+
+(3) 基于 iframe 的局部刷新
+
+
+
+(4)
+
+

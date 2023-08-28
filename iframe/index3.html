@@ -1,0 +1,58 @@
+<meta charset="utf8">
+<style>
+body,html,
+iframe{margin:0; padding:0;}
+ 
+</style>
+
+
+<h1>框架层 内嵌 iframe: 通信 postMessage，允许跨域。</h1>
+this is index3.html
+<br>
+
+
+<iframe class=test id="main" name="box" src="main.html" frameborder="1px" scrolling="no" marginwidth="0">
+</iframe>
+
+
+<h3>给 iframe 发送消息: 输入消息，iframe接收消息，查看F12控制台</h3>
+请输入消息:<br>
+<input type="input" id="url" value="main2.html" />
+<button id="send">sendIn</button>
+<pre id="get-msg"></pre>
+
+<script>
+var $=function(x){return document.getElementById(x);}
+var p=function(x){console.log(x)}
+
+//获取 iframe 的内容
+var iframe=$("main");
+
+var iWindow = iframe.contentWindow;
+var iDocument = iframe.contentDocument;
+
+
+//1. 发送请求
+$("send").onclick=function(){
+	var msg= $("url").value;
+	
+	//1. 在主窗口发送消息
+	var data = {
+		"status": 0,
+		"msg": msg
+	};
+    console.log("\nsend data:", data)
+	iWindow.postMessage(data, "*")
+}
+
+//2. 在 iframe 内接收消息：js代码在 iframe 中
+
+//3. 在 主函数接收消息
+window.addEventListener("message", function(e){
+	console.log('< msg received by top window:', e.data)
+    $("get-msg").innerHTML= JSON.stringify( e.data );
+}, false)
+
+// iWindow.postMessage({'status':1, 'msg':"xx error"}, "*")
+</script>
+

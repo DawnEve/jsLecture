@@ -1,0 +1,47 @@
+<meta charset="utf8">
+<style>
+body,html,
+iframe{margin:0; padding:0;}
+.test{color:red; padding:0px; border: dashed red 1px; width:80%; height:200px; margin:20px;}
+</style>
+
+
+<h1>框架层 内嵌 iframe</h1>
+this is index.html
+<br>
+F12 console. <hr>
+
+<iframe class=test id="main" src="main.html" frameborder="0" scrolling="no" marginwidth="0">
+</iframe>
+
+
+<script>
+// 对 iframe 的装饰
+// 1.去掉滚动条 scrolling=no
+var $=function(x){return document.getElementById(x);}
+var p=function(x){console.log(x)}
+
+//获取 iframe 的内容
+var iframe=$("main");
+var iWindow = iframe.contentWindow;
+var iDocument = iframe.contentDocument;
+
+// 2. 设置iframe的高为body的高
+iframe.height = iDocument.body.offsetHeight;
+
+var count=0;
+//使用定时器查看内容
+iframe.onload=function(){
+	var iloc=iWindow.location;
+	/*
+        无法获取 iframe 的内容?
+	*/
+	var timer=setTimeout(function(){
+        //var text = iWindow.document.getElementsByTagName("body")[0].textContent; //获取文字内容
+		var number = iWindow.document.getElementById("number").value; //获取值
+		console.log("count: ", count++, ", number: ", number)
+		iloc.reload();//刷新页面，再次获取信息，而且会触发 onload 函数
+	}, 2000)
+}
+</script>
+

@@ -187,3 +187,49 @@ var rightMenu_toggle=function(){
 	//
 	window.jslecture.flag = !flag;
 } 
+
+
+
+
+
+
+
+
+// 右下角 回到顶部 单击
+window.addEventListener('load',function(e){
+	//<div id="gotoTop" title="Goto top" style="visibility: visible;">↑</div>
+
+	var gotoTop=createElement("div", {
+		"id":"gotoTop",
+		"title": "Goto top",
+		"style": "visibility: visible;"
+	}, "↑");
+	//插入文档流
+	document.body.appendChild(gotoTop);
+
+	//var gotoTop=document.getElementById('gotoTop');
+	gotoTop.onclick = function(){
+		var timer = null;
+		cancelAnimationFrame(timer);
+		timer = requestAnimationFrame(function fn(){
+			var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+			if(oTop > 0){
+				//scrollBy(0,-50);
+				scrollBy(0, -Math.max(oTop/20, 50) );
+				timer = requestAnimationFrame(fn);
+			}else{
+				cancelAnimationFrame(timer);
+			}
+		});
+	};
+},false);
+
+// 右下角 回到顶部: 滚动超过500px时，显示 gotoTop 按钮
+window.addEventListener('scroll',function(e){
+	var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+	if(oTop>=600){
+		gotoTop.style.visibility='visible'
+	}else{
+		gotoTop.style.visibility='hidden'
+	}
+},false);

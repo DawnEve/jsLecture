@@ -38,6 +38,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.8-2@sustech add 很多，来不及细看: OOP/, RegExp/
 	dev0.2.8-3@sustech add WebGL
 	dev0.2.8-4@picb fix right bottom menu
+	dev0.2.8-5@picb add goto Top
 #
 #->commit
 #------>push to dawneve /jsLecture

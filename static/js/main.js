@@ -139,8 +139,11 @@ function highlight_curent_munu(){
 	var i=0;
 	for(; i<aA.length; i++){
 		if(aA[i].offsetTop>=scrollTop){
-			//6.当前A 标签加样式:当前应该是 浏览器顶端所在的head编号
-			//aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			//6.当前A 标签加样式:当前应该是 浏览器顶端所在的head编号-1
+			aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			break;
+		}else if( (i==aA.length-1) && (aA[i].offsetTop < scrollTop + 10) ){
+			//如果到最后一个header后了，则高亮它
 			aSpan[i].parentElement.setAttribute("class", "cur");
 			break;
 		}

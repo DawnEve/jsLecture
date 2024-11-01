@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.carousel {
+    position: relative;
+    width: 80%;
+    /*max-width: 1300px;  */
+    margin: auto;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    display: block;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: #bbb;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+}
+
+.indicator.active {
+    background: #333;
+}
+
+
+/**/
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white; /* 或者你选择的任何颜色 */
+    background-color: rgba(0, 0, 0, 0.5); /* 可选：添加背景以增加可读性 */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.caption-text p {
+    margin: 5px 0;
+}
+
+.caption-text a {
+    color: yellow; /* 或者你选择的任何颜色 */
+    text-decoration: none;
+	
+	background: #888;
+    padding: 5px;
+}
+
+.caption-text a:hover {
+    text-decoration: underline;
+}
+
+
+
+/*超大字体*/
+.carousel-caption-large {
+    position: absolute;
+    top: 50%; /* 或者你想要放置文本的任何位置 */
+    left: 50%; /* 或者你想要放置文本的任何位置 */
+    transform: translate(-50%, -50%); /* 居中文本 */
+    color: white; /* 文字颜色 */
+    text-align: center; /* 文字居中 */
+    width: 100%; /* 或者你想要的任何宽度 */
+    padding: 20px; /* 内边距，根据需要调整 */
+}
+
+.caption-text-large {
+    font-size: 5em; /* 超级大的字体，根据需要调整 */
+    font-weight: bold; /* 可选：加粗字体 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 可选：添加文字阴影以增加深度 */
+    opacity: 0.7; /* 半透明效果 */
+    background-color: rgba(0, 0, 0, 0.3); /* 可选：添加背景色以增加可读性，同时保持半透明 */
+    padding: 10px 20px; /* 可选：为文本添加内边距 */
+    border-radius: 10px; /* 可选：为文本背景添加圆角 */
+}
+
+/* 如果你想要为链接设置不同的样式 */
+.caption-text-large a {
+    color: yellow; /* 链接颜色 */
+    text-decoration: none; /* 去除下划线 */
+    font-size: 0.8em; /* 可选：链接字体稍微小一些 */
+    margin: 0 5px; /* 可选：链接之间的间距 */
+}
+
+.caption-text-large a:hover {
+    text-decoration: underline; /* 鼠标悬停时添加下划线 */
+}

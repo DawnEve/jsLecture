@@ -39,6 +39,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.8-3@sustech add WebGL
 	dev0.2.8-4@picb fix right bottom menu
 	dev0.2.8-5@picb add goto Top
+	dev0.2.8-6@picb add example/008 焦点图/轮播图 [2024.11.1]
 #
 #->commit
 #------>push to dawneve /jsLecture

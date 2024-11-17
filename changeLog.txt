@@ -37,9 +37,11 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.8-1@sustech fix 右下角菜单 单击时 调用高亮当前菜单
 	dev0.2.8-2@sustech add 很多，来不及细看: OOP/, RegExp/
 	dev0.2.8-3@sustech add WebGL
+	dev0.2.8-4@hzBig add iframe demo [2023.8.28]
 	dev0.2.8-4@picb fix right bottom menu
 	dev0.2.8-5@picb add goto Top
 	dev0.2.8-6@picb add example/008 焦点图/轮播图 [2024.11.1]
+	dev0.2.8-7@picb pull to NB [2024.11.17]
 #
 #->commit
 #------>push to dawneve /jsLecture

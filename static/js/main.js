@@ -139,8 +139,11 @@ function highlight_curent_munu(){
 	var i=0;
 	for(; i<aA.length; i++){
 		if(aA[i].offsetTop>=scrollTop){
-			//6.当前A 标签加样式:当前应该是 浏览器顶端所在的head编号
-			//aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			//6.当前A 标签加样式:当前应该是 浏览器顶端所在的head编号-1
+			aSpan[i==0? 0: i-1].parentElement.setAttribute("class", "cur");
+			break;
+		}else if( (i==aA.length-1) && (aA[i].offsetTop < scrollTop + 10) ){
+			//如果到最后一个header后了，则高亮它
 			aSpan[i].parentElement.setAttribute("class", "cur");
 			break;
 		}
@@ -184,3 +187,49 @@ var rightMenu_toggle=function(){
 	//
 	window.jslecture.flag = !flag;
 } 
+
+
+
+
+
+
+
+
+// 右下角 回到顶部 单击
+window.addEventListener('load',function(e){
+	//<div id="gotoTop" title="Goto top" style="visibility: visible;">↑</div>
+
+	var gotoTop=createElement("div", {
+		"id":"gotoTop",
+		"title": "Goto top",
+		"style": "visibility: visible;"
+	}, "↑");
+	//插入文档流
+	document.body.appendChild(gotoTop);
+
+	//var gotoTop=document.getElementById('gotoTop');
+	gotoTop.onclick = function(){
+		var timer = null;
+		cancelAnimationFrame(timer);
+		timer = requestAnimationFrame(function fn(){
+			var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+			if(oTop > 0){
+				//scrollBy(0,-50);
+				scrollBy(0, -Math.max(oTop/20, 50) );
+				timer = requestAnimationFrame(fn);
+			}else{
+				cancelAnimationFrame(timer);
+			}
+		});
+	};
+},false);
+
+// 右下角 回到顶部: 滚动超过500px时，显示 gotoTop 按钮
+window.addEventListener('scroll',function(e){
+	var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+	if(oTop>=600){
+		gotoTop.style.visibility='visible'
+	}else{
+		gotoTop.style.visibility='hidden'
+	}
+},false);

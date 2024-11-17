@@ -56,8 +56,6 @@ version log: changeLog.txt
 一个完整的JavaScript的实现，需要由三部分组成：ECMAScript(核心), DOM(文档对象模型), BOM(浏览器对象模型)。
 
 
-> http://bonsaiden.github.io/JavaScript-Garden/zh/
-
 ## (1) ECMAScript(核心)
 
 任何一个编程语言都有的功能，就是语言核心。
@@ -358,6 +356,18 @@ js prototype
 
 
 
+### 描述： 焦点图/轮播图
+
+- example/s008-carousel/
+
+需求： 
+
+1. 任务列表大屏；轮播图效果，鼠标悬停暂停，支持单击切换，键盘左右箭头切换
+2. 详细看 example/s008-carousel/ 文件夹中的 index3.html
+
+
+
+
 
 
 
@@ -372,4 +382,3 @@ js prototype
 2. 阮一峰的博客 http://www.ruanyifeng.com/
 3. 廖雪峰的博客 http://www.liaoxuefeng.com/
 4. DOM 和 BOM 操作: https://blog.csdn.net/QWH_PYTHON/article/details/102758025
-5. DOM 和 BOM 操作 https://www.mianshigee.com/note/detail/131717chj/

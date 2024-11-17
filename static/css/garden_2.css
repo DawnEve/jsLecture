@@ -123,3 +123,17 @@ li {
 #cli_title b{padding: 8px 10px; 
 	cursor:pointer;
 }
+
+
+/* 回到顶部 */
+#gotoTop{
+	position: fixed;
+    bottom: 10px;
+    right: 20px;
+    background: rgb(238, 238, 238);
+    color: rgb(153, 153, 153);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.8;
+}

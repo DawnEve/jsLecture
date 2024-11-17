@@ -1,0 +1,91 @@
+body {  
+    margin: 0;  
+    padding: 0;  
+    font-family: Arial, sans-serif;  
+}  
+  
+.carousel {  
+    position: relative;  
+    height: 100%;  
+    /*max-width: 1300px;  */
+    margin: auto;  
+    overflow: hidden;  
+    border: 2px solid #ddd;  
+    border-radius: 10px;  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+}  
+  
+.carousel-inner {  
+    display: flex;  
+    transition: transform 0.5s ease-in-out;  
+}  
+  
+.carousel-item {  
+    min-width: 100%;  
+    box-sizing: border-box;  
+    position: relative;  
+}  
+  
+.carousel-item img {  
+    width: 100%;  
+    display: block;  
+}  
+  
+.carousel-caption {  
+    position: absolute;  
+    bottom: 20px;  
+    left: 20px;  
+    background: rgba(0, 0, 0, 0.5);  
+    color: #fff;  
+    padding: 10px;  
+    border-radius: 5px;  
+}  
+  
+.carousel-indicators {  
+    position: absolute;  
+    bottom: 10px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+    display: flex;  
+}  
+  
+.indicator {  
+    width: 10px;  
+    height: 10px;  
+    margin: 0 5px;  
+    background: #bbb;  
+    border: none;  
+    border-radius: 50%;  
+    cursor: pointer;  
+    outline: none;  
+}  
+  
+.indicator.active {  
+    background: #333;  
+}
+
+
+/**/
+
+.carousel-caption {  
+    position: absolute;  
+    bottom: 20px;  
+    left: 20px;  
+    color: white; /* 或者你选择的任何颜色 */  
+    background-color: rgba(0, 0, 0, 0.5); /* 可选：添加背景以增加可读性 */  
+    padding: 10px;  
+    border-radius: 5px;  
+}  
+  
+.caption-text p {  
+    margin: 5px 0;  
+}  
+  
+.caption-text a {  
+    color: yellow; /* 或者你选择的任何颜色 */  
+    text-decoration: none;  
+}  
+  
+.caption-text a:hover {  
+    text-decoration: underline;  
+}

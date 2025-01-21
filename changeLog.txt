@@ -42,6 +42,7 @@ v0.2.6 canvas 3D棉布效果
 	dev0.2.8-5@picb add goto Top
 	dev0.2.8-6@picb add example/008 焦点图/轮播图 [2024.11.1]
 	dev0.2.8-7@picb pull to NB [2024.11.17]
+	dev0.2.8-8@picb 过年走 [2025.1.21]
 #
 #->commit
 #------>push to dawneve /jsLecture

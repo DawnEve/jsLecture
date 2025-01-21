@@ -98,7 +98,7 @@ body {
 /*超大字体*/
 .carousel-caption-large {
     position: absolute;
-    top: 50%; /* 或者你想要放置文本的任何位置 */
+    top: 30%; /* 或者你想要放置文本的任何位置 */
     left: 50%; /* 或者你想要放置文本的任何位置 */
     transform: translate(-50%, -50%); /* 居中文本 */
     color: white; /* 文字颜色 */

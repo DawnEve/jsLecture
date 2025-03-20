@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const carouselInner = document.querySelector('.carousel-inner');
     const indicators = document.querySelectorAll('.indicator');
     let currentIndex = 0;
-	let intervalTime = 4000; // 自动播放间隔时间，单位为毫秒  
+	let intervalTime = 5000; // 自动播放间隔时间，单位为毫秒
 	let autoPlayInterval; // 更改变量名以避免与其他可能的全局变量冲突  
 
     const items = document.querySelectorAll('.carousel-item');

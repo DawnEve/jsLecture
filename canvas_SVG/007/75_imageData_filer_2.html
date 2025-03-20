@@ -5,8 +5,6 @@ canvas{display:inline-block; border:1px solid #aaa; margin:10px 50px;}
 .center{margin:10px auto; width:1000px;}
 </style>
 
-<canvas id="canvas1"></canvas>
-<canvas id="canvas2"></canvas>
 
 <div class=center id=filters>
 	<!-- 滤镜按钮 -->
@@ -23,13 +21,25 @@ canvas{display:inline-block; border:1px solid #aaa; margin:10px 50px;}
 </div>
 
 <pre>
-浮雕与雕刻：
-基于当前像素的前一个像素RGB值与它的后一个像素的RGB值之差再加上128
-
+浮雕与雕刻：基于当前像素的前一个像素RGB值与它的后一个像素的RGB值之差再加上128
 </pre>
+
+(滤镜7)马斯克大小: <input type="number" min="1" max="100" value=16 id="blur" /> <br>
+
+设置图片: <input type="file" id='setPic' /> <br>
+
+<canvas id="canvas1"></canvas>
+<canvas id="canvas2"></canvas>
+
+
+
 
 
 <script>
+var $=function(s){
+	return document.getElementById(s);
+}
+
 var canvas1=document.getElementById('canvas1');
 canvas1.width=300;canvas1.height=200;
 var ctx1=canvas1.getContext('2d');
@@ -43,10 +53,42 @@ var img=new Image();
 img.src='../images/github.png';
 img.src='../images/win7_H.png';
 //img.src='../images/test.png';
+
 img.onload=function(){
+	console.log("1>img width:", img.width, ", height:", img.height);
+
+	ctx1.canvas.width = img.width;
+	ctx1.canvas.height = img.height;
+
+	console.log("2>img width:", img.width, ", height:", img.height);
+
 	ctx1.drawImage(img, 0,0);
 	//ctx1.drawImage(img, 0,0, canvas1.width, canvas1.height);
 }
+
+
+
+// 自定义图片
+window.onload=function(){
+	$("setPic").onchange=function(evt){
+		// 检查是否有文件被选中
+		if (this.files) {
+			const file = this.files[0];
+			console.log("you clicked me2: ", file)
+
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				img.src = e.target.result;
+			};
+			// 读取文件为DataURL（base64编码）
+			reader.readAsDataURL(file);
+		}
+	}
+}
+
+
+
+
 
 //根据滤镜名字处理图像
 function filterImage(filterName){
@@ -55,7 +97,11 @@ function filterImage(filterName){
 	
 	//2.修改imageData;
 	imageData=filterName(imageData);
-	
+
+	//调整 canvas2 大小
+	ctx2.canvas.width = ctx1.canvas.width;
+	ctx2.canvas.height = ctx1.canvas.height;
+
 	//3.放置到右侧 ctx2.putImageData(imageData, dx,dy, dirtyX,dirtyY,dirtyW,dirtyH);
 	//其中 dx,dy是要放入destination画布的位置，而dirtyX,dirtyY是source的位置
 	//注意：放入的位置是x=dx+dirtyX, y=dy+dirtyY;
@@ -211,10 +257,14 @@ function filter6(imageData,blurR){
 
 
 //定义滤镜7: 马赛克效果。原理: 把周围像素的平均值赋值给周围像素。类似模糊滤镜.
-function filter7(imageData,blurR=15){
+function filter7(imageData, blurR=-1){
 	var data=imageData.data;
 	//设置马赛克方块宽度
-	var blurR=blurR || 16;//马赛克效果多大效果好呢？
+	//var blurR=blurR || 16;//马赛克效果多大效果好呢？
+	var blurR=blurR || -1;//马赛克效果多大效果好呢？
+	if(blurR<0){
+		blurR=$("blur").value - 0;
+	}
 	for(var x=0;x<imageData.width;x+=blurR){
 		for(var y=0;y<imageData.height;y+=blurR){
 			

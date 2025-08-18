@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多列Tab组件</title>
+    <style>
+        .tab-system {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .tab-header {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        /* 两列模式 */
+        .tab-header.two-col {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .tab-btn {
+            padding: 12px 0;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+        .tab-btn.active {
+            background: #4285f4;
+            color: white;
+            box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        }
+        .tab-contents {
+            position: relative;
+            min-height: 200px;
+        }
+        .tab-content {
+            display: none;
+            padding: 24px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: fadeIn 0.4s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .mode-switcher {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mode-btn {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .mode-btn.active {
+            background: #4285f4;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>demo3: 2行tab 3列</h1>
+
+    <div class="tab-system" id="app">
+        <div class="mode-switcher">
+            <button class="mode-btn active" data-cols="3">三列模式</button>
+            <button class="mode-btn" data-cols="2">两列模式</button>
+        </div>
+    </div>
+
+    <script>
+        class MultiTabSystem {
+            constructor(containerId, tabs, initialCols = 3) {
+                this.container = document.getElementById(containerId);
+                this.tabs = tabs;
+                this.currentIndex = 0;
+                this.cols = initialCols;
+                this.init();
+            }
+            
+            init() {
+                this.renderLayout();
+                this.bindEvents();
+            }
+            
+            renderLayout() {
+                this.container.innerHTML = `
+                    <div class="tab-header ${this.cols === 2 ? 'two-col' : ''}">
+                        ${this.tabs.map((tab, i) => `
+                            <button class="tab-btn ${i === 0 ? 'active' : ''}" 
+                                    data-index="${i}">${tab.title}</button>
+                        `).join('')}
+                    </div>
+                    <div class="tab-contents">
+                        ${this.tabs.map((tab, i) => `
+                            <div class="tab-content ${i === 0 ? 'active' : ''}">
+                                ${tab.content}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                this.buttons = this.container.querySelectorAll('.tab-btn');
+                this.contents = this.container.querySelectorAll('.tab-content');
+            }
+            
+            bindEvents() {
+                this.container.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('tab-btn')) {
+                        const index = parseInt(e.target.dataset.index);
+                        this.switchTab(index);
+                    }
+                    
+                    if (e.target.classList.contains('mode-btn')) {
+                        this.cols = parseInt(e.target.dataset.cols);
+                        document.querySelectorAll('.mode-btn').forEach(btn => 
+                            btn.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.renderLayout();
+                        this.switchTab(this.currentIndex);
+                    }
+                });
+            }
+            
+            switchTab(index) {
+                if (index === this.currentIndex) return;
+                
+                this.buttons[this.currentIndex].classList.remove('active');
+                this.contents[this.currentIndex].classList.remove('active');
+                
+                this.buttons[index].classList.add('active');
+                this.contents[index].classList.add('active');
+                
+                this.currentIndex = index;
+            }
+        }
+
+        // 使用示例
+        const tabData = [
+            { title: '科技新闻', content: '最新科技动态...' },
+            { title: '财经资讯', content: '股市行情分析...' },
+            { title: '体育赛事', content: 'NBA季后赛战报...' },
+            { title: '娱乐八卦', content: '明星最新动态...' },
+            { title: '健康生活', content: '养生保健知识...' },
+            { title: '旅游攻略', content: '热门景点推荐...' }
+        ];
+
+        new MultiTabSystem('app', tabData, 3);
+    </script>
+</body>
+</html>

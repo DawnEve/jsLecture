@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可复用Tab组件</title>
+    <style>
+ab-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #f0f0f0;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: #4285f4;
+  color: white;
+}
+
+.tab-contents {
+  position: relative;
+}
+
+.tab-content {
+  display: none;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 0 4px 4px 4px;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+    </style>
+</head>
+<body>
+<h1>demo2</h1>
+
+    <div id="app" class="tab-container"></div>
+    <div id="tab1" class="tab-container"></div>
+    <div id="tab2" class="tab-container"></div>
+
+    <script>
+
+class TabSystem {
+  constructor(container, tabs) {
+    this.container = typeof container === 'string' 
+      ? document.querySelector(container) 
+      : container;
+    this.tabs = tabs;
+    this.currentIndex = 0;
+    this.init();
+  }
+
+  init() {
+    this.createHeader();
+    this.createContents();
+    this.bindEvents();
+  }
+
+  createHeader() {
+    const header = document.createElement('div');
+    header.className = 'tab-header';
+    
+    this.tabs.forEach((tab, i) => {
+      const btn = document.createElement('button');
+      btn.className = `tab-btn ${i === 0 ? 'active' : ''}`;
+      btn.textContent = tab.title;
+      btn.dataset.index = i;
+      header.appendChild(btn);
+    });
+
+    this.container.appendChild(header);
+    this.buttons = header.querySelectorAll('.tab-btn');
+  }
+
+  createContents() {
+    const contentsWrapper = document.createElement('div');
+    contentsWrapper.className = 'tab-contents';
+    
+    this.tabs.forEach((tab, i) => {
+      const content = document.createElement('div');
+      content.className = `tab-content ${i === 0 ? 'active' : ''}`;
+      content.innerHTML = tab.content;
+      contentsWrapper.appendChild(content);
+    });
+
+    this.container.appendChild(contentsWrapper);
+    this.contents = contentsWrapper.querySelectorAll('.tab-content');
+  }
+
+  bindEvents() {
+    this.buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.dataset.index);
+        this.switchTo(index);
+      });
+    });
+  }
+
+  switchTo(index) {
+    if (index === this.currentIndex) return;
+    
+    this.buttons[this.currentIndex].classList.remove('active');
+    this.contents[this.currentIndex].classList.remove('active');
+    
+    this.buttons[index].classList.add('active');
+    this.contents[index].classList.add('active');
+    
+    this.currentIndex = index;
+  }
+}
+
+// 使用示例
+const tabData = [
+  { title: '新闻', content: '<p>今日要闻...</p>' },
+  { title: '体育', content: '<ul><li>NBA季后赛</li></ul>' },
+  { title: '科技', content: '<div>最新产品发布</div>' }
+];
+
+new TabSystem('#app', tabData);
+
+
+        // 使用示例
+        const tabData1 = [
+            { title: '标签1', content: '这是第一个标签的内容' },
+            { title: '标签2', content: '这是第二个标签的内容' },
+            { title: '标签3', content: '这是第三个标签的内容' },
+            { title: '标签4', content: '这是第四个标签的内容' }
+        ];
+        
+        const tabData2 = [
+            { title: '选项A', content: '选项A的详细内容' },
+            { title: '选项B', content: '选项B的详细内容' },
+            { title: '选项C', content: '选项C的详细内容' }
+        ];
+        
+        new TabSystem('#tab1', tabData1);
+        new TabSystem('#tab2', tabData2);
+    </script>
+</body>
+</html>

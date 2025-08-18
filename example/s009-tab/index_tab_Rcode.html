@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R语言绘图常用代码</title>
+	<style>
+        :root {
+            --primary-color: #276dc0;
+            --secondary-color: #6baed6;
+            --bg-color: #f7fbff;
+			--tertiary-color: #990099;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .tab-header {
+            display: flex;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 120px;
+        }
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .tab-btn.active {
+            background: rgba(255,255,255,0.3);
+            box-shadow: inset 0 -3px 0 white;
+        }
+        .content-area {
+            display: flex;
+            flex: 1;
+            height: calc(100% - 50px);
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            background: white;
+        }
+        .plot-container {
+            flex: 2;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #eee;
+            overflow: auto;
+        }
+        .plot-image {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .plot-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        .code-container {
+            flex: 1;
+            padding: 20px;
+            overflow: auto;
+            background: #f8f8f8;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .plot-desc {
+            margin-top: 15px;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            text-align: center;
+        }
+		
+		.compact{margin:0; padding:0;}
+    </style>
+</head>
+<body>
+
+	<p class=compact><b>R语言绘图常用代码</b>: 第2次使用就汇总;第三次使用就包装成函数; https://r-graph-gallery.com/</p>
+
+    <div class="container">
+        <div class="tab-header" id="tabHeader">
+            <!-- 动态生成标签页 -->
+        </div>
+        <div class="content-area" id="contentArea">
+            <!-- 动态生成内容 -->
+        </div>
+    </div>
+
+
+
+    <script>
+        // R绘图数据配置
+        const plotsData = [
+            {
+                id: 'histogram',
+                title: '直方图',
+                imageUrl: 'https://www.r-graph-gallery.com/img/other/1200-800-histogram-basic.png',
+                code: `# 基础直方图
+library(ggplot2)
+data <- rnorm(1000)
+ggplot(data.frame(x=data), aes(x)) +
+  geom_histogram(binwidth=0.5, fill="#69b3a2", color="#e9ecef") +
+  ggtitle("正态分布直方图") +
+  theme_minimal()`,
+                desc: "展示数据分布情况，binwidth参数控制柱宽"
+            },
+            {
+                id: 'scatter',
+                title: '散点图',
+                imageUrl: 'https://www.r-graph-gallery.com/img/other/1200-800-scatterplot-basic.png',
+                code: `# 散点图示例
+library(ggplot2)
+ggplot(mtcars, aes(x=wt, y=mpg)) + 
+  geom_point(size=3, color="#E69F00") +
+  geom_smooth(method=lm, se=FALSE) +
+  labs(title="车重与油耗关系", x="重量(吨)", y="每加仑里程") +
+  theme_bw()`,
+                desc: "展示两个连续变量之间的关系，添加了线性趋势线"
+            },
+            {
+                id: 'boxplot',
+                title: '箱线图',
+                imageUrl: 'https://www.r-graph-gallery.com/img/other/1200-800-boxplot-ggplot2.png',
+                code: `# 分组箱线图
+library(ggplot2)
+ggplot(iris, aes(x=Species, y=Sepal.Length, fill=Species)) +
+  geom_boxplot(alpha=0.7) +
+  scale_fill_brewer(palette="Set2") +
+  stat_summary(fun=mean, geom="point", shape=20, size=5, color="red") +
+  labs(title="鸢尾花萼片长度分布")`,
+                desc: "展示数据分布的五数概括，红色点表示均值"
+            },
+            {
+                id: 'heatmap',
+                title: '热力图',
+                imageUrl: 'https://www.r-graph-gallery.com/img/other/1200-800-heatmap-ggplot2.png',
+                code: `# 相关性热力图
+library(ggplot2)
+library(reshape2)
+cor_mat <- cor(mtcars)
+melted_cormat <- melt(cor_mat)
+ggplot(melted_cormat, aes(Var1, Var2, fill=value)) + 
+  geom_tile() +
+  scale_fill_gradient2(low="blue", high="red", mid="white", 
+                      midpoint=0, limit=c(-1,1)) +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) +
+  coord_fixed()`,
+                desc: "用颜色梯度展示矩阵数据，适合相关性分析"
+            },
+			
+			{
+                id: 'heatmap2',
+                title: '热力图2',
+                imageUrl: 'https://www.r-graph-gallery.com/img/other/1200-800-heatmap-ggplot2.png',
+                code: `# 相关性热力图2
+library(ggplot2)
+library(reshape2)
+cor_mat <- cor(mtcars)
+melted_cormat <- melt(cor_mat)
+ggplot(melted_cormat, aes(Var1, Var2, fill=value)) + 
+  geom_tile() +
+  scale_fill_gradient2(low="blue", high="red", mid="white", 
+                      midpoint=0, limit=c(-1,1)) +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) +
+  coord_fixed()`,
+                desc: "用颜色梯度展示矩阵数据，适合相关性分析"
+            },
+        ];
+
+
+
+
+
+
+
+        // 初始化Tab组件
+        class RPlotViewer {
+            constructor(data) {
+                this.plots = data;
+                this.currentTab = 0;
+                this.initDOM();
+                this.renderTabs();
+                this.renderContent();
+                this.bindEvents();
+            }
+
+            initDOM() {
+                this.tabHeader = document.getElementById('tabHeader');
+                this.contentArea = document.getElementById('contentArea');
+            }
+
+            renderTabs() {
+                this.tabHeader.innerHTML = this.plots.map((plot, i) => 
+                    `<button class="tab-btn ${i === 0 ? 'active' : ''}" 
+                            data-index="${i}">${plot.title}</button>`
+                ).join('');
+            }
+
+            renderContent() {
+                const currentPlot = this.plots[this.currentTab];
+                this.contentArea.innerHTML = `
+                    <div class="plot-container">
+                        <h2 class="plot-title">${currentPlot.title}</h2>
+                        <img src="${currentPlot.imageUrl}" alt="${currentPlot.title}示例图" class="plot-image">
+                        <p class="plot-desc">${currentPlot.desc}</p>
+                    </div>
+                    <div class="code-container">
+                        <h3>R代码实现</h3>
+                        <pre class="code-block">${currentPlot.code}</pre>
+                    </div>
+                `;
+            }
+
+            bindEvents() {
+                this.tabHeader.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('tab-btn')) {
+                        const index = parseInt(e.target.dataset.index);
+                        if (index !== this.currentTab) {
+                            document.querySelector('.tab-btn.active').classList.remove('active');
+                            e.target.classList.add('active');
+                            this.currentTab = index;
+                            this.renderContent();
+                        }
+                    }
+                });
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', () => {
+            new RPlotViewer(plotsData);
+        });
+    </script>
+</body>
+</html>

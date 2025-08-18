@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可复用Tab组件</title>
+    <style>
+        .tab-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        .tab-header {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: none;
+            border-right: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        .tab-btn:last-child {
+            border-right: none;
+        }
+        .tab-btn.active {
+            background: #fff;
+            border-bottom: 2px solid #4285f4;
+            color: #4285f4;
+        }
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h1>demo1</h1>
+
+    <div id="tab1" class="tab-container"></div>
+    <div id="tab2" class="tab-container"></div>
+
+    <script>
+        class TabComponent {
+            constructor(containerId, tabs) {
+                this.container = document.getElementById(containerId);
+                this.tabs = tabs;
+                this.currentIndex = 0;
+                this.init();
+            }
+            
+            init() {
+                // 创建HTML结构
+                let html = `
+                    <div class="tab-header">
+                        ${this.tabs.map((tab, index) => 
+                            `<button class="tab-btn ${index === 0 ? 'active' : ''}" 
+                                    data-index="${index}">${tab.title}</button>`
+                        ).join('')}
+                    </div>
+                    ${this.tabs.map((tab, index) => 
+                        `<div class="tab-content ${index === 0 ? 'active' : ''}">
+                            ${tab.content}
+                        </div>`
+                    ).join('')}
+                `;
+                
+                this.container.innerHTML = html;
+                
+                // 添加事件监听
+                this.buttons = this.container.querySelectorAll('.tab-btn');
+                this.contents = this.container.querySelectorAll('.tab-content');
+                
+                this.buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        this.switchTab(index);
+                    });
+                });
+            }
+            
+            switchTab(index) {
+                if (index === this.currentIndex) return;
+                
+                // 移除旧active类
+                this.buttons[this.currentIndex].classList.remove('active');
+                this.contents[this.currentIndex].classList.remove('active');
+                
+                // 添加新active类
+                this.buttons[index].classList.add('active');
+                this.contents[index].classList.add('active');
+                
+                this.currentIndex = index;
+            }
+        }
+
+        // 使用示例
+        const tabData1 = [
+            { title: '标签1', content: '这是第一个标签的内容' },
+            { title: '标签2', content: '这是第二个标签的内容' },
+            { title: '标签3', content: '这是第三个标签的内容' },
+            { title: '标签4', content: '这是第四个标签的内容' }
+        ];
+        
+        const tabData2 = [
+            { title: '选项A', content: '选项A的详细内容' },
+            { title: '选项B', content: '选项B的详细内容' },
+            { title: '选项C', content: '选项C的详细内容' }
+        ];
+        
+        new TabComponent('tab1', tabData1);
+        new TabComponent('tab2', tabData2);
+    </script>
+</body>
+</html>

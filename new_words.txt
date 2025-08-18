@@ -1,28 +1,28 @@
 New words:
 [html5]
-- HTML5µÄ¸÷¸öĞÂÌØĞÔ(canvas, video, geolocation, web storage, offline, form, microdata, websocket)
+- HTML5çš„å„ä¸ªæ–°ç‰¹æ€§(canvas, video, geolocation, web storage, offline, form, microdata, websocket)
 	* websocket https://www.cnblogs.com/chyingp/p/websocket-deep-in.html
 
-- ×ÔÊÊÓ¦/ÏìÓ¦Ê½ ²¼¾Ö
-- Responsive Web Design £½ RWD£¬Adaptive Web Design £½ AWD
+- è‡ªé€‚åº”/å“åº”å¼ å¸ƒå±€
+- Responsive Web Design ï¼ RWDï¼ŒAdaptive Web Design ï¼ AWD
 
 [css]
-- ºĞÄ£ĞÍ
-- ¶¨Î»
-- ¼æÈİĞÔ
+- ç›’æ¨¡å‹
+- å®šä½
+- å…¼å®¹æ€§
 
 
 [js]
-- ¿ÆÀï»¯º¯Êı
+- ç§‘é‡ŒåŒ–å‡½æ•°
 - angular
 - react
 - nodeJS: npm, package
--[ok] call/applyÔÚjsÖĞµÄÓ¦ÓÃ
-- µ¯³ö²ã
+-[ok] call/applyåœ¨jsä¸­çš„åº”ç”¨
+- å¼¹å‡ºå±‚
 - Promise: http://www.csdn.net/article/2014-05-28/2819979-JavaScript-Promise
 http://www.infoq.com/cn/news/2011/09/js-promise/
 
-- ½¹µãÍ¼£ºhttp://poster469.blog.163.com/blog/static/131911342013915113830531/
+- ç„¦ç‚¹å›¾
 
 -JSONparser:
 
@@ -30,4 +30,4 @@ http://www.infoq.com/cn/news/2011/09/js-promise/
 
 [php]
 - RESTful API
-- ¾²Ì¬»¯
+- é™æ€åŒ–

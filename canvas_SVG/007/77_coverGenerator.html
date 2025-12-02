@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信公众号封面生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: #1a1a2e;
+        }
+        
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: #1a1a2e;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+        
+        button {
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        #downloadBtn {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>微信公众号封面生成器</h1>
+        <p class="subtitle">每次点击"生成新图形"都会创建独一无二的艳丽封面图，适合用于微信公众号文章封面</p>
+    </header>
+    
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="artCanvas" width="900" height="500"></canvas>
+        </div>
+        
+        <div class="controls">
+            <button id="generateBtn">生成新图形</button>
+            <button id="downloadBtn">下载封面图</button>
+        </div>
+        
+        <div class="info">
+            <p>提示：生成的图片尺寸为900×500像素，符合微信公众号封面图要求。点击"下载封面图"保存图片后可直接使用。</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 微信公众号封面生成器 | 使用HTML5 Canvas技术</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('artCanvas');
+            const ctx = canvas.getContext('2d');
+            const generateBtn = document.getElementById('generateBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // 初始化
+            generateArt();
+            
+            // 生成新图形
+            generateBtn.addEventListener('click', generateArt);
+            
+            // 下载图片
+            downloadBtn.addEventListener('click', function() {
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = '微信公众号封面.png';
+                link.href = dataURL;
+                link.click();
+            });
+            
+            function generateArt() {
+                // 清空画布
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // 随机选择一种图形风格
+                const style = Math.floor(Math.random() * 4);
+				console.log("style=", style)
+                
+                switch(style) {
+                    case 0:
+                        drawGeometricPattern(); //几何形状
+                        break;
+                    case 1:
+                        drawWavePattern(); //波浪线
+                        break;
+                    case 2:
+                        drawParticlePattern(); //点图案
+                        break;
+                    case 3:
+                        drawAbstractShapePattern(); //多个形状互相重叠
+                        break;
+                }
+                
+                // 添加光泽效果
+                addShineEffect();
+            }
+            
+            function drawGeometricPattern() {
+                // 绘制背景渐变
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, getRandomBrightColor());
+                gradient.addColorStop(0.5, getRandomBrightColor());
+                gradient.addColorStop(1, getRandomBrightColor());
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 绘制随机几何图形
+                const shapesCount = 20 + Math.floor(Math.random() * 30);
+                
+                for (let i = 0; i < shapesCount; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const size = 20 + Math.random() * 100;
+                    
+                    ctx.globalAlpha = 0.6 + Math.random() * 0.4;
+                    ctx.fillStyle = getRandomBrightColor();
+                    ctx.strokeStyle = getRandomBrightColor();
+                    ctx.lineWidth = 2 + Math.random() * 4;
+                    
+                    // 随机选择形状
+                    const shapeType = Math.floor(Math.random() * 4);
+                    
+                    ctx.beginPath();
+                    
+                    switch(shapeType) {
+                        case 0: // 圆形
+                            ctx.arc(x, y, size/2, 0, Math.PI * 2);
+                            break;
+                        case 1: // 三角形
+                            ctx.moveTo(x, y - size/2);
+                            ctx.lineTo(x + size/2, y + size/2);
+                            ctx.lineTo(x - size/2, y + size/2);
+                            ctx.closePath();
+                            break;
+                        case 2: // 矩形
+                            ctx.rect(x - size/2, y - size/2, size, size);
+                            break;
+                        case 3: // 星形
+                            drawStar(ctx, x, y, 5, size/2, size/4);
+                            break;
+                    }
+                    
+                    // 随机决定填充还是描边
+                    if (Math.random() > 0.5) {
+                        ctx.fill();
+                    } else {
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            function drawWavePattern() {
+                // 绘制背景
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 绘制波浪线
+                const waveCount = 5 + Math.floor(Math.random() * 10);
+                
+                for (let i = 0; i < waveCount; i++) {
+                    ctx.beginPath();
+                    
+                    const y = canvas.height / waveCount * i;
+                    const amplitude = 20 + Math.random() * 80;
+                    const frequency = 0.01 + Math.random() * 0.05;
+                    
+                    ctx.moveTo(0, y);
+                    
+                    for (let x = 0; x < canvas.width; x += 5) {
+                        const yPos = y + Math.sin(x * frequency) * amplitude;
+                        ctx.lineTo(x, yPos);
+                    }
+                    
+                    ctx.lineWidth = 3 + Math.random() * 5;
+                    ctx.strokeStyle = getRandomBrightColor();
+                    ctx.globalAlpha = 0.7;
+                    ctx.stroke();
+                }
+                
+                // 添加随机圆
+                for (let i = 0; i < 30; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const radius = 5 + Math.random() * 30;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    
+                    // 随机决定填充还是描边
+                    if (Math.random() > 0.5) {
+                        ctx.fillStyle = getRandomBrightColor();
+                        ctx.globalAlpha = 0.4;
+                        ctx.fill();
+                    } else {
+                        ctx.strokeStyle = getRandomBrightColor();
+                        ctx.globalAlpha = 0.7;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            function drawParticlePattern() {
+                // 绘制深色背景
+                ctx.fillStyle = '#0f0f1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 绘制粒子
+                const particleCount = 200 + Math.floor(Math.random() * 300);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const size = 1 + Math.random() * 5;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fillStyle = getRandomBrightColor();
+                    ctx.globalAlpha = 0.7 + Math.random() * 0.3;
+                    ctx.fill();
+                }
+                
+                // 绘制连接线
+                ctx.globalAlpha = 0.2;
+                ctx.lineWidth = 1;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    for (let j = i + 1; j < particleCount; j++) {
+                        const x1 = Math.random() * canvas.width;
+                        const y1 = Math.random() * canvas.height;
+                        const x2 = Math.random() * canvas.width;
+                        const y2 = Math.random() * canvas.height;
+                        
+                        const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(x1, y1);
+                            ctx.lineTo(x2, y2);
+                            ctx.strokeStyle = getRandomBrightColor();
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            function drawAbstractShapePattern() {
+                // 绘制背景渐变
+                const gradient = ctx.createRadialGradient(
+                    canvas.width/2, canvas.height/2, 10,
+                    canvas.width/2, canvas.height/2, canvas.width/2
+                );
+                gradient.addColorStop(0, getRandomDarkColor());
+                gradient.addColorStop(1, getRandomDarkColor());
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 绘制抽象形状
+                const shapeCount = 5 + Math.floor(Math.random() * 10);
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                
+                for (let i = 0; i < shapeCount; i++) {
+                    const points = [];
+                    const radius = 50 + Math.random() * 200;
+                    const sides = 3 + Math.floor(Math.random() * 7);
+                    
+                    // 生成形状的点
+                    for (let j = 0; j < sides; j++) {
+                        const angle = (j / sides) * Math.PI * 2;
+                        const distance = radius * (0.8 + Math.random() * 0.4);
+                        const x = centerX + Math.cos(angle) * distance;
+                        const y = centerY + Math.sin(angle) * distance;
+                        points.push({x, y});
+                    }
+                    
+                    // 绘制形状
+                    ctx.beginPath();
+                    ctx.moveTo(points[0].x, points[0].y);
+                    
+                    for (let j = 1; j < points.length; j++) {
+                        ctx.lineTo(points[j].x, points[j].y);
+                    }
+                    
+                    ctx.closePath();
+                    
+                    // 设置样式
+                    if (Math.random() > 0.3) {
+                        ctx.fillStyle = getRandomBrightColor();
+                        ctx.globalAlpha = 0.5 + Math.random() * 0.3;
+                        ctx.fill();
+                    }
+                    
+                    ctx.strokeStyle = getRandomBrightColor();
+                    ctx.lineWidth = 2 + Math.random() * 4;
+                    ctx.globalAlpha = 0.8;
+                    ctx.stroke();
+                }
+            }
+            
+            function addShineEffect() {
+                // 添加光泽效果
+                const gradient = ctx.createRadialGradient(
+                    canvas.width * 0.7, canvas.height * 0.3, 0,
+                    canvas.width * 0.7, canvas.height * 0.3, canvas.width * 0.5
+                );
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.globalAlpha = 0.4;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
+                let rot = Math.PI / 2 * 3;
+                let x = cx;
+                let y = cy;
+                let step = Math.PI / spikes;
+                
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - outerRadius);
+                
+                for (let i = 0; i < spikes; i++) {
+                    x = cx + Math.cos(rot) * outerRadius;
+                    y = cy + Math.sin(rot) * outerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                    
+                    x = cx + Math.cos(rot) * innerRadius;
+                    y = cy + Math.sin(rot) * innerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                }
+                
+                ctx.lineTo(cx, cy - outerRadius);
+                ctx.closePath();
+            }
+            
+            function getRandomBrightColor() {
+                const hue = Math.floor(Math.random() * 360);
+                const saturation = 80 + Math.random() * 20;
+                const lightness = 50 + Math.random() * 20;
+                return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            }
+            
+            function getRandomDarkColor() {
+                return `hsl(${Math.floor(Math.random() * 360)}, ${30 + Math.random() * 30}%, ${10 + Math.random() * 10}%)`;
+            }
+        });
+    </script>
+</body>
+</html>

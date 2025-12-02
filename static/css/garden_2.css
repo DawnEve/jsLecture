@@ -46,6 +46,7 @@ a:hover, a.active {
 
 
 .grey a,.grey{color:#566D82;}
+.grey a{text-decoration: underline;}
 .grey a:hover{color:#eee;}
 h2{
 	font-size: 1.5em;

@@ -1,0 +1,186 @@
+<meta charset="utf8">
+<h1>custom-tabs: horizontal, vertical</h1>
+
+
+   <div class="tab-container" id="tabContainer1"></div>
+   <div class="tab-container" id="tabContainer2"></div>
+   <script>
+/*
+ * Tab组件核心类
+ * @class
+ */
+class TabComponent {
+  /**
+   * 构造函数
+   * @param {string} containerId - 容器元素ID
+   * @param {Object} options - 配置选项
+   */
+  constructor(containerId, options = {}) {
+    this.container = document.getElementById(containerId);
+    this.tabs = [];
+    this.activeIndex = 0;
+    this.options = {
+      animation: true,
+      ...options
+    };
+    
+    this._init();
+  }
+
+  /**
+   * 初始化Tab结构
+   * @private
+   */
+  _init() {
+    // 创建DOM结构
+    this.tabHeader = document.createElement('div');
+    this.tabHeader.className = 'tab-header';
+    
+    this.tabContent = document.createElement('div');
+    this.tabContent.className = 'tab-content';
+    
+    this.container.append(this.tabHeader, this.tabContent);
+  }
+
+  /**
+   * 添加新Tab
+   * @param {string} title - Tab标题
+   * @param {HTMLElement} content - Tab内容元素
+   */
+  addTab(title, content) {
+    const tabIndex = this.tabs.length;
+    
+    // 创建标题按钮
+    const tabBtn = document.createElement('button');
+    tabBtn.className = `tab-btn ${tabIndex === 0 ? 'active' : ''}`;
+    tabBtn.textContent = title;
+    tabBtn.addEventListener('click', () => this.switchTab(tabIndex));
+    
+    // 创建内容区域
+    content.classList.add('tab-panel');
+    if (tabIndex !== 0) content.style.display = 'none';
+    
+    this.tabHeader.appendChild(tabBtn);
+    this.tabContent.appendChild(content);
+    this.tabs.push({ btn: tabBtn, panel: content });
+  }
+
+  /**
+   * 切换Tab
+   * @param {number} index - 要切换到的Tab索引
+   */
+  switchTab(index) {
+    if (index === this.activeIndex) return;
+    
+    // 动画效果
+    if (this.options.animation) {
+      this.tabs[this.activeIndex].panel.style.opacity = '0';
+      setTimeout(() => {
+        this._performTabSwitch(index);
+      }, 300);
+    } else {
+      this._performTabSwitch(index);
+    }
+  }
+
+  /**
+   * 执行Tab切换
+   * @private
+   * @param {number} index - Tab索引
+   */
+  _performTabSwitch(index) {
+    // 更新当前活动Tab
+    this.tabs[this.activeIndex].btn.classList.remove('active');
+    this.tabs[this.activeIndex].panel.style.display = 'none';
+    
+    // 激活新Tab
+    this.activeIndex = index;
+    this.tabs[index].btn.classList.add('active');
+    this.tabs[index].panel.style.display = 'block';
+    
+    if (this.options.animation) {
+      setTimeout(() => {
+        this.tabs[index].panel.style.opacity = '1';
+      }, 50);
+    }
+  }
+}
+
+
+
+
+     // Tab组件1 - 基础样式
+     const tabs1 = new TabComponent('tabContainer1', {
+       animation: true
+     });
+     
+     const content1 = document.createElement('div');
+     content1.innerHTML = '<h3>内容1</h3><p>这是第一个Tab的内容</p>';
+     
+     const content2 = document.createElement('div');
+     content2.innerHTML = '<h3>内容2</h3><p>这是第二个Tab的内容</p>';
+     
+     tabs1.addTab('Tab A', content1);
+     tabs1.addTab('Tab B', content2);
+     tabs1.addTab('Tab C', document.createElement("p"));
+     
+     // Tab组件2 - 垂直布局
+     const tabs2 = new TabComponent('tabContainer2', {
+       animation: false,
+       vertical: true
+     });
+     
+     const content3 = document.createElement('div');
+     content3.innerHTML = '<h3>项目1</h3><ul><li>列表项1</li><li>列表项2</li></ul>';
+     
+     const content4 = document.createElement('div');
+     content4.innerHTML = '<h3>项目2</h3><img src="https://picsum.photos/300/200?nature" alt="自然风景图片">';
+     
+     tabs2.addTab('项目', content3);
+     tabs2.addTab('图片', content4);
+   </script>
+
+
+   <style>
+     .tab-container {
+       margin: 2rem 0;
+       border: 1px solid #e1e1e1;
+       border-radius: 8px;
+       overflow: hidden;
+     }
+     
+     .tab-header {
+       display: flex;
+       background: #f5f5f5;
+     }
+     
+     .tab-btn {
+       padding: 12px 24px;
+       border: none;
+       background: transparent;
+       cursor: pointer;
+       transition: all 0.3s;
+     }
+     
+     .tab-btn.active {
+       background: #4285f4;
+       color: white;
+     }
+     
+     .tab-panel {
+       padding: 20px;
+       transition: opacity 0.3s;
+     }
+     
+     #tabContainer2 .tab-header {
+       flex-direction: column;
+       width: 150px;
+       float: left;
+     }
+     
+     #tabContainer2 .tab-content {
+       margin-left: 150px;
+     }
+   </style>
+
+
